@@ -1,11 +1,13 @@
-import './App.css';
-import TrackableObject from './TrackableObject';
+import "./App.css";
+import AppBar from "./components/AppBar";
+import NormalButton from "./components/NormalButton";
 
 function App() {
   return (
     <div className="App">
+      <AppBar />
       <div>
-        <TrackableObject/>
+        <NormalButton text="This is my button" />
       </div>
     </div>
   );

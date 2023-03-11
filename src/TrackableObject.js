@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import {Paper} from '@material-ui/core';
+//import {Paper} from '@material-ui/core';
 
 
 export default function TrackableObject() {
@@ -18,21 +18,26 @@ export default function TrackableObject() {
 
   return (
 
+    <div>
+
+    </div>
       
-      <Paper elevation={3} style={paperStyle}>
+      // <Paper elevation={3} style={paperStyle}>
         
-        {trackableObjects.map(trackableObject=>(
-          <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={trackableObject.trackableObjectID}>
-          NameOfObject:{trackableObject.nameOfObject}<br/>
-          Type:{trackableObject.trackableType}<br/>
-          ViewDistance:{trackableObject.viewDistance}<br/>
-          TrackableObjectId:{trackableObject.trackableObjectID}
+      //   {trackableObjects.map(trackableObject=>(
+      //     <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={trackableObject.trackableObjectID}>
+      //     NameOfObject:{trackableObject.nameOfObject}<br/>
+      //     Type:{trackableObject.trackableType}<br/>
+      //     ViewDistance:{trackableObject.viewDistance}<br/>
+      //     TrackableObjectId:{trackableObject.trackableObjectID}
 
-         </Paper>
+      //    </Paper>
 
-         ))
-         }
-      </Paper> )
+      //    ))
+      //    }
+      // </Paper> 
+      
+      )
 
 
 }
