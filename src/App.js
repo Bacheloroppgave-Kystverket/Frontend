@@ -1,13 +1,14 @@
 import "./App.css";
-import AppBar from "./components/AppBar";
-import NormalButton from "./components/NormalButton";
+import AppBar from "./components/openBridge/AppBar";
+import Card from "./components/openBridge/Card";
+import Sessions from "./pages/Sessions";
 
 function App() {
   return (
     <div className="App">
       <AppBar />
       <div>
-        <NormalButton text="This is my button" />
+        <Sessions />
       </div>
     </div>
   );

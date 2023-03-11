@@ -1,0 +1,38 @@
+.time-name-of-session {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 1em;
+}
+
+.card-content {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 1em 1em;
+}
+
+.card-content > .ob-button {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5em;
+}
+
+.card-content > .ob-button > * {
+  font-weight: 600;
+}
+
+.card-body-title {
+  font-size: var(--font-ui-body-size);
+  color: var(--element-active-color);
+}
+
+.card-body-sub-text {
+  color: var(--element-active-color);
+  font-size: var(--font-ui-overline-size);
+}
+
+.card {
+  width: 100%;
+}

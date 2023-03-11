@@ -1,0 +1,33 @@
+.sessions-page {
+  background: var(--container-backdrop-color);
+  padding: 1em 2em;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+.sessions-page > * {
+  width: 100%;
+}
+
+.sessions-page > *,
+.sessions-container > * {
+  margin: 1em 0;
+}
+
+.sessions-page > *:first-child,
+.sessions-page > :last-child {
+  margin-top: 0;
+}
+
+#filter-button-container {
+  display: flex;
+  flex-flow: row;
+}
+
+@media only screen and (min-width: 500px) {
+  .card,
+  #filter-button-container {
+    width: 450px;
+  }
+}
