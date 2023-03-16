@@ -17,7 +17,7 @@ function AppBar() {
         <div className="ob-clock">14:34</div>
         <div className="ob-divider"> </div>
         <div className="ob-button ob-button--supressed ob-button--icon">
-          <span className="ob-icon mdi mdi-account-circle"></span>
+        <span className="ob-icon mdi mdi-account-circle"></span>
         </div>
       </div>
     </div>
