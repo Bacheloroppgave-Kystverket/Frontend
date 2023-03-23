@@ -1,0 +1,23 @@
+.session-overview-page {
+  background: var(--container-backdrop-color);
+  padding: 1em 2em;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+.sessions-page > * {
+  width: 100%;
+}
+
+.sessions-page > *:first-child,
+.sessions-page > :last-child {
+  margin-top: 0;
+}
+
+.session-graph {
+    background: white;
+    padding: 17px;
+    padding-right: 40px;
+    padding-left: 40px;
+}

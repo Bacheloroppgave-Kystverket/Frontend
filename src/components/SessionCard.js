@@ -14,7 +14,8 @@ export default function SessionCard({ session }) {
 
   function makeContent() {
     let time = 0;
-    let referencePositons = session.referencePositions;
+    //session.positionRecords
+    let referencePositons = {};
     for (let i = 0; i < referencePositons.length; i++) {
       let position = referencePositons[i];
       time += parseFloat(position.positionDuration);

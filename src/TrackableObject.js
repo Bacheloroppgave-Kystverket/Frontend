@@ -16,5 +16,20 @@ export default function TrackableObject() {
 
   return (
     <div></div>
+
+    // <Paper elevation={3} style={paperStyle}>
+
+    //   {trackableObjects.map(trackableObject=>(
+    //     <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={trackableObject.trackableObjectID}>
+    //     NameOfObject:{trackableObject.nameOfObject}<br/>
+    //     Type:{trackableObject.trackableType}<br/>
+    //     ViewDistance:{trackableObject.viewDistance}<br/>
+    //     TrackableObjectId:{trackableObject.trackableObjectID}
+
+    //    </Paper>
+
+    //    ))
+    //    }
+    // </Paper>
   );
 }
