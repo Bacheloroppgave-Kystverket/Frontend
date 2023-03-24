@@ -1,34 +1,41 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import AboutCard from "../components/AboutCard";
+import EyeMetricBarGraph from "../components/EyeMetricBarGraph";
+import FeedbackVisualizer from "../components/FeedbackVisualizer";
 import NormalButton from "../components/openBridge/NormalButton";
-import SingleGraph from "../components/SingleGraph";
 import "../sessionOverview.css";
 
-export default function SessionOverview() {
-  const [session, setSession] = useState(null);
+export default function SessionOverview({ session }) {
   var username = "";
   var date = "";
   var time = "";
+
+  var positionRecords = null;
+
   if (session != null) {
-    console.log(session);
     username = session.user.username;
+    var referencePosition = session.simulationSetup.referencePositions[0];
+    time = getPositionTime([referencePosition], session.positionRecords);
+    positionRecords = session.positionRecords;
   }
-  useEffect(() => {
-    fetch("http://localhost:8080/session/8")
-      .then((res) => res.json())
-      .then((result) => {
-        setSession(result);
-      });
-  }, []);
 
-  var map = new Map();
-  map.set("Hei", 10);
-  map.set("Ball", 15);
-
-
-  function findTotalTimeForCategory(){
-    
+  /**
+   * Finds the time for this position(s).
+   * @param {*} referencePositions the reference positions.
+   * @param {*} positionRecords the position records.
+   * @returns the total time for the position(s)
+   */
+  function getPositionTime(referencePositions, positionRecords) {
+    var totalTime = 0;
+    for (var referencePosition of referencePositions) {
+      for (var positonRecord of positionRecords) {
+        if (referencePosition.locationID == positonRecord.locationId) {
+          totalTime += parseFloat(positonRecord.positionDuration);
+        }
+      }
+    }
+    return totalTime;
   }
 
   return (
@@ -42,8 +49,9 @@ export default function SessionOverview() {
         </div>
       </div>
       <div className="session-graph">
-        <SingleGraph map={map} />
+        <EyeMetricBarGraph session={session} />
       </div>
+      <FeedbackVisualizer positionRecords={positionRecords} />
     </div>
   );
 }

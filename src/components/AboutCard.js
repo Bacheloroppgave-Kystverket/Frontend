@@ -26,5 +26,5 @@ export default function AboutCard({ username, date, time }) {
     );
   }
 
-  return <Card content={makeContent(username, date, "2")} title={""} className="about-card"/>;
+  return <Card content={makeContent(username, date, time)} title={""} className="about-card"/>;
 }

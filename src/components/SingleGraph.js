@@ -7,6 +7,11 @@ export default function SingleGraph({ map }) {
   // register chart data labels to all graph
   Chart.register(ChartDataLabels);
 
+  /**
+   * Gets the keys or values of a map and turns it into an array.
+   * @param {map} iterator the iterator of the map.
+   * @returns the map as an array.
+   */
   function getKeysOfMapAsArary(iterator) {
     var array = [];
     for (var value of iterator) {
@@ -14,17 +19,23 @@ export default function SingleGraph({ map }) {
     }
     return array;
   }
+
+  var labels = map != null ? getKeysOfMapAsArary(map.keys()) : [];
+
+  var data = map != null ? getKeysOfMapAsArary(map.values()) : [];
+
+
   return (
     <div className="App">
       <div style={{ maxWidth: "650px" }}>
         <Bar
           data={{
             // Name of the variables on x-axies for each bar
-            labels: getKeysOfMapAsArary(map.keys()),
+            labels: labels,
             datasets: [
               {
                 // Data or value of your each variable
-                data: getKeysOfMapAsArary(map.values()),
+                data: data,
                 barPercentage: 0.35,
                 // Color of each bar
                 backgroundColor: ["#0263FF", "#FF7723", "#8E30FF", "#530B27"],

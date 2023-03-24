@@ -1,19 +1,25 @@
 import "./App.css";
 import AppBar from "./components/openBridge/AppBar";
-import Sessions from "./pages/Sessions";
 import React from "react";
-import SingleGraph from "./components/SingleGraph";
-import DoubleGraph from "./components/DoubleGraph";
-import AboutCard from "./components/AboutCard";
 import SessionOverview from "./pages/SessionOverview";
 import Login from "./pages/Login";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [session, setSession] = useState(null);
+  useEffect(() => {;
+    fetch("http://localhost:8080/session/9")
+      .then((res) => res.json())
+      .then((result) => {
+        setSession(result);
+      });
+  }, []); 
+
   return (
     <div className="App">
       <AppBar />
       <div>
-        <Login />
+        <SessionOverview session={session} />
       </div>
     </div>
   );

@@ -18,7 +18,9 @@ export default function Sessions() {
         console.log(result);
       });
   }, []);
+  
   console.log(sessions);
+
   return (
     <div className="sessions-page">
       <div id="filter-button-container">
