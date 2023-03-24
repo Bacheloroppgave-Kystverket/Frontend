@@ -8,14 +8,10 @@ const EyetrackingMetric = {
   AverageFixation: "AverageFixation",
 };
 
-export default function EyeMetricBarGraph({ session }) {
+export default function EyeMetricBarGraph({ session, referencePositionId }) {
   const [arrayMap, setArrayMaps] = useState(null);
 
-  var referencePositionId = 0;
-
-  if (session != null) {
-    var referencePosition = session.simulationSetup.referencePositions[0];
-    referencePositionId = referencePosition.locationID;
+  if (session != null && referencePositionId != null) {
     if (arrayMap == null) {
       findTotalMetrics(session, referencePositionId);
     }

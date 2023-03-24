@@ -37,10 +37,8 @@ function MultilineChart({ periodArray, dataArrays }) {
     },
   };
 
-  const labels = periodArray;
-
   const data = {
-    labels,
+    periodArray,
     datasets: [
       {
         label: "Dataset 1",

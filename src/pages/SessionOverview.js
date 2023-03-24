@@ -12,10 +12,12 @@ export default function SessionOverview({ session }) {
   var time = "";
 
   var positionRecords = null;
+  var referencePosition = 0;
 
   if (session != null) {
     username = session.user.username;
-    var referencePosition = session.simulationSetup.referencePositions[0];
+    console.log(session);
+    referencePosition = session.simulationSetup.referencePositions[0];
     time = getPositionTime([referencePosition], session.positionRecords);
     positionRecords = session.positionRecords;
   }
@@ -49,9 +51,15 @@ export default function SessionOverview({ session }) {
         </div>
       </div>
       <div className="session-graph">
-        <EyeMetricBarGraph session={session} />
+        <EyeMetricBarGraph
+          session={session}
+          referencePositionId={referencePosition.referencePositionId}
+        />
       </div>
-      <FeedbackVisualizer positionRecords={positionRecords} />
+      <FeedbackVisualizer
+        positionRecords={positionRecords}
+        referencePositionId={referencePosition.referencePositionId}
+      />
     </div>
   );
 }
