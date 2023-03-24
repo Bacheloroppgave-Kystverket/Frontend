@@ -3,34 +3,28 @@ import Chart from "chart.js/auto";
 import { useEffect, useState } from "react";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
-export default function SingleGraph({ session }) {
+export default function SingleGraph({ map }) {
   // register chart data labels to all graph
   Chart.register(ChartDataLabels);
 
-
-  const [sessions, setSessions] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:8080/session/8")
-      .then((res) => res.json())
-      .then((result) => {
-        setSessions(result);
-      });
-  }, []);
-  if (sessions != null) {
-    console.log(sessions.simulationSetup);
+  function getKeysOfMapAsArary(iterator) {
+    var array = [];
+    for (var value of iterator) {
+      array.push(value);
+    }
+    return array;
   }
-
   return (
     <div className="App">
       <div style={{ maxWidth: "650px" }}>
         <Bar
           data={{
             // Name of the variables on x-axies for each bar
-            labels: [{}, "ECDIS", "Radar", "Connig"],
+            labels: getKeysOfMapAsArary(map.keys()),
             datasets: [
               {
                 // Data or value of your each variable
-                data: [72, 9, 6.3, 2.7],
+                data: getKeysOfMapAsArary(map.values()),
                 barPercentage: 0.35,
                 // Color of each bar
                 backgroundColor: ["#0263FF", "#FF7723", "#8E30FF", "#530B27"],
@@ -63,13 +57,13 @@ export default function SingleGraph({ session }) {
             },
             plugins: {
               datalabels: {
-                anchor: 'end',
-                align: 'top',
-                formatter: Math.round
+                anchor: "end",
+                align: "top",
+                formatter: Math.round,
               },
               legend: {
-                display: false
-              }
+                display: false,
+              },
             },
           }}
         />

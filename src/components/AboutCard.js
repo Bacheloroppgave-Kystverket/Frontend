@@ -1,29 +1,30 @@
-import React from 'react';
-import { useEffect, useState} from 'react';
+import React from "react";
+import { useEffect, useState } from "react";
 import "../openbridge.css";
-import "../aboutcard.css"
+import "../aboutcard.css";
+import Card from "./openBridge/Card";
 
-export default function AboutCard({session}) {
+export default function AboutCard({ username, date, time }) {
 
-    function makeContent() {
-        
-    }
-    
+
+  function makeContent(username, date, time) {
     return (
-       <div className="card-content">
+      <div className="card-content">
         <div className="trainee-name-">
-            <h4 className="trainee">Trainee: </h4>
-                <span>trainee here</span>
-            <span className="trainee-name">{session}</span>
+          <div className="ob-sub-title">Trainee: </div>
+          <div className="ob-title">{username}</div>
         </div>
         <div className="date">
-            <h4 className="date-of-session">Date of session</h4>
-            <span>date goes here</span>
+          <div className="ob-sub-title">Date of session</div>
+          <div className="ob-title">{date}</div>
         </div>
         <div className="time">
-        <h4 className="time-of-seat">Time of seat </h4>
-        <span>time here</span>
+          <div className="ob-sub-title">Time of seat </div>
+          <div className="ob-title">{time}</div>
         </div>
-       </div>
+      </div>
     );
+  }
+
+  return <Card content={makeContent(username, date, "2")} title={""} className="about-card"/>;
 }
