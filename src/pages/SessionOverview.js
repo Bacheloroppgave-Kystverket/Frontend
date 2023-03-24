@@ -4,6 +4,7 @@ import AboutCard from '../components/AboutCard';
 import NormalButton from '../components/openBridge/NormalButton';
 import SingleGraph from '../components/SingleGraph';
 import "../sessionOverview.css";
+import "../openbridge.css";
 
 export default function SessionOverview() {
     const [sessions, setSessions] = useState([]);
@@ -19,13 +20,11 @@ export default function SessionOverview() {
 
     return (
         <div className='session-overview-page'>
-            <div className="compare-button">
-                <NormalButton text="Compare"/>
+            <div className="compare-button-and-session-info">
+                <span>{<AboutCard/>}</span>
+                <span><NormalButton text="Compare"/></span>
             </div>
-            <div className="session-info">
-                <div>{<AboutCard/>}</div>
-            </div>
-            <div className='session-graph'>
+            <div className="session-graph">
                 { <SingleGraph session/>}
             </div>
         
