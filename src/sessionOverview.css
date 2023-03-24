@@ -16,8 +16,23 @@
 }
 
 .session-graph {
-    background: white;
+    background: #F7F7F7;
+    padding: 17px;
+}
+
+.button {
     padding: 17px;
     padding-right: 40px;
     padding-left: 40px;
+}
+
+.trainee {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.compare-button-and-session-info {
+    display: flex;
+    padding: 20px;
+    
 }

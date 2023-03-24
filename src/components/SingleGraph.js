@@ -1,9 +1,13 @@
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { useEffect, useState } from "react";
-import "chartjs-plugin-datalabels";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 export default function SingleGraph({ session }) {
+  // register chart data labels to all graph
+  Chart.register(ChartDataLabels);
+
+
   const [sessions, setSessions] = useState([]);
   useEffect(() => {
     fetch("http://localhost:8080/session/8")
@@ -15,7 +19,6 @@ export default function SingleGraph({ session }) {
   if (sessions != null) {
     console.log(sessions.simulationSetup);
   }
-
 
   return (
     <div className="App">
@@ -35,8 +38,8 @@ export default function SingleGraph({ session }) {
             ],
           }}
           // Height of graph
-          height={450}
-          width={408}
+          height={400}
+          width={400}
           options={{
             responsive: true,
             maintainAspectRatio: false,
@@ -60,19 +63,13 @@ export default function SingleGraph({ session }) {
             },
             plugins: {
               datalabels: {
-                display: true,
-                anchor: "end",
-                align: "top",
-                formatter: Math.round,
-                offset: -20,
+                anchor: 'end',
+                align: 'top',
+                formatter: Math.round
               },
-            },
-            legend: {
-              display: false,
-              position: "top",
-              labels: {
-                usePointStyle: true,
-              },
+              legend: {
+                display: false
+              }
             },
           }}
         />
