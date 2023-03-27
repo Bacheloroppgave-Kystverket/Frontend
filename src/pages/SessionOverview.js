@@ -14,11 +14,13 @@ export default function SessionOverview({ session }) {
   var positionRecords = null;
   var referencePosition;
 
+  var locationId = 0;
+
   if (session != null) {
     username = session.user.username;
 
     referencePosition = session.simulationSetup.referencePositionList[0];
-    console.log(session);
+    locationId = referencePosition.locationId;
     positionRecords = session.positionRecords;
     time = getPositionTime([referencePosition], positionRecords);
   }
@@ -52,14 +54,11 @@ export default function SessionOverview({ session }) {
         </div>
       </div>
       <div className="session-graph">
-        <EyeMetricBarGraph
-          session={session}
-          referencePositionId={referencePosition.locationId}
-        />
+        <EyeMetricBarGraph session={session} referencePositionId={locationId} />
       </div>
       <FeedbackVisualizer
         positionRecords={positionRecords}
-        referencePositionId={referencePosition.locationId}
+        referencePositionId={locationId}
       />
     </div>
   );
