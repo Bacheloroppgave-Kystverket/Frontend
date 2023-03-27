@@ -12,13 +12,15 @@ export default function SessionOverview({ session }) {
   var time = "";
 
   var positionRecords = null;
-  var referencePosition = 0;
+  var referencePosition;
 
   if (session != null) {
     username = session.user.username;
+
     referencePosition = session.simulationSetup.referencePositionList[0];
-    time = getPositionTime([referencePosition], session.positionRecords);
+    console.log(session);
     positionRecords = session.positionRecords;
+    time = getPositionTime([referencePosition], positionRecords);
   }
 
   /**
@@ -31,7 +33,7 @@ export default function SessionOverview({ session }) {
     var totalTime = 0;
     for (var referencePosition of referencePositions) {
       for (var positonRecord of positionRecords) {
-        if (referencePosition.locationID == positonRecord.locationId) {
+        if (referencePosition.locationId == positonRecord.locationId) {
           totalTime += parseFloat(positonRecord.positionDuration);
         }
       }
@@ -52,12 +54,12 @@ export default function SessionOverview({ session }) {
       <div className="session-graph">
         <EyeMetricBarGraph
           session={session}
-          referencePositionId={referencePosition.referencePositionId}
+          referencePositionId={referencePosition.locationId}
         />
       </div>
       <FeedbackVisualizer
         positionRecords={positionRecords}
-        referencePositionId={referencePosition.referencePositionId}
+        referencePositionId={referencePosition.locationId}
       />
     </div>
   );
