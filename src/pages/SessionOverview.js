@@ -16,8 +16,7 @@ export default function SessionOverview({ session }) {
 
   if (session != null) {
     username = session.user.username;
-    console.log(session);
-    referencePosition = session.simulationSetup.referencePositions[0];
+    referencePosition = session.simulationSetup.referencePositionList[0];
     time = getPositionTime([referencePosition], session.positionRecords);
     positionRecords = session.positionRecords;
   }
