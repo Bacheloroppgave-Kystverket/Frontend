@@ -22,6 +22,7 @@ function App() {
       <div>
         <SessionOverview session={session} />
       </div>
+    
     </div>
   );
 }

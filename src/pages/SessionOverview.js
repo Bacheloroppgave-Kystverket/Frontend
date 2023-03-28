@@ -10,11 +10,13 @@ export default function SessionOverview({ session }) {
   var username = "";
   var date = "";
   var time = "";
+  var title = "";
 
   var positionRecords = null;
   var referencePosition;
 
   var locationId = 0;
+
 
   if (session != null) {
     username = session.user.username;
@@ -22,8 +24,14 @@ export default function SessionOverview({ session }) {
     referencePosition = session.simulationSetup.referencePositionList[0];
     locationId = referencePosition.locationId;
     positionRecords = session.positionRecords;
+
     time = getPositionTime([referencePosition], positionRecords);
+
+    date = session.currentDate.split("T")[0];
+
+    title = session.simulationSetup.nameOfSetup;
   }
+
 
   /**
    * Finds the time for this position(s).
@@ -44,14 +52,11 @@ export default function SessionOverview({ session }) {
   }
 
   return (
-    <div className="session-overview-page">
-      <div className="compare-button">
-        <NormalButton className="" text="Compare" />
-      </div>
-      <div className="session-info">
-        <div>
-          <AboutCard username={username} date={date} time={time} />
-        </div>
+    <section className="session-overview-page">
+      <div className="compare-about-section">
+        <AboutCard className="session-info" username={username} date={date} time={time} />
+        <NormalButton className="compare-button" text="Compare" />
+
       </div>
       <div className="session-graph">
         <EyeMetricBarGraph session={session} referencePositionId={locationId} />
@@ -60,6 +65,6 @@ export default function SessionOverview({ session }) {
         positionRecords={positionRecords}
         referencePositionId={locationId}
       />
-    </div>
+    </section>
   );
 }

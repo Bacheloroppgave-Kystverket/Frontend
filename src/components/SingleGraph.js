@@ -26,8 +26,8 @@ export default function SingleGraph({ map }) {
 
 
   return (
-    <div className="App">
-      <div style={{ maxWidth: "650px" }}>
+    <div className="graph-values">
+      
         <Bar
           data={{
             // Name of the variables on x-axies for each bar
@@ -43,8 +43,6 @@ export default function SingleGraph({ map }) {
             ],
           }}
           // Height of graph
-          height={400}
-          width={400}
           options={{
             responsive: true,
             maintainAspectRatio: false,
@@ -64,6 +62,10 @@ export default function SingleGraph({ map }) {
                 border: {
                   dash: [2, 4],
                 },
+                grid: {
+                  dash: [2,4]
+                },
+                max: 2.5
               },
             },
             plugins: {
@@ -78,7 +80,7 @@ export default function SingleGraph({ map }) {
             },
           }}
         />
-      </div>
+      
     </div>
   );
 }

@@ -1,6 +1,5 @@
 .session-overview-page {
   background: var(--container-backdrop-color);
-  padding: 1em 2em;
   display: flex;
   flex-flow: column wrap;
   align-items: center;
@@ -18,6 +17,7 @@
 .session-graph {
     background: #F7F7F7;
     padding: 17px;
+    margin: 10px;
 }
 
 .button {
@@ -36,3 +36,56 @@
     padding: 20px;
     
 }
+
+
+@media only screen and (min-width: 500px) {
+  .card,
+  #filter-button-container {
+    width: 250px;
+  }
+}
+
+
+.compare-about-section {
+  margin: 10px;
+  display: flex;
+  flex-direction: initial;
+  column-gap: 6px;
+}
+
+.card-content {
+  display: flex;
+  align-items: flex-start;
+  flex-flow: column wrap;
+  background: #f7f7f7;
+  font-size: 16px;
+}
+
+.ob-button {
+  padding: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  display: flex;
+  align-self: center;
+}
+
+.graph-values {
+  width: 400px;
+  height: 400px;
+}
+
+
+
+@media only screen and (min-width: 500px) {
+  .session-graph {
+    
+   }
+   .graph-values {
+    margin: 10px;
+    width: 350px;
+    height: 350px;
+   }
+ }
+ 
+
+
