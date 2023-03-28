@@ -5,6 +5,7 @@ import SessionOverview from "./pages/SessionOverview";
 import Login from "./pages/Login";
 import { useEffect, useState } from "react";
 import Sessions from "./pages/Sessions";
+import RegisterUser from "./pages/RegisterUser";
 
 function App() {
   const [session, setSession] = useState(null);
@@ -19,9 +20,7 @@ function App() {
   return (
     <div className="App">
       <AppBar />
-      <div>
-        <SessionOverview session={session} />
-      </div>
+      <RegisterUser />
     </div>
   );
 }
