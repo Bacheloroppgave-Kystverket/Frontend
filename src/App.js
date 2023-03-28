@@ -20,7 +20,14 @@ function App() {
   return (
     <div className="App">
       <AppBar />
+<<<<<<< HEAD
       <RegisterUser />
+=======
+      <div>
+        <SessionOverview session={session} />
+      </div>
+    
+>>>>>>> 17343dd24aefdff225da199a3a013652fcbc44cb
     </div>
   );
 }
