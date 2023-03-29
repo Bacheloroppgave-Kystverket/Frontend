@@ -33,6 +33,10 @@
   font-size: var(--font-ui-overline-size);
 }
 
+.ob-card {
+  width: 100% !important;
+}
+
 .card {
   width: 100%;
 }

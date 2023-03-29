@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import { useEffect, useState } from "react";
 import Sessions from "./pages/Sessions";
 import RegisterUser from "./pages/RegisterUser";
+import LoginCard from "./components/LoginCard";
 
 function App() {
   const [session, setSession] = useState(null);
@@ -20,7 +21,7 @@ function App() {
   return (
     <div className="App">
       <AppBar />
-      <RegisterUser />
+      <LoginCard />
     </div>
   );
 }
