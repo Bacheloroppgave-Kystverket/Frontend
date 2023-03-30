@@ -1,0 +1,22 @@
+.floating-buttton-menu {
+    position: absolute;
+    top: 0.5em;
+    left: 15em;
+    border-radius: 6px;
+    padding: 0;
+    padding: 0 6px;
+    width: 20em;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.button-text {
+    width: 100%;
+}
+
+.floating-buttton-menu>.button-bar>* {
+    background-color: #FCFCFC !important;
+}
+
+.dropdown-button {
+    position: relative;
+}

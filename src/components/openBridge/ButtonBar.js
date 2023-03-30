@@ -12,8 +12,9 @@ export default function ButtonBar({
   namesOfButtons,
   activePosition,
   buttonFunction,
+  isVertical,
 }) {
-  const [buttons, setButtons] = useState();
+  const [buttons, setButtons] = useState([]);
 
   useEffect(() => {
     let seats = [];
@@ -29,20 +30,29 @@ export default function ButtonBar({
    * @returns the new seat
    */
   function makeButton(nameOfSeat, id) {
+    console.log("Active id " + activePosition);
     return (
       <ButtonBarButton
         nameOfbutton={nameOfSeat}
         id={id}
         selectedId={activePosition}
         buttonFunction={buttonFunction}
+        isVertical={isVertical}
       />
     );
+  }
+
+  let style = {};
+  if (isVertical) {
+    style = { display: "flex", flexFlow: "column", borderRadius: "0" };
   }
 
   return (
     <div className="button-bar">
       <div className="ob-toggle-button-icon">
-        <div className="ob-toggle-button-icon__container">{buttons}</div>
+        <div className="ob-toggle-button-icon__container" style={style}>
+          {buttons}
+        </div>
       </div>
     </div>
   );

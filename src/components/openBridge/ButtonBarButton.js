@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
  * @param {int} id the id of the button.
  * @param {int} selectedId the selected button.
  * @param {buttonFunction} buttonFunction the function that the button calls.
+ * @param {bool} isVertical set to true if the button bar is vertical.
  * @returns the button that is made.
  */
 export default function ButtonBarButton({
@@ -13,6 +14,7 @@ export default function ButtonBarButton({
   id,
   selectedId,
   buttonFunction,
+  isVertical,
 }) {
   useEffect(() => {}, [selectedId]);
 
@@ -32,11 +34,16 @@ export default function ButtonBarButton({
   function makeButton(extraClass) {
     let classNames = "ob-toggle-button-icon__item " + extraClass;
     return (
-      <div className={classNames} onClick={() => buttonFunction(id)}>
+      <div
+        className={classNames}
+        onClick={() => buttonFunction(id)}
+        style={isVertical ? { borderRadius: "0px" } : {}}
+      >
         <div className="button-text">{nameOfbutton}</div>
       </div>
     );
   }
+  console.log("Selected id" + selectedId);
 
   return selectedId == id ? makeSelectedButton() : makeButton("");
 }

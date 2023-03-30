@@ -11,9 +11,14 @@ function NormalButton({ text, onClick, isRaised }) {
   return (
     <a
       className={classNames}
-      style={{ display: "flex", justifyContent: "center" }}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+      }}
     >
-      <span className="ob-label">{text}</span>
+      <span className="ob-label" style={{ margin: 0 }}>
+        {text}
+      </span>
     </a>
   );
 }

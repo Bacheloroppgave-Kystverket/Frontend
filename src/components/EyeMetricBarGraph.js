@@ -3,20 +3,26 @@ import { useEffect, useState } from "react";
 import SingleGraph from "./SingleGraph";
 import "../css/graph.css";
 
-const EyetrackingMetric = {
-  Fixations: "Fixations",
-  FixationDuration: "FixationDuration",
-  AverageFixation: "AverageFixation",
-};
-
-export default function EyeMetricBarGraph({ session, referencePositionId }) {
+export default function EyeMetricBarGraph({
+  session,
+  referencePositionId,
+  metrics,
+}) {
   const [arrayMap, setArrayMaps] = useState(null);
+  const [metric, setMetric] = useState(metrics.Fixations);
 
   if (session != null && referencePositionId != null) {
     if (arrayMap == null) {
       findTotalMetrics(session, referencePositionId);
     }
   }
+
+  useEffect(() => {
+    if (arrayMap != null) {
+      setMetric(metrics.AverageFixation);
+      console.log("pog");
+    }
+  }, [referencePositionId]);
 
   /**
    * Finds the metrics of this session. If set to negative numbers it will find the metrics for all positions.
@@ -91,11 +97,11 @@ export default function EyeMetricBarGraph({ session, referencePositionId }) {
   function getGraphValues(metric, arrayMap) {
     var map = null;
     if (arrayMap != null) {
-      if (EyetrackingMetric.AverageFixation == metric) {
+      if (metrics.AverageFixation == metric) {
         map = arrayMap[2];
-      } else if (EyetrackingMetric.FixationDuration == metric) {
+      } else if (metrics.FixationDuration == metric) {
         map = arrayMap[0];
-      } else if (EyetrackingMetric.Fixations) {
+      } else if (metrics.Fixations) {
         map = arrayMap[1];
       }
     }
@@ -106,5 +112,5 @@ export default function EyeMetricBarGraph({ session, referencePositionId }) {
     return contentToDisplay;
   }
 
-  return getGraphValues(EyetrackingMetric.FixationDuration, arrayMap);
+  return getGraphValues(metric, arrayMap);
 }

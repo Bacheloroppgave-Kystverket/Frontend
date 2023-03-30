@@ -7,10 +7,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .button-bar {
-    width: 80%;
+    min-width: 80%;
 }
 
 .button-text {
