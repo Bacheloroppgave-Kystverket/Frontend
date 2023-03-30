@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import AboutCard from "../components/AboutCard";
 import EyeMetricBarGraph from "../components/EyeMetricBarGraph";
 import FeedbackVisualizer from "../components/FeedbackVisualizer";
+import ButtonBar from "../components/openBridge/ButtonBar";
 import Card from "../components/openBridge/Card";
 import NormalButton from "../components/openBridge/NormalButton";
 import "../css/sessionOverview.css";
@@ -15,23 +16,28 @@ export default function SessionOverview({ session }) {
   var title = "";
 
   var positionRecords = null;
-  var referencePosition;
+  const [locationId, setLocationId] = useState(-1);
 
-  var locationId = 0;
+  useEffect(() => {
+    if (session != null) {
+      username = session.user.username;
+      positionRecords = session.positionRecords;
+      title = session.simulationSetup.nameOfSetup;
 
-  if (session != null) {
-    username = session.user.username;
+      time = getPositionTime(
+        session.simulationSetup.referencePositionList,
+        positionRecords
+      );
 
-    referencePosition = session.simulationSetup.referencePositionList[0];
-    locationId = referencePosition.locationId;
-    positionRecords = session.positionRecords;
-    title = session.simulationSetup.nameOfSetup;
+      date = session.currentDate.split("T")[0];
 
-    time = getPositionTime([referencePosition], positionRecords);
+      title = session.simulationSetup.nameOfSetup;
+    }
+  }, [locationId]);
 
-    date = session.currentDate.split("T")[0];
-
-    title = session.simulationSetup.nameOfSetup;
+  function switchLocationId(id) {
+    console.log("pog");
+    setLocationId(id);
   }
 
   /**
@@ -62,8 +68,28 @@ export default function SessionOverview({ session }) {
     );
   }
 
+  function makeButtonBar() {
+    let names = new Map();
+    if (session != null) {
+      names.set(-1, "All seats");
+      session.simulationSetup.referencePositionList.forEach((position) => {
+        names.set(position.locationId, position.locationName);
+      });
+    } else {
+      names.set(-1, "No names");
+    }
+    return (
+      <ButtonBar
+        namesOfButtons={names}
+        activePosition={locationId}
+        buttonFunction={switchLocationId}
+      />
+    );
+  }
+
   return (
     <section className="session-overview-page">
+      {makeButtonBar()}
       <div className="compare-about-section">
         <AboutCard
           className="session-info"

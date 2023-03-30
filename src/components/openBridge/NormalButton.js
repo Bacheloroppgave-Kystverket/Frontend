@@ -9,7 +9,10 @@ function NormalButton({ text, onClick, isRaised }) {
     isRaised != null && isRaised ? "ob-button--raised" : "ob-button--normal";
   var classNames = "ob-button " + buttonState;
   return (
-    <a className={classNames}>
+    <a
+      className={classNames}
+      style={{ display: "flex", justifyContent: "center" }}
+    >
       <span className="ob-label">{text}</span>
     </a>
   );

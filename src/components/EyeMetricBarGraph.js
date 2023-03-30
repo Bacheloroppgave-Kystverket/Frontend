@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import SingleGraph from "./SingleGraph";
+import "../css/graph.css";
 
 const EyetrackingMetric = {
   Fixations: "Fixations",
@@ -16,7 +17,6 @@ export default function EyeMetricBarGraph({ session, referencePositionId }) {
       findTotalMetrics(session, referencePositionId);
     }
   }
-  console.log(referencePositionId);
 
   /**
    * Finds the metrics of this session. If set to negative numbers it will find the metrics for all positions.
@@ -26,8 +26,6 @@ export default function EyeMetricBarGraph({ session, referencePositionId }) {
   function findTotalMetrics(session, positionId) {
     var trackableObjects = session.simulationSetup.closeTrackableObjects;
     var trackableRecords = session.trackableRecordList;
-    console.log(trackableObjects);
-    console.log(trackableRecords);
     var fixationsMap = new Map();
     var fixationDurationMap = new Map();
     var averageFixationMap = new Map();

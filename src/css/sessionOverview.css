@@ -2,6 +2,7 @@
   display: flex;
   flex-flow: column wrap;
   align-items: center;
+  gap: 2em;
 }
 
 .sessions-page>* {
@@ -26,6 +27,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 1em;
 }
 
 .graph-card {
@@ -34,7 +36,7 @@
 }
 
 .compare-about-section>* {
-  width: 100% !important;
+  width: 100%;
 }
 
 
@@ -63,8 +65,4 @@
 
 
 
-@media only screen and (min-width: 500px) {
-  .session-graph {}
-
-
-}
+@media only screen and (min-width: 500px) {}

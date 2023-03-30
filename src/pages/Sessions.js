@@ -11,13 +11,20 @@ import "../css/sessions.css";
 export default function Sessions() {
   const [sessions, setSessions] = useState([]);
   useEffect(() => {
+    getSession();
+  }, []);
+
+  /**
+   * Gets the session form the server
+   */
+  async function getSession() {
     fetch("http://localhost:8080/session")
       .then((res) => res.json())
       .then((result) => {
         setSessions(result);
         console.log(result);
       });
-  }, []);
+  }
 
   console.log(sessions);
 

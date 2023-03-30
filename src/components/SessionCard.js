@@ -9,8 +9,6 @@ import NormalButton from "./openBridge/NormalButton";
  * @returns the session card.
  */
 export default function SessionCard({ session }) {
-  console.log(session);
-
   function makeContent() {
     let time = 0;
     //session.positionRecords
@@ -51,7 +49,7 @@ export default function SessionCard({ session }) {
 
   return (
     <div>
-      <Card title={"Tugboat " + nameOfCard} content={makeContent()} />
+      <Card title={session.simulationSetup.setupName} content={makeContent()} />
     </div>
   );
 }

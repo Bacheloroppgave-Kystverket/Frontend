@@ -1,0 +1,21 @@
+.button-text {
+    color: var(--element-active-color);
+    font-size: var(--font-ui-overline-size);
+}
+
+.ob-toggle-button-icon__container>* {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-bar {
+    width: 80%;
+}
+
+.button-text {
+    font-size: 16px;
+    line-height: 24px;
+    width: max-content;
+    user-select: none;
+}

@@ -6,17 +6,17 @@
   align-items: center;
 }
 
-.sessions-page > * {
+.sessions-page>* {
   width: 100%;
 }
 
-.sessions-page > *,
-.sessions-container > * {
+.sessions-page>*,
+.sessions-container>* {
   margin: 1em 0;
 }
 
-.sessions-page > *:first-child,
-.sessions-page > :last-child {
+.sessions-page>*:first-child,
+.sessions-page> :last-child {
   margin-top: 0;
 }
 
