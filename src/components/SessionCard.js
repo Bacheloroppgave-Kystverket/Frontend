@@ -42,7 +42,7 @@ export default function SessionCard({ session, setFunction }) {
       <div className="card-content">
         <div className="time-name-of-session">
           <span className="card-body-sub-text">{timeString}</span>
-          <span className="card-body-sub-text">{session.user.username}</span>
+          <span className="card-body-sub-text">{session.user.userName}</span>
         </div>
         <NormalButton text="See session" onClick={() => setFunction(session)} />
       </div>

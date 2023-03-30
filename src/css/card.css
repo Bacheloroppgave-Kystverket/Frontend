@@ -1,16 +1,9 @@
-.time-name-of-session {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin: 0 1em;
-}
-
 .card-content {
   display: flex;
   flex-flow: column;
   align-items: center;
   width: 100%;
-  padding: 0.5em 0.75em;
+  padding: 0.25em 0.25em;
 }
 
 .card-content>.ob-button {
