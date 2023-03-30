@@ -2,7 +2,7 @@ import React from "react";
 import SessionCard from "../components/SessionCard";
 import { useEffect, useState } from "react";
 import NormalButton from "../components/openBridge/NormalButton";
-import "../sessions.css";
+import "../css/sessions.css";
 
 /**
  * Makes a page with all the sessions.
@@ -18,7 +18,7 @@ export default function Sessions() {
         console.log(result);
       });
   }, []);
-  
+
   console.log(sessions);
 
   return (

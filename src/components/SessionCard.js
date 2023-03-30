@@ -1,8 +1,7 @@
 import React from "react";
 import Card from "./openBridge/Card";
-import "../card.css";
+import "../css/card.css";
 import NormalButton from "./openBridge/NormalButton";
-import "../openbridge.css";
 
 /**
  * Makes a session card.

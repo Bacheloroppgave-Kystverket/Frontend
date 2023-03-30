@@ -108,7 +108,5 @@ export default function EyeMetricBarGraph({ session, referencePositionId }) {
     return contentToDisplay;
   }
 
-  return (
-    <div>{getGraphValues(EyetrackingMetric.FixationDuration, arrayMap)}</div>
-  );
+  return getGraphValues(EyetrackingMetric.FixationDuration, arrayMap);
 }

@@ -2,7 +2,7 @@ import React from "react";
 import NormalTextField from "./NormalTextField";
 import Card from "./openBridge/Card";
 import NormalButton from "./openBridge/NormalButton";
-import "../loginCard.css";
+import "../css/loginCard.css";
 
 export default function LoginCard() {
   function makeContent() {

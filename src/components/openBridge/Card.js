@@ -1,4 +1,4 @@
-import "../../card.css";
+import "../../css/card.css";
 
 /**
  * Makes a default open bridge card.
@@ -12,6 +12,7 @@ function Card({ content, title }) {
     bottom: 0,
     left: 0,
     right: 0,
+    width: "100%",
   };
 
   let styleBody = {};
@@ -26,7 +27,9 @@ function Card({ content, title }) {
           <div className="ob-card-header-title">{title}</div>
         </div>
         <div className="ob-card-body">
-          <div style={styleBody}>{content}</div>
+          <div style={styleBody} className="card-content">
+            {content}
+          </div>
         </div>
       </div>
     </div>

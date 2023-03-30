@@ -1,9 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import "../openbridge.css";
 import Card from "./openBridge/Card";
 
-export default function AboutCard({ username, date, time }) {
+export default function AboutCard({ username, date, time, sessionName }) {
   function makeContent(username, date, time) {
     return (
       <div className="card-content">
@@ -26,7 +25,7 @@ export default function AboutCard({ username, date, time }) {
   return (
     <Card
       content={makeContent(username, date, time)}
-      title={""}
+      title={sessionName}
       className="about-card"
     />
   );

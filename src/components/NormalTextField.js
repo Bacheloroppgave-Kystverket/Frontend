@@ -1,6 +1,5 @@
 import React from "react";
-import TextField from "@mui/material/TextField";
-import "../NormalTextField.css";
+import "../css/NormalTextField.css";
 
 export default function NormalTextField({ placeholder }) {
   return (

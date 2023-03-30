@@ -9,17 +9,17 @@
   display: flex;
   flex-flow: column;
   align-items: center;
-  padding: 1em 1em;
+  padding: 0.5em 0.5em;
 }
 
-.card-content > .ob-button {
+.card-content>.ob-button {
   width: 80%;
   display: flex;
   justify-content: center;
   margin-top: 0.5em;
 }
 
-.card-content > .ob-button > * {
+.card-content>.ob-button>* {
   font-weight: 600;
 }
 
