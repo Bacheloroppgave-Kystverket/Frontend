@@ -3,12 +3,14 @@ import Logo from "../LogoVR.jpg";
 import "./registerUser.css";
 import NormalTextField from "../components/NormalTextField";
 import NormalButton from "../components/openBridge/NormalButton";
+import { useNavigate } from "react-router-dom";
 
 /**
  *
  * @returns
  */
 export default function RegisterUser() {
+  const navigate = useNavigate();
   return (
     <div className="register-container">
       <img className="picture" src={Logo} />
@@ -18,7 +20,11 @@ export default function RegisterUser() {
         <NormalTextField placeholder={"Password"} />
         <NormalTextField placeholder={"Password again"} />
         <NormalButton text="Make user" />
-        <a>Back to login</a>
+        <NormalButton
+          text="Back to login"
+          extraClass="ob-button--supressed"
+          onClick={() => navigate("/login")}
+        />
       </div>
     </div>
   );

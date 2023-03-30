@@ -30,7 +30,6 @@ export default function ButtonBar({
    * @returns the new seat
    */
   function makeButton(nameOfSeat, id) {
-    console.log("Active id " + activePosition);
     return (
       <ButtonBarButton
         nameOfbutton={nameOfSeat}

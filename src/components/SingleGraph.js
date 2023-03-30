@@ -63,7 +63,6 @@ export default function SingleGraph({ map }) {
               grid: {
                 dash: [2, 4],
               },
-              max: 2.5,
             },
           },
           plugins: {

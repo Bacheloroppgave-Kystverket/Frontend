@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "./openBridge/Card";
 import "../css/card.css";
 import NormalButton from "./openBridge/NormalButton";
@@ -6,9 +6,14 @@ import NormalButton from "./openBridge/NormalButton";
 /**
  * Makes a session card.
  * @param {session} session the session to make a card of.
+ * @param {setFunction} setFunction the set session function..
  * @returns the session card.
  */
-export default function SessionCard({ session }) {
+export default function SessionCard({ session, setFunction }) {
+  /**
+   * Makes the content for the session card.
+   * @returns the content.
+   */
   function makeContent() {
     let time = 0;
     //session.positionRecords
@@ -39,17 +44,17 @@ export default function SessionCard({ session }) {
           <span className="card-body-sub-text">{timeString}</span>
           <span className="card-body-sub-text">{session.user.username}</span>
         </div>
-        <NormalButton text="See session" />
+        <NormalButton text="See session" onClick={() => setFunction(session)} />
       </div>
     );
   }
 
   let dateArray = session.currentDate.split("T");
-  let nameOfCard = dateArray[0];
+  let nameOfCard = session.simulationSetup.nameOfSetup + " - " + dateArray[0];
 
   return (
     <div>
-      <Card title={session.simulationSetup.setupName} content={makeContent()} />
+      <Card title={nameOfCard} content={makeContent()} />
     </div>
   );
 }

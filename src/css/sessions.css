@@ -1,5 +1,4 @@
 .sessions-page {
-  background: var(--container-backdrop-color);
   padding: 1em 2em;
   display: flex;
   flex-flow: column wrap;

@@ -43,7 +43,6 @@ export default function ButtonBarButton({
       </div>
     );
   }
-  console.log("Selected id" + selectedId);
 
   return selectedId == id ? makeSelectedButton() : makeButton("");
 }

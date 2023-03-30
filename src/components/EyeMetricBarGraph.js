@@ -3,26 +3,37 @@ import { useEffect, useState } from "react";
 import SingleGraph from "./SingleGraph";
 import "../css/graph.css";
 
+/**
+ * Makes the eyetracking metric graph.
+ * @param {session} session the session for this graph.
+ * @param {referencePositionId} referencePositionId the position id.
+ * @param {currentMetric} currentMetric the current metric used.
+ * @returns the eye metric bar graph.
+ */
 export default function EyeMetricBarGraph({
   session,
   referencePositionId,
-  metrics,
+  currentMetric,
 }) {
   const [arrayMap, setArrayMaps] = useState(null);
-  const [metric, setMetric] = useState(metrics.Fixations);
 
-  if (session != null && referencePositionId != null) {
-    if (arrayMap == null) {
+  useEffect(() => {
+    calculateData();
+    console.log("pog2");
+  }, [currentMetric, referencePositionId]);
+
+  useEffect(() => {
+    calculateData();
+  }, []);
+
+  /**
+   * Calculates the data for this position if the session is not null.
+   */
+  function calculateData() {
+    if (session != null && referencePositionId != null) {
       findTotalMetrics(session, referencePositionId);
     }
   }
-
-  useEffect(() => {
-    if (arrayMap != null) {
-      setMetric(metrics.AverageFixation);
-      console.log("pog");
-    }
-  }, [referencePositionId]);
 
   /**
    * Finds the metrics of this session. If set to negative numbers it will find the metrics for all positions.
@@ -94,16 +105,10 @@ export default function EyeMetricBarGraph({
    * @param {*} arrayMap the array map.
    * @returns the graph or loading text to be shown.
    */
-  function getGraphValues(metric, arrayMap) {
+  function getGraphValues(arrayMap) {
     var map = null;
     if (arrayMap != null) {
-      if (metrics.AverageFixation == metric) {
-        map = arrayMap[2];
-      } else if (metrics.FixationDuration == metric) {
-        map = arrayMap[0];
-      } else if (metrics.Fixations) {
-        map = arrayMap[1];
-      }
+      map = arrayMap[currentMetric];
     }
     var contentToDisplay = <p>Please wait while graphs are being made</p>;
     if (map != null) {
@@ -112,5 +117,5 @@ export default function EyeMetricBarGraph({
     return contentToDisplay;
   }
 
-  return getGraphValues(metric, arrayMap);
+  return getGraphValues(arrayMap);
 }

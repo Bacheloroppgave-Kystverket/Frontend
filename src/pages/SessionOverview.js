@@ -22,6 +22,7 @@ export default function SessionOverview({ session }) {
   }, [locationId]);
 
   function switchLocationId(id) {
+    console.log(id);
     setLocationId(id);
   }
 
@@ -35,7 +36,6 @@ export default function SessionOverview({ session }) {
     } else {
       names.set(-1, "No names");
     }
-    console.log(names);
     return (
       <ButtonBar
         namesOfButtons={names}

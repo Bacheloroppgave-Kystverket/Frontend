@@ -4,10 +4,10 @@
  * @param {function} onClick the function that the button should call.
  * @returns a normal button
  */
-function NormalButton({ text, onClick, isRaised }) {
+function NormalButton({ text, onClick, isRaised, extraClass }) {
   var buttonState =
     isRaised != null && isRaised ? "ob-button--raised" : "ob-button--normal";
-  var classNames = "ob-button " + buttonState;
+  var classNames = "ob-button " + buttonState + " " + extraClass;
   return (
     <a
       className={classNames}
@@ -15,6 +15,7 @@ function NormalButton({ text, onClick, isRaised }) {
         display: "flex",
         justifyContent: "center",
       }}
+      onClick={() => onClick()}
     >
       <span className="ob-label" style={{ margin: 0 }}>
         {text}

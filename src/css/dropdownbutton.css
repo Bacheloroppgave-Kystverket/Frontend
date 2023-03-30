@@ -1,12 +1,23 @@
 .floating-buttton-menu {
-    position: absolute;
-    top: 0.5em;
-    left: 15em;
     border-radius: 6px;
-    padding: 0;
-    padding: 0 6px;
+    position: relative;
+    height: fit-content;
     width: 20em;
+    top: 1em;
     box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-button-container {
+    height: 100%;
+    display: flex;
+    position: relative;
+    flex-flow: row;
+
+}
+
+.dropdown-button,
+.dropdown-button>* {
+    height: 100% !important;
 }
 
 .button-text {

@@ -8,6 +8,7 @@ import Sessions from "./pages/Sessions";
 import RegisterUser from "./pages/RegisterUser";
 import LoginCard from "./components/LoginCard";
 import "./css/openbridge.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   const [session, setSession] = useState(null);
@@ -21,10 +22,16 @@ function App() {
 
   return (
     <div className="App">
-      <AppBar />
-      <div className="bodyContent">
-        <SessionOverview session={session} />
-      </div>
+      <BrowserRouter>
+        <AppBar />
+        <div className="bodyContent">
+          <Routes>
+            <Route path="/" element={<Sessions />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registerUser" element={<RegisterUser />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }

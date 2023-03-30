@@ -14,7 +14,6 @@ export default function AboutCard({ session }) {
 
   if (session != null) {
     username = session.user.userName;
-    console.log(session);
     title = session.simulationSetup.nameOfSetup;
     positionRecords = session.positionRecords;
     time = getPositionTime(
