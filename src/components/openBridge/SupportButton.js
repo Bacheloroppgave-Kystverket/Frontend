@@ -5,7 +5,7 @@ import "../../css/SupportButton.css"
  * @param {function} onClick the function that the button should call.
  * @returns a normal button
  */
-function NormalButton({ logo, text, description, onClick, isRaised }) {
+function SupportButton({ logo, text, description, onClick, isRaised }) {
     var buttonState =
       isRaised != null && isRaised ? "ob-button--raised" : "ob-button--normal";
     var classNames = "ob-button " + buttonState;
@@ -22,5 +22,5 @@ function NormalButton({ logo, text, description, onClick, isRaised }) {
     );
   }
   
-  export default NormalButton;
+  export default SupportButton;
   
