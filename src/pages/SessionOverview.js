@@ -1,19 +1,26 @@
-import { func } from "prop-types";
 import React from "react";
 import { useEffect, useState } from "react";
 import AboutCard from "../components/AboutCard";
-import EyeMetricBarGraph from "../components/EyeMetricBarGraph";
 import EyeMetricsCard from "../components/EyeMetricsCard";
 import FeedbackVisualizer from "../components/FeedbackVisualizer";
 import ButtonBar from "../components/openBridge/ButtonBar";
-import Card from "../components/openBridge/Card";
 import NormalButton from "../components/openBridge/NormalButton";
-import NormalCard from "../components/openBridge/NormalCard";
 import "../css/sessionOverview.css";
+import { useLocation, useParams } from "react-router-dom";
 
-export default function SessionOverview({ session }) {
+/**
+ * Makes an instansce of the sessions overview.
+ * @returns the sessions overview.
+ */
+export default function SessionOverview() {
   var positionRecords = null;
   const [locationId, setLocationId] = useState(-1);
+  const location = useLocation();
+
+  let session = location.state.session;
+
+  console.log("Session");
+  console.log(session);
 
   useEffect(() => {
     if (session != null) {

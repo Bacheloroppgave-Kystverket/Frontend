@@ -52,6 +52,7 @@ export default function EyeMetricsCard({ session, referencePositionId }) {
         map={map}
         currentChoise={currentMetric}
         buttonFunction={changeMetric}
+        className="ob-card-header-title"
       />
     );
   }

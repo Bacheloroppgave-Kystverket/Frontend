@@ -4,6 +4,9 @@ import "./login.css";
 import Logo from "../LogoVR.jpg";
 import NormalTextField from "../components/NormalTextField";
 import { useNavigate } from "react-router-dom";
+import FloatingMenu from "../components/FloatingMenu";
+import MainMenu from "../components/MainMenu";
+import ProfileMenu from "../components/ProfileMenu";
 
 /**
  * Makes the loginpage
@@ -20,7 +23,7 @@ export default function Login() {
         <NormalButton
           text={"Register"}
           onClick={() => {
-            naviate("/registerUser");
+            naviate("/register");
           }}
         />
       </div>

@@ -8,27 +8,19 @@ import Sessions from "./pages/Sessions";
 import RegisterUser from "./pages/RegisterUser";
 import LoginCard from "./components/LoginCard";
 import "./css/openbridge.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 
 function App() {
-  const [session, setSession] = useState(null);
-  useEffect(() => {
-    fetch("http://localhost:8080/session/9")
-      .then((res) => res.json())
-      .then((result) => {
-        setSession(result);
-      });
-  }, []);
-
   return (
     <div className="App">
       <BrowserRouter>
         <AppBar />
         <div className="bodyContent">
           <Routes>
-            <Route path="/" element={<Sessions />} />
+            <Route path="/" element={<Sessions />} name="Sessions" />
             <Route path="/login" element={<Login />} />
-            <Route path="/registerUser" element={<RegisterUser />} />
+            <Route path="/register" element={<RegisterUser />} />
+            <Route path="/session/overview" element={<SessionOverview />} />
           </Routes>
         </div>
       </BrowserRouter>

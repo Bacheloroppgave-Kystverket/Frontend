@@ -3,6 +3,7 @@ import Card from "./openBridge/Card";
 import "../css/card.css";
 import NormalButton from "./openBridge/NormalButton";
 import TimeText from "./TimeText";
+import { Outlet, useNavigate } from "react-router-dom";
 
 /**
  * Makes a session card.
@@ -11,6 +12,7 @@ import TimeText from "./TimeText";
  * @returns the session card.
  */
 export default function SessionCard({ session, setFunction }) {
+  let navigate = useNavigate();
   /**
    * Makes the content for the session card.
    * @returns the content.
@@ -31,7 +33,16 @@ export default function SessionCard({ session, setFunction }) {
           <TimeText positionTime={time} className="card-body-sub-text" />
           <span className="card-body-sub-text">{session.user.userName}</span>
         </div>
-        <NormalButton text="See session" onClick={() => setFunction(session)} />
+        <NormalButton
+          text="See session"
+          onClick={() => {
+            navigate("/session/overview", {
+              state: {
+                session: session,
+              },
+            });
+          }}
+        />
       </div>
     );
   }
@@ -42,6 +53,7 @@ export default function SessionCard({ session, setFunction }) {
   return (
     <div>
       <Card title={nameOfCard} content={makeContent()} />
+      <Outlet context={{ session }} />
     </div>
   );
 }

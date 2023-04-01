@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import NormalButton from "../components/openBridge/NormalButton";
 import "../css/sessions.css";
 import SessionOverview from "./SessionOverview";
+import Tune from "@mui/icons-material/Tune";
 
 /**
  * Makes a page with all the sessions.
@@ -36,7 +37,7 @@ export default function Sessions() {
     return (
       <div className="sessions-page">
         <div id="filter-button-container">
-          <NormalButton text="Filter" />
+          <NormalButton text="Filter" icon={<Tune fontSize="30px" />} />
         </div>
         <div className="sessions-container">
           {sessions.map((session) => (
