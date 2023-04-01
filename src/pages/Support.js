@@ -6,6 +6,7 @@ import SupportButton from "../components/openBridge/SupportButton";
 import "./support.css";
 
 
+
 export default function Support() {
     return (
         <div className="support-page">
