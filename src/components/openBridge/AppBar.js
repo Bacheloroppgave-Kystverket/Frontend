@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import Profile from "@mui/icons-material/AccountCircle";
+import Menu from "@mui/icons-material/Menu";
 
 /**
  * Makes an appbar
@@ -10,10 +12,11 @@ function AppBar() {
     <div className="ob-nav-top-bar">
       <div className="ob-menu-container">
         <div className="ob-button ob-button--supressed ob-button--icon">
-          <span
+          <Menu
             className="ob-icon mdi mdi-menu"
             onClick={() => navigate("/login")}
-          ></span>
+            fontSize="30px"
+          />
         </div>
         <div className="ob-divider"> </div>
         <div className="ob-title">ETIVR</div>
@@ -23,7 +26,7 @@ function AppBar() {
         <div className="ob-clock">14:34</div>
         <div className="ob-divider"> </div>
         <div className="ob-button ob-button--supressed ob-button--icon">
-          <span className="ob-icon mdi mdi-account-circle"></span>
+          <Profile className="ob-icon mdi mdi-account-circle" fontSize="30px" />
         </div>
       </div>
     </div>

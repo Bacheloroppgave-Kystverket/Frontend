@@ -56,9 +56,15 @@ export default function EyeMetricBarGraph({
         var typeOfObject = trackableObject.trackableType;
         if (gazeData.referencePositionId == positionId || positionId < 0) {
           var fixations = fixationsMap.get(typeOfObject);
-          var newFixations = parseFloat(gazeData.fixations);
+          var newFixations =
+            parseFloat(gazeData.fixations) == null
+              ? 0
+              : parseFloat(gazeData.fixations);
           var fixationDuration = fixationDurationMap.get(typeOfObject);
-          var newFixationDuration = parseFloat(gazeData.fixationDuration);
+          var newFixationDuration =
+            parseFloat(gazeData.fixationDuration) == null
+              ? 0
+              : parseFloat(gazeData.fixationDuration);
 
           fixations =
             fixations == null ? newFixations : fixations + newFixations;

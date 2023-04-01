@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Card from "./openBridge/Card";
 import NormalCard from "./openBridge/NormalCard";
+import TimeText from "./TimeText";
 
 export default function AboutCard({ session }) {
   let username = "";
@@ -60,9 +61,11 @@ export default function AboutCard({ session }) {
         </div>
         <div className="time">
           <div className="ob-sub-title">Time of seat:</div>
-          <div className="ob-title" style={{ fontWeight: "600" }}>
-            {time}
-          </div>
+          <TimeText
+            positionTime={time}
+            className="ob-title"
+            style={{ fontWeight: "600" }}
+          />
         </div>
       </div>
     );

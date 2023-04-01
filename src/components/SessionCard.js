@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Card from "./openBridge/Card";
 import "../css/card.css";
 import NormalButton from "./openBridge/NormalButton";
+import TimeText from "./TimeText";
 
 /**
  * Makes a session card.
@@ -16,32 +17,18 @@ export default function SessionCard({ session, setFunction }) {
    */
   function makeContent() {
     let time = 0;
-    //session.positionRecords
-    let referencePositons = {};
+    let referencePositons = session.positionRecords;
+    console.log(referencePositons);
     for (let i = 0; i < referencePositons.length; i++) {
       let position = referencePositons[i];
+      console.log(position.positionDuration);
       time += parseFloat(position.positionDuration);
-    }
-
-    time = 3701;
-    let timeString = "";
-    let rawTime = time / 3600;
-    let hour = Math.floor(rawTime);
-    if (hour > 0) {
-      timeString += hour + " hour(s)";
-    }
-    let minutes = Math.floor(time / 60 - hour * 60);
-    let seconds = Math.floor(time - hour * 3600 - minutes * 60);
-    if (seconds > 0 && minutes > 0) {
-      timeString += ", " + minutes + " minute(s) and " + seconds + " second(s)";
-    } else if (minutes > 0) {
-      timeString += " and " + minutes + "minute(s)";
     }
 
     return (
       <div className="card-content">
         <div className="time-name-of-session">
-          <span className="card-body-sub-text">{timeString}</span>
+          <TimeText positionTime={time} className="card-body-sub-text" />
           <span className="card-body-sub-text">{session.user.userName}</span>
         </div>
         <NormalButton text="See session" onClick={() => setFunction(session)} />
