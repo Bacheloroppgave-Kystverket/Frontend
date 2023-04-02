@@ -1,11 +1,11 @@
 .support-page {
-    margin: 0%;
+  margin: 0%;
 }
 
 .support-page-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    align-content: space-evenly;
-    width: 100%;
-    margin: 20px auto auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, auto));
+  align-content: space-evenly;
+  width: 100%;
+  margin: 20px auto auto;
 }

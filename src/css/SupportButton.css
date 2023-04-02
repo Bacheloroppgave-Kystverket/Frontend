@@ -3,13 +3,8 @@
   grid-template-rows: 40px 30px 40px;
 }
 
-.ob-button {
-  height: 130px;
-  width: 130px;
-}
-
 .ob-font-ui-subtitle {
-  font-size: 14px;
+  font-size: 12px;
   white-space: nowrap;
   text-align: center;
   font-weight: 550;
@@ -17,5 +12,5 @@
 
 .ob-font-ui-label {
   text-align: center;
-
+  line-height: initial;
 }
