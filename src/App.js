@@ -9,6 +9,7 @@ import RegisterUser from "./pages/RegisterUser";
 import LoginCard from "./components/LoginCard";
 import "./css/openbridge.css";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import Support from "./pages/Support";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<RegisterUser />} />
             <Route path="/session/overview" element={<SessionOverview />} />
+            <Route path="/support" element={<Support />} />
           </Routes>
         </div>
       </BrowserRouter>
