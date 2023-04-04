@@ -1,7 +1,7 @@
 import React from "react";
 import NormalButton from "../components/openBridge/NormalButton";
 import "./login.css";
-import Logo from "../LogoVR.jpg";
+import Logo from "../boat_logo.png";
 import NormalTextField from "../components/NormalTextField";
 import { useNavigate } from "react-router-dom";
 import FloatingMenu from "../components/FloatingMenu";

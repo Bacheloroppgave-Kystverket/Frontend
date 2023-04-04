@@ -1,16 +1,16 @@
 import React from "react";
-import Logo from "../LogoVR.jpg";
+import Logo from "../boat_logo.png";
 import "./registerUser.css";
 import NormalTextField from "../components/NormalTextField";
-import NormalButton from "../components/openBridge/NormalButton";
 import { useNavigate } from "react-router-dom";
+import NormalButton from "../components/openBridge/NormalButton";
 
 /**
  *
  * @returns
  */
 export default function RegisterUser() {
-  const navigate = useNavigate();
+  let navigate = useNavigate();
   return (
     <div className="register-container">
       <img className="picture" src={Logo} />
@@ -23,7 +23,9 @@ export default function RegisterUser() {
         <NormalButton
           text="Back to login"
           extraClass="ob-button--supressed"
-          onClick={() => navigate("/login")}
+          onClick={() => {
+            navigate("/Login");
+          }}
         />
       </div>
     </div>
