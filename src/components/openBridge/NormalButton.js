@@ -5,9 +5,10 @@
  * @param {bool} isRaised true if the button is rasied.
  * @param {extraClass} extraClass the extra class for the button.
  * @param {icon} icon the icon of the button.
+ * @param {boolean} isRightIcon set to true if the icon should be on the right side.
  * @returns a normal button
  */
-function NormalButton({ text, onClick, isRaised, extraClass, icon }) {
+function NormalButton({ text, onClick, isRaised, extraClass, icon, isRightIcon }) {
   var buttonState =
     isRaised != null && isRaised ? "ob-button--raised" : "ob-button--normal";
   var classNames = "ob-button " + buttonState + " " + extraClass;
@@ -20,10 +21,11 @@ function NormalButton({ text, onClick, isRaised, extraClass, icon }) {
       }}
       onClick={() => onClick()}
     >
-      {icon}
+      {isRightIcon ? null : icon}
       <span className="ob-label" style={{ margin: 0 }}>
         {text}
       </span>
+      {isRightIcon ? icon : null}
     </a>
   );
 }

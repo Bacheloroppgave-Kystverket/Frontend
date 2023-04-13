@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import SingleGraph from "./SingleGraph";
-import "../css/graph.css";
+import "../../css/graph.css";
 
 /**
  * Makes the eyetracking metric graph.

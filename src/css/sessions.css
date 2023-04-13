@@ -3,6 +3,8 @@
   display: flex;
   flex-flow: column wrap;
   align-items: center;
+  width: max-content;
+  width: 100%;
 }
 
 .sessions-page>* {
@@ -32,7 +34,7 @@
 }
 
 @media only screen and (min-width: 500px) {
-  #filter-button-container {
-    width: 450px;
+  #filter-button-container{
+    min-width: 100%;
   }
 }

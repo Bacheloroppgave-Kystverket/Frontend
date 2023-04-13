@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import { useEffect, useState } from "react";
 import Sessions from "./pages/Sessions";
 import RegisterUser from "./pages/RegisterUser";
-import LoginCard from "./components/LoginCard";
+import LoginCard from "./components/cards/LoginCard";
 import "./css/openbridge.css";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Support from "./pages/Support";

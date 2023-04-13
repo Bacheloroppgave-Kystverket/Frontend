@@ -2,11 +2,11 @@ import React from "react";
 import NormalButton from "../components/openBridge/NormalButton";
 import "./login.css";
 import Logo from "../boat_logo.png";
-import NormalTextField from "../components/NormalTextField";
+import NormalTextField from "../components/input/NormalTextField";
 import { useNavigate } from "react-router-dom";
-import FloatingMenu from "../components/FloatingMenu";
-import MainMenu from "../components/MainMenu";
-import ProfileMenu from "../components/ProfileMenu";
+import FloatingMenu from "../components/menus/FloatingMenu";
+import MainMenu from "../components/menus/MainMenu";
+import ProfileMenu from "../components/menus/ProfileMenu";
 
 /**
  * Makes the loginpage

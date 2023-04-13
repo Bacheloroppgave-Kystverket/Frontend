@@ -1,10 +1,11 @@
 import React from "react";
-import SessionCard from "../components/SessionCard";
+import SessionCard from "../components/cards/SessionCard";
 import { useEffect, useState } from "react";
 import NormalButton from "../components/openBridge/NormalButton";
 import "../css/sessions.css";
 import SessionOverview from "./SessionOverview";
 import Tune from "@mui/icons-material/Tune";
+import { useLocation } from "react-router-dom";
 
 /**
  * Makes a page with all the sessions.
@@ -12,7 +13,10 @@ import Tune from "@mui/icons-material/Tune";
  */
 export default function Sessions() {
   const [sessions, setSessions] = useState([]);
-  const [session, setSession] = useState(null);
+
+  let location = useLocation();
+
+  let compareSession = location.state == null ? null : location.state.compareSession;
 
   useEffect(() => {
     getSessions();
@@ -29,9 +33,7 @@ export default function Sessions() {
       });
   }
 
-  function showSession(session) {
-    setSession(session);
-  }
+
 
   function makeNormalContent() {
     return (
@@ -40,17 +42,22 @@ export default function Sessions() {
           <NormalButton text="Filter" icon={<Tune fontSize="30px" />} />
         </div>
         <div className="sessions-container">
-          {sessions.map((session) => (
-            <SessionCard session={session} setFunction={showSession} />
-          ))}
+          {sessions.map((session) => {
+            let sessionCard = (
+            
+              <SessionCard session={session} key={session.sessionID} sessionToCompareAgainst={compareSession} />
+            );
+            if(compareSession != null && session.sessionID === compareSession.sessionID){
+              sessionCard = null;
+            }
+            return sessionCard;
+          })}
         </div>
       </div>
     );
   }
 
-  return session == null ? (
+  return (
     makeNormalContent()
-  ) : (
-    <SessionOverview session={session} />
   );
 }

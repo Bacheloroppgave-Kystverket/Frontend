@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import Card from "./openBridge/Card";
-import NormalCard from "./openBridge/NormalCard";
-import TimeText from "./TimeText";
+import Card from "../openBridge/Card";
+import NormalCard from "../openBridge/NormalCard";
+import TimeText from "../TimeText";
 
 export default function AboutCard({ session }) {
   let username = "";

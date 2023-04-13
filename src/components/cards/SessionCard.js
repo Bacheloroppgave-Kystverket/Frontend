@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import Card from "./openBridge/Card";
-import "../css/card.css";
-import NormalButton from "./openBridge/NormalButton";
-import TimeText from "./TimeText";
+import Card from "../openBridge/Card";
+import "../../css/card.css";
+import NormalButton from "../openBridge/NormalButton";
+import TimeText from "../TimeText";
 import { Outlet, useNavigate } from "react-router-dom";
 
 /**
  * Makes a session card.
  * @param {session} session the session to make a card of.
- * @param {setFunction} setFunction the set session function..
+ * @param {setFunction} setFunction the set session function.
+ * @param {session} sessionToCompareAgainst set to true if you are going to compare sessions.
  * @returns the session card.
  */
-export default function SessionCard({ session, setFunction }) {
+export default function SessionCard({ session, setFunction, sessionToCompareAgainst }) {
+  
   let navigate = useNavigate();
+
   /**
    * Makes the content for the session card.
    * @returns the content.
@@ -20,11 +23,29 @@ export default function SessionCard({ session, setFunction }) {
   function makeContent() {
     let time = 0;
     let referencePositons = session.positionRecords;
-    console.log(referencePositons);
     for (let i = 0; i < referencePositons.length; i++) {
       let position = referencePositons[i];
-      console.log(position.positionDuration);
       time += parseFloat(position.positionDuration);
+    }
+
+    /**
+     * Opens the session.
+     */
+    function onOpenSession(){
+      navigate("/session/overview", {
+        state: {
+          session: session,
+        },
+      });
+    }
+
+    function onOpenComparesession(){
+      navigate("/session/overview", {
+        state: {
+          session: session,
+          compareSession: sessionToCompareAgainst,
+        },
+      });
     }
 
     return (
@@ -34,13 +55,9 @@ export default function SessionCard({ session, setFunction }) {
           <span className="card-body-sub-text">{session.user.userName}</span>
         </div>
         <NormalButton
-          text="See session"
+          text={sessionToCompareAgainst == null ? "See session" : "Compare session(s)"}
           onClick={() => {
-            navigate("/session/overview", {
-              state: {
-                session: session,
-              },
-            });
+            sessionToCompareAgainst == null ? onOpenSession() : onOpenComparesession();
           }}
         />
       </div>
@@ -53,7 +70,7 @@ export default function SessionCard({ session, setFunction }) {
   return (
     <div>
       <Card title={nameOfCard} content={makeContent()} />
-      <Outlet context={{ session }} />
+      
     </div>
   );
 }

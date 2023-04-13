@@ -37,6 +37,7 @@ export default function ButtonBar({
         selectedId={activePosition}
         buttonFunction={buttonFunction}
         isVertical={isVertical}
+        key={nameOfSeat}
       />
     );
   }

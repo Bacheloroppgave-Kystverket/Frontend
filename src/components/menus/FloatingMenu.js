@@ -1,6 +1,6 @@
 import React from "react";
-import "../css/floatingMenu.css";
-import NormalButton from "./openBridge/NormalButton";
+import "../../css/floatingMenu.css";
+import NormalButton from "../openBridge/NormalButton";
 
 export default function FloatingMenu({ width, content, extraClass }) {
   return (

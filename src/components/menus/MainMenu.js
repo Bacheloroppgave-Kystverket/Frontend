@@ -1,9 +1,9 @@
 import React from "react";
 import FloatingMenu from "./FloatingMenu";
-import NormalButton from "./openBridge/NormalButton";
-import "../css/mainmenu.css";
+import NormalButton from "../openBridge/NormalButton";
+import "../../css/mainmenu.css";
 import Help from "@mui/icons-material/HelpOutline";
-import MenuButton from "./MenuButton";
+import MenuButton from "../buttons/MenuButton";
 import { useNavigate } from "react-router-dom";
 
 /**

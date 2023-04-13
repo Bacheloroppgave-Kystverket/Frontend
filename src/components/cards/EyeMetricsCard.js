@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import DropdownMenu from "./DropdownMenu";
-import EyeMetricBarGraph from "./EyeMetricBarGraph";
-import ButtonBar from "./openBridge/ButtonBar";
-import NormalCard from "./openBridge/NormalCard";
+import DropdownMenu from "../menus/DropdownMenu";
+import EyeMetricBarGraph from "../graphs/EyeMetricBarGraph";
+import ButtonBar from "../openBridge/ButtonBar";
+import NormalCard from "../openBridge/NormalCard";
 /**
  * Makes an instance of the metrics card.
  * @param {session} session the current session to show.

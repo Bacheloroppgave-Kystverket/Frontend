@@ -1,26 +1,33 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import AboutCard from "../components/AboutCard";
-import EyeMetricsCard from "../components/EyeMetricsCard";
+import AboutCard from "../components/cards/AboutCard";
+import EyeMetricsCard from "../components/cards/EyeMetricsCard";
 import FeedbackVisualizer from "../components/FeedbackVisualizer";
 import ButtonBar from "../components/openBridge/ButtonBar";
 import NormalButton from "../components/openBridge/NormalButton";
 import "../css/sessionOverview.css";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 /**
  * Makes an instansce of the sessions overview.
+ * @param {boolean} compare true if you are going to compare data. False otherwise.
  * @returns the sessions overview.
  */
 export default function SessionOverview() {
   var positionRecords = null;
+
+  var navigate = useNavigate();
+  
   const [locationId, setLocationId] = useState(-1);
+
   const location = useLocation();
 
   let session = location.state.session;
+  let compareSession = location.state.compareSession;
 
-  console.log("Session");
-  console.log(session);
+  if(compareSession != null){
+    console.log("POGGGGEEERRRRSSS");
+  }
 
   useEffect(() => {
     if (session != null) {
@@ -33,6 +40,10 @@ export default function SessionOverview() {
     setLocationId(id);
   }
 
+  /**
+   * Makes the button bar that holds the seats of the session.
+   * @returns the button bar.
+   */
   function makeButtonBar() {
     let names = new Map();
     if (session != null) {
@@ -52,12 +63,26 @@ export default function SessionOverview() {
     );
   }
 
+  function compareCurrentSession(){
+    navigate("/", {
+      state: {
+        compareSession: session,
+      },
+    });
+  }
+
+  function makeRightContent(){
+    let content = compareSession == null ? <NormalButton className="compare-button" text="Compare" onClick={compareCurrentSession} /> : <p>Pog</p>;
+    return content;
+  }
+
+
   return (
     <section className="session-overview-page">
       {makeButtonBar()}
       <div className="compare-about-section">
         <AboutCard className="session-info" session={session} />
-        <NormalButton className="compare-button" text="Compare" />
+        {makeRightContent()}
       </div>
       <EyeMetricsCard session={session} referencePositionId={locationId} />
       <div className="session-graph"></div>

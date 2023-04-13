@@ -4,8 +4,8 @@ import Menu from "@mui/icons-material/Menu";
 import Close from "@mui/icons-material/Close";
 import DigitalClock from "../DigitalClock";
 import { useEffect, useState } from "react";
-import MainMenu from "../MainMenu";
-import ProfileMenu from "../ProfileMenu";
+import MainMenu from "../menus/MainMenu";
+import ProfileMenu from "../menus/ProfileMenu";
 
 /**
  * Makes an appbar

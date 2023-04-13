@@ -1,6 +1,6 @@
 import { findByLabelText } from "@testing-library/react";
 import React from "react";
-import NormalTextField from "../components/NormalTextField";
+import NormalTextField from "../components/input/NormalTextField";
 import NormalButton from "../components/openBridge/NormalButton";
 import SupportButton from "../components/openBridge/SupportButton";
 import "./support.css";

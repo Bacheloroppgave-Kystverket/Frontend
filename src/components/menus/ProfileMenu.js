@@ -1,9 +1,9 @@
 import React from "react";
 import FloatingMenu from "./FloatingMenu";
-import Card from "./openBridge/Card";
-import NormalButton from "./openBridge/NormalButton";
+import Card from "../openBridge/Card";
+import NormalButton from "../openBridge/NormalButton";
 import Person from "@mui/icons-material/Person";
-import "../css/profilemenu.css";
+import "../../css/profilemenu.css";
 import { useNavigate } from "react-router-dom";
 
 /**
