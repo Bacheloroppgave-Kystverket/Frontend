@@ -42,8 +42,8 @@ export default function SessionCard({ session, setFunction, sessionToCompareAgai
     function onOpenComparesession(){
       navigate("/session/overview", {
         state: {
-          session: session,
-          compareSession: sessionToCompareAgainst,
+          session: sessionToCompareAgainst,
+          compareSession: session,
         },
       });
     }
@@ -70,7 +70,6 @@ export default function SessionCard({ session, setFunction, sessionToCompareAgai
   return (
     <div>
       <Card title={nameOfCard} content={makeContent()} />
-      
     </div>
   );
 }

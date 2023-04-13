@@ -3,13 +3,14 @@ import DropdownMenu from "../menus/DropdownMenu";
 import EyeMetricBarGraph from "../graphs/EyeMetricBarGraph";
 import ButtonBar from "../openBridge/ButtonBar";
 import NormalCard from "../openBridge/NormalCard";
+import EyeMetricGraphHandler from "../graphs/EyeMetricGraphHandler";
 /**
  * Makes an instance of the metrics card.
  * @param {session} session the current session to show.
  * @param {referencePositionId} referencePositionId the id of the reference position.
  * @returns the eye metrics card with a bargraph.
  */
-export default function EyeMetricsCard({ session, referencePositionId }) {
+export default function EyeMetricsCard({ sessions, referencePositionId }) {
   const [currentMetric, setCurrentMetric] = useState(0);
 
   let map = new Map();
@@ -26,8 +27,8 @@ export default function EyeMetricsCard({ session, referencePositionId }) {
    */
   function makeBarGraph() {
     return (
-      <EyeMetricBarGraph
-        session={session}
+      <EyeMetricGraphHandler
+        sessions={sessions}
         referencePositionId={referencePositionId}
         currentMetric={currentMetric}
       />

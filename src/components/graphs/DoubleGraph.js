@@ -1,26 +1,53 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Bar, Chart} from 'react-chartjs-2';
 
 
-export default function DoubleGraph() {
+export default function DoubleGraph({dataAsArray, currentMetric}) {
+
+    let colorArray = ["#0263FF","#25FF02"]
+    function makeDataSets(dataAsArray){
+        let datasets = [];
+        let labels = [];
+        for(let i = 0; i < dataAsArray.length; i++){
+            let map = dataAsArray[i].get(0)[currentMetric];
+            let localLabels = getKeysOfMapAsArary(map.keys());
+            let data = getKeysOfMapAsArary(map.values())
+            datasets.push(makeDataset(data, i, i));
+            console.log(dataAsArray[i]);
+        }
+        console.log(datasets)
+        return datasets;
+    }
+
+    function makeDataset(data, labelName, count){
+        return {
+            label: labelName,
+            data: data,
+            barPercentage: 0.35,
+            backgroundColor: colorArray[count],
+        };
+    }
+
+    /**
+   * Gets the keys or values of a map and turns it into an array.
+   * @param {map} iterator the iterator of the map.
+   * @returns the map as an array.
+   */
+  function getKeysOfMapAsArary(iterator) {
+    var array = [];
+    for (var value of iterator) {
+      array.push(value);
+    }
+    return array;
+  }
+
     return (
         <div className='App'>
             <div style={{maxWidth: "650px"}}>
                 <Bar
                 data={{
-                    labels: ["Outside", "ECDIS", "Radar", "Connig"],
-                    datasets: [
-                        {
-                            data: [72, 9, 6.3, 2.7], 
-                            barPercentage: 0.35,
-                            backgroundColor: "#0263FF"
-                        },
-                        {
-                            data: [49, 10, 5, 4],
-                            barPercentage: 0.35,
-                            backgroundColor: "#25FF02"
-                        }
-                    ]
+                    labels: ["Outside", "ECDIS", "Radar"],
+                    datasets: makeDataSets(dataAsArray),
                 }}
                 height={450}
                 width={408}
@@ -50,11 +77,16 @@ export default function DoubleGraph() {
                     },
 
                     plugins: {
+                        datalabels: {
+                            anchor: "end",
+                            align: "top",
+                            formatter: Math.round,
+                          },
                         legend: {
                             position: 'bottom',
                             labels: {
                                 usePointStyle: true
-                            }
+                            }, 
                         }
                     }
                 }}
