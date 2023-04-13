@@ -66,8 +66,7 @@ export default function EyeMetricGraphHandler({sessions, currentMetric, referenc
       averageFixationMap.set(trackableType, timeForType / fixationsForType);
     }
     let sessionMap = new Map();
-    ///Username here must be changed
-    sessionMap.set(0, [fixationsMap, fixationDurationMap, averageFixationMap]);
+    sessionMap.set(session.user.userName, [fixationsMap, fixationDurationMap, averageFixationMap]);
     return sessionMap;
   }
 
@@ -100,9 +99,8 @@ export default function EyeMetricGraphHandler({sessions, currentMetric, referenc
     );
     if(dataAsArray != null && dataAsArray.length == 1){
         console.log("Data as array")
-        console.log(dataAsArray[0].get(0)[currentMetric])
         content = (
-            <SingleGraph map={dataAsArray[0].get(0)[currentMetric]}/>
+            <SingleGraph map={dataAsArray[0].keys()[0][currentMetric]}/>
         );
     }else if (dataAsArray != null && dataAsArray.length > 1){
         content = (

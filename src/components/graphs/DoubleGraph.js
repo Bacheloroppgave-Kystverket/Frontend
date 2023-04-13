@@ -9,10 +9,11 @@ export default function DoubleGraph({dataAsArray, currentMetric}) {
         let datasets = [];
         let labels = [];
         for(let i = 0; i < dataAsArray.length; i++){
-            let map = dataAsArray[i].get(0)[currentMetric];
+            let name = dataAsArray[i].keys().next().value;
+            let map = dataAsArray[i].get(name)[currentMetric];
             let localLabels = getKeysOfMapAsArary(map.keys());
             let data = getKeysOfMapAsArary(map.values())
-            datasets.push(makeDataset(data, i, i));
+            datasets.push(makeDataset(data, name, i));
             console.log(dataAsArray[i]);
         }
         console.log(datasets)
