@@ -9,11 +9,10 @@ import { Outlet, useNavigate } from "react-router-dom";
  * Makes a session card.
  * @param {session} session the session to make a card of.
  * @param {setFunction} setFunction the set session function.
- * @param {session} sessionToCompareAgainst set to true if you are going to compare sessions.
+ * @param {session} sessions the current sessions
  * @returns the session card.
  */
-export default function SessionCard({ session, setFunction, sessionToCompareAgainst }) {
-  
+export default function SessionCard({ session, setFunction, sessions }) {
   let navigate = useNavigate();
 
   /**
@@ -31,19 +30,20 @@ export default function SessionCard({ session, setFunction, sessionToCompareAgai
     /**
      * Opens the session.
      */
-    function onOpenSession(){
+    function onOpenSession() {
+      sessions.push(session);
       navigate("/session/overview", {
         state: {
-          session: session,
+          sessions: sessions,
         },
       });
     }
 
-    function onOpenComparesession(){
+    function onOpenComparesession() {
+      sessions.push(session);
       navigate("/session/overview", {
         state: {
-          session: sessionToCompareAgainst,
-          compareSession: session,
+          sessions: sessions,
         },
       });
     }
@@ -55,9 +55,9 @@ export default function SessionCard({ session, setFunction, sessionToCompareAgai
           <span className="card-body-sub-text">{session.user.userName}</span>
         </div>
         <NormalButton
-          text={sessionToCompareAgainst == null ? "See session" : "Compare session(s)"}
+          text={sessions.length == 0 ? "See session" : "Compare session(s)"}
           onClick={() => {
-            sessionToCompareAgainst == null ? onOpenSession() : onOpenComparesession();
+            sessions.length == 0 ? onOpenSession() : onOpenComparesession();
           }}
         />
       </div>

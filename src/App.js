@@ -10,12 +10,14 @@ import LoginCard from "./components/cards/LoginCard";
 import "./css/openbridge.css";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Support from "./pages/Support";
+import AppbarHandler from "./components/AppbarHandler";
+import SupportCategory from "./pages/SupportCategory";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <AppBar />
+        <AppbarHandler />
         <div className="bodyContent">
           <Routes>
             <Route path="/" element={<Sessions />} name="Sessions" />
@@ -23,6 +25,7 @@ function App() {
             <Route path="/register" element={<RegisterUser />} />
             <Route path="/session/overview" element={<SessionOverview />} />
             <Route path="/support" element={<Support />} />
+            <Route path="/support/category" element={<SupportCategory />} />
           </Routes>
         </div>
       </BrowserRouter>

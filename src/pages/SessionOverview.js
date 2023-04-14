@@ -24,13 +24,7 @@ export default function SessionOverview() {
   const location = useLocation();
 
   useEffect(() => {
-    let newSessions = [];
-    newSessions.push(location.state.session);
-    let compareSession = location.state.compareSession;
-    if (compareSession != null) {
-      newSessions.push(compareSession);
-    }
-    console.log(newSessions);
+    let newSessions = location.state.sessions;
     setSessions(newSessions);
   }, []);
 
@@ -61,14 +55,21 @@ export default function SessionOverview() {
     );
   }
 
+  /**
+   * Navigates to the sessions page to find a session to compare against.
+   */
   function compareCurrentSession() {
     navigate("/", {
       state: {
-        compareSession: sessions[0],
+        sessions: sessions,
       },
     });
   }
 
+  /**
+   * Makes a compare button that can be displayed.
+   * @returns the compare button
+   */
   function makeComparebutton() {
     return (
       <NormalButton
@@ -79,6 +80,10 @@ export default function SessionOverview() {
     );
   }
 
+  /**
+   * Removes a session.
+   * @param {session} sessionToRemove the session to remove.
+   */
   function removeSession(sessionToRemove) {
     let data = [];
     sessions.forEach((session) => {
@@ -93,6 +98,11 @@ export default function SessionOverview() {
     }
   }
 
+  /**
+   * Makes an about card about the input session.
+   * @param {session} session the session.
+   * @returns the about card with the sessions information.
+   */
   function makeAboutCard(session) {
     return (
       <AboutCard
@@ -104,6 +114,10 @@ export default function SessionOverview() {
     );
   }
 
+  /**
+   * Makes the content that is supposed to be at the session about part of the page.
+   * @returns
+   */
   function makeAboutContent() {
     let aboutcards = [];
 
@@ -114,6 +128,7 @@ export default function SessionOverview() {
       sessions.forEach((currentSession) =>
         aboutcards.push(makeAboutCard(currentSession))
       );
+      aboutcards.push(makeComparebutton());
     } else {
       aboutcards.push(<p>Loading data</p>);
     }

@@ -3,9 +3,21 @@
 }
 
 .support-page-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, auto));
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  gap: 1em;
   align-content: space-evenly;
   width: 100%;
-  margin: 20px auto auto;
+  margin: 20px auto;
+}
+
+.info-button {
+  height: 100%;
+  width: 100%;
+}
+
+.support-button {
+  height: 128px;
+  width: 128px;
 }

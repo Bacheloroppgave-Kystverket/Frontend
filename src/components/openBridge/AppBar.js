@@ -14,6 +14,7 @@ import ProfileMenu from "../menus/ProfileMenu";
 function AppBar() {
   const currentLocation = useLocation();
   const [title, setTitle] = useState();
+
   useEffect(() => {
     let currentTitle = "No title";
     let path = currentLocation.pathname;
@@ -21,6 +22,7 @@ function AppBar() {
       currentTitle = "Sessions";
     } else {
       let array = path.split("/");
+
       let newTitle = array[1];
       newTitle =
         newTitle.charAt(0).toUpperCase() + newTitle.slice(1, newTitle.length);

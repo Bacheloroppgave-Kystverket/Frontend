@@ -16,7 +16,12 @@ export default function Sessions() {
 
   let location = useLocation();
 
-  let compareSession = location.state == null ? null : location.state.compareSession;
+  let currentSessions =
+    location.state == null
+      ? []
+      : location.state.sessions == null
+      ? []
+      : location.state.sessions;
 
   useEffect(() => {
     getSessions();
@@ -33,7 +38,41 @@ export default function Sessions() {
       });
   }
 
-
+  function makeSessionCards() {
+    let cards = [];
+    for (let i = 0; i < sessions.length; i++) {
+      let session = sessions[i];
+      let sessionCard = (
+        <SessionCard
+          session={session}
+          key={session.sessionID}
+          sessions={currentSessions}
+        />
+      );
+      let match = false;
+      currentSessions.forEach((element) => {
+        if (session.sessionID === element.sessionID) {
+          match = true;
+        }
+      });
+      if (currentSessions.length > 0 && match) {
+        sessionCard = null;
+      }
+      if (sessionCard != null) {
+        cards.push(sessionCard);
+      }
+    }
+    if (cards.length === 0) {
+      let itemToadd;
+      if (currentSessions.length > 1) {
+        itemToadd = <p key={"error"}>No sessions left to compare against</p>;
+      } else {
+        itemToadd = <p key={"error"}>No sessions matched your search</p>;
+      }
+      cards.push(itemToadd);
+    }
+    return cards;
+  }
 
   function makeNormalContent() {
     return (
@@ -41,23 +80,10 @@ export default function Sessions() {
         <div id="filter-button-container">
           <NormalButton text="Filter" icon={<Tune fontSize="30px" />} />
         </div>
-        <div className="sessions-container">
-          {sessions.map((session) => {
-            let sessionCard = (
-            
-              <SessionCard session={session} key={session.sessionID} sessionToCompareAgainst={compareSession} />
-            );
-            if(compareSession != null && session.sessionID === compareSession.sessionID){
-              sessionCard = null;
-            }
-            return sessionCard;
-          })}
-        </div>
+        <div className="sessions-container">{makeSessionCards()}</div>
       </div>
     );
   }
 
-  return (
-    makeNormalContent()
-  );
+  return makeNormalContent();
 }

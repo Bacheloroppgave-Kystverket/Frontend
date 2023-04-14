@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { Bar, Chart } from "react-chartjs-2";
 
 export default function DoubleBarGraph({ dataAsArray, currentMetric }) {
-  let colorArray = ["#0263FF", "#25FF02"];
-
   /**
    * Makes the datasets from input.
    * @param {array} dataAsArray the data as array.
@@ -40,7 +38,6 @@ export default function DoubleBarGraph({ dataAsArray, currentMetric }) {
       label: labelName,
       data: data,
       barPercentage: 0.35,
-      backgroundColor: colorArray[count],
     };
   }
 
