@@ -21,7 +21,6 @@ function AppBar() {
       currentTitle = "Sessions";
     } else {
       let array = path.split("/");
-      console.log(array);
       let newTitle = array[1];
       newTitle =
         newTitle.charAt(0).toUpperCase() + newTitle.slice(1, newTitle.length);

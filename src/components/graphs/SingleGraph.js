@@ -69,7 +69,9 @@ export default function SingleGraph({ map }) {
             datalabels: {
               anchor: "end",
               align: "top",
-              formatter: Math.round,
+              formatter: function (value, context) {
+                return value.toFixed(2);
+              },
             },
             legend: {
               display: false,

@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import Card from "../openBridge/Card";
 import NormalCard from "../openBridge/NormalCard";
 import TimeText from "../TimeText";
+import Close from "@mui/icons-material/Close";
 
-export default function AboutCard({ session }) {
+import "../../css/aboutcard.css";
+
+export default function AboutCard({ session, onClick }) {
   let username = "";
   let date = "";
   let time = "";
@@ -48,6 +51,12 @@ export default function AboutCard({ session }) {
     return (
       <div className="card-content">
         <div className="trainee-name-">
+          <div className="ob-sub-title">Session ID: </div>
+          <div className="ob-title" style={{ fontWeight: "600" }}>
+            {session.sessionID}
+          </div>
+        </div>
+        <div className="trainee-name-">
           <div className="ob-sub-title">Trainee: </div>
           <div className="ob-title" style={{ fontWeight: "600" }}>
             {username}
@@ -71,10 +80,23 @@ export default function AboutCard({ session }) {
     );
   }
 
+  function makeTitleContent() {
+    return (
+      <div className="about-header-content">
+        <div className="ob-card-header-title">{title}</div>
+        <Close
+          className={"ob-icon mdi mdi-menu"}
+          fontSize="30px"
+          onClick={() => onClick(session)}
+        />
+      </div>
+    );
+  }
+
   return (
-    <Card
+    <NormalCard
       content={makeContent(username, date, time)}
-      title={title}
+      headerContent={makeTitleContent()}
       className="about-card"
     />
   );

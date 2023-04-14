@@ -7,7 +7,6 @@ import ButtonBar from "../components/openBridge/ButtonBar";
 import NormalButton from "../components/openBridge/NormalButton";
 import "../css/sessionOverview.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import EyeMetricGraphHandler from "../components/graphs/EyeMetricGraphHandler";
 
 /**
  * Makes an instansce of the sessions overview.
@@ -18,31 +17,24 @@ export default function SessionOverview() {
   var positionRecords = null;
 
   var navigate = useNavigate();
-  
+
   const [locationId, setLocationId] = useState(-1);
+  const [sessions, setSessions] = useState([]);
 
   const location = useLocation();
 
-  let sessions = [];
-  sessions.push(location.state.session);
-  let compareSession = location.state.compareSession;
-  if(compareSession != null){
-    sessions.push(compareSession);
-  }
-  
-
-  if(compareSession != null){
-    console.log("POGGGGEEERRRRSSS");
-  }
-
   useEffect(() => {
-    if (sessions[0] != null) {
-      positionRecords = sessions[0].positionRecords;
+    let newSessions = [];
+    newSessions.push(location.state.session);
+    let compareSession = location.state.compareSession;
+    if (compareSession != null) {
+      newSessions.push(compareSession);
     }
-  }, [locationId]);
+    console.log(newSessions);
+    setSessions(newSessions);
+  }, []);
 
   function switchLocationId(id) {
-    console.log(id);
     setLocationId(id);
   }
 
@@ -69,7 +61,7 @@ export default function SessionOverview() {
     );
   }
 
-  function compareCurrentSession(){
+  function compareCurrentSession() {
     navigate("/", {
       state: {
         compareSession: sessions[0],
@@ -77,22 +69,62 @@ export default function SessionOverview() {
     });
   }
 
-  function makeRightContent(){
-  let compareSession = location.state.compareSession;
-    let content = compareSession == null ? <NormalButton className="compare-button" text="Compare" onClick={compareCurrentSession} /> : <AboutCard className="session-info" session={sessions[1]} />;
-    return content;
+  function makeComparebutton() {
+    return (
+      <NormalButton
+        className="compare-button"
+        text="Compare"
+        onClick={compareCurrentSession}
+      />
+    );
   }
 
+  function removeSession(sessionToRemove) {
+    let data = [];
+    sessions.forEach((session) => {
+      if (session.sessionID != sessionToRemove.sessionID) {
+        data.push(session);
+      }
+    });
+    if (data.length > 0) {
+      setSessions(data);
+    } else {
+      navigate("/");
+    }
+  }
+
+  function makeAboutCard(session) {
+    return (
+      <AboutCard
+        className="session-info"
+        session={session}
+        key={session.sessionID}
+        onClick={removeSession}
+      />
+    );
+  }
+
+  function makeAboutContent() {
+    let aboutcards = [];
+
+    if (sessions != null && sessions.length === 1) {
+      aboutcards.push(makeAboutCard(sessions[0]));
+      aboutcards.push(makeComparebutton());
+    } else if (sessions != null && sessions.length > 1) {
+      sessions.forEach((currentSession) =>
+        aboutcards.push(makeAboutCard(currentSession))
+      );
+    } else {
+      aboutcards.push(<p>Loading data</p>);
+    }
+    return <div className="compare-about-section">{aboutcards}</div>;
+  }
 
   return (
     <section className="session-overview-page">
       {makeButtonBar()}
-      <div className="compare-about-section">
-        <AboutCard className="session-info" session={sessions[0]} />
-        {makeRightContent()}
-      </div>
+      {makeAboutContent()}
       <EyeMetricsCard sessions={sessions} referencePositionId={locationId} />
-      <div className="session-graph"></div>
     </section>
   );
 }

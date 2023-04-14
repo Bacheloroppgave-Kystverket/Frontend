@@ -1,24 +1,45 @@
-import React, { useEffect, useState } from 'react'
-import SingleGraph from './SingleGraph';
-import DoubleGraph from './DoubleGraph';
+import React, { useEffect, useState } from "react";
+import SingleGraph from "./SingleGraph";
+import DoubleBarGraph, { DoubleGraph } from "./DoubleBarGraph";
 
-export default function EyeMetricGraphHandler({sessions, currentMetric, referencePositionId}) {
-    const [dataAsArray, SetDataAsArray] = useState();
+export default function EyeMetricGraphHandler({
+  sessions,
+  currentMetric,
+  referencePositionId,
+}) {
+  const [dataAsArray, SetDataAsArray] = useState(new Map());
 
-    useEffect(() => {
-        calculateData(sessions);
-    }, [sessions])
-    
+  useEffect(() => {
+    calculateData(sessions);
+  }, [sessions]);
 
-    function calculateData(sessions){
-        let array = [];
-        for(let i = 0; i < sessions.length; i++){
-            console.log(sessions[i])
-            array.push(findTotalMetrics(sessions[i], referencePositionId))
+  useEffect(() => {}, [referencePositionId]);
+
+  function calculateData(sessions) {
+    let map = new Map();
+    if (sessions.length > 0) {
+      let referencePositions =
+        sessions[0].simulationSetup.referencePositionList;
+      for (let j = -1; j < referencePositions.length; j++) {
+        let position = j < 0 ? j : referencePositions[j].locationId;
+        let positionArray = [];
+        for (let i = 0; i < sessions.length; i++) {
+          positionArray.push(findTotalMetrics(sessions[i], position));
         }
-        SetDataAsArray(array);
+        map.set(position, positionArray);
+      }
     }
-    /**
+
+    SetDataAsArray(map);
+  }
+
+  function findTotalTime() {}
+
+  /*
+  
+    */
+
+  /**
    * Finds the metrics of this session. If set to negative numbers it will find the metrics for all positions.
    * @param {*} session the session to find the metrics for.
    * @param {*} positionId the id of the position.
@@ -66,7 +87,11 @@ export default function EyeMetricGraphHandler({sessions, currentMetric, referenc
       averageFixationMap.set(trackableType, timeForType / fixationsForType);
     }
     let sessionMap = new Map();
-    sessionMap.set(session.user.userName, [fixationsMap, fixationDurationMap, averageFixationMap]);
+    sessionMap.set(session.sessionID + " by " + session.user.userName, [
+      fixationsMap,
+      fixationDurationMap,
+      averageFixationMap,
+    ]);
     return sessionMap;
   }
 
@@ -90,24 +115,38 @@ export default function EyeMetricGraphHandler({sessions, currentMetric, referenc
     return trackableObject;
   }
 
-  function makeContent(){
-    let number = dataAsArray != null ? dataAsArray.length : 0;
-    let content = (
-        <p>
-            Loading
-        </p>
-    );
-    if(dataAsArray != null && dataAsArray.length == 1){
-        console.log("Data as array")
-        content = (
-            <SingleGraph map={dataAsArray[0].keys()[0][currentMetric]}/>
+  /**
+   * Makes the content of the eye metric graph handler.
+   * @returns the content.
+   */
+  function makeContent() {
+    let content = <p>Loading</p>;
+
+    if (dataAsArray.size > 0) {
+      if (dataAsArray.get(referencePositionId).length == 1) {
+        console.log(
+          dataAsArray.get(referencePositionId)[0].keys().next().value
         );
-    }else if (dataAsArray != null && dataAsArray.length > 1){
+        let key = dataAsArray.get(referencePositionId)[0].keys().next().value;
         content = (
-            <DoubleGraph dataAsArray={dataAsArray} currentMetric={currentMetric}/>
+          <SingleGraph
+            map={
+              dataAsArray.get(referencePositionId)[0].get(key)[currentMetric]
+            }
+          />
         );
+      } else if (dataAsArray.get(referencePositionId).length > 1) {
+        let dataToPass = dataAsArray.get(referencePositionId);
+        content = (
+          <DoubleBarGraph
+            dataAsArray={dataToPass}
+            currentMetric={currentMetric}
+          />
+        );
+      }
     }
-    return content
+
+    return content;
   }
 
   return makeContent();
