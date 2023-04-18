@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import FloatingMenu from "../components/menus/FloatingMenu";
 import MainMenu from "../components/menus/MainMenu";
 import ProfileMenu from "../components/menus/ProfileMenu";
+import LoginCard from "../components/cards/LoginCard";
 
 /**
  * Makes the loginpage
@@ -16,6 +17,7 @@ export default function Login() {
   const naviate = useNavigate();
   return (
     <div className="login-container">
+      <LoginCard />
       <img className="picture" src={Logo} />
       <div className="button-container">
         <h2>You need to login to use this webpage</h2>
