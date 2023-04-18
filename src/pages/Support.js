@@ -37,7 +37,7 @@ export default function Support() {
    * Gets the session form the server
    */
   async function getSupportCategories() {
-    fetch("http://localhost:8080/supportCategory")
+    fetch("http://localhost:8080/support-category")
       .then((res) => res.json())
       .then((result) => {
         setSupportCategories(result);
@@ -62,8 +62,9 @@ export default function Support() {
   return (
     <div className="support-page">
       <NormalTextField
+        id="search-bar"
         placeholder={"search"}
-        style={{ display: "flex", justifyContent: "center" }}
+        style={{ display: "flex", justifyContent: "center"}}
       />
       <div className="support-page-buttons">{makeSupportButtons()}</div>
     </div>

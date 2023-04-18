@@ -5,5 +5,8 @@ export default function SupportCategory() {
   const location = useLocation();
   //Takes out the support category on this page that needs it.
   let supportCategory = location.state.supportCategory;
-  return <div>{supportCategory.categoryName}</div>;
+  return <div>
+    {supportCategory.categoryName}
+    <div>{supportCategory.introduction}</div>
+    </div>;
 }
