@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NormalTextField from "../input/NormalTextField";
 import Card from "../openBridge/Card";
 import NormalButton from "../openBridge/NormalButton";
@@ -7,6 +7,25 @@ import { useForm } from "react-hook-form";
 
 export default function LoginCard() {
   let { register, handleSubmit } = useForm();
+  let { token, setToken } = useState();
+
+  function login(data) {
+    console.log(data);
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+    fetch("http://localhost:8080/authenticate", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        localStorage.setItem("token", data.token);
+      })
+      .then(() => console.log(localStorage.getItem("token")));
+  }
 
   function makeContent() {
     return (
@@ -21,7 +40,11 @@ export default function LoginCard() {
           setRegister={register}
           setValue={"password"}
         />
-        <NormalButton text={"Sign in"} isRaised={true} />
+        <NormalButton
+          text={"Sign in"}
+          isRaised={true}
+          onClick={handleSubmit(login)}
+        />
       </form>
     );
   }

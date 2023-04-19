@@ -25,7 +25,12 @@ export default function AboutCard({ session, onClick }) {
       positionRecords
     );
 
-    date = session.currentDate.split("T")[0];
+    date =
+      session.currentDate[0] +
+      "-" +
+      session.currentDate[1] +
+      "-" +
+      session.currentDate[2];
   } else {
     title = "no session";
   }

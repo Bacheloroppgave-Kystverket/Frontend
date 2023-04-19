@@ -14,20 +14,37 @@ import AppbarHandler from "./components/AppbarHandler";
 import SupportCategory from "./pages/SupportCategory";
 
 function App() {
+  let [token, setToken] = useState();
+
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, []);
+
+  function makeContent() {
+    let content = (
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<RegisterUser />} />
+      </Routes>
+    );
+    if (token != null && token != "") {
+      content = (
+        <Routes>
+          <Route path="/" element={<Sessions />} />
+          <Route path="/session/overview" element={<SessionOverview />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/support/category" element={<SupportCategory />} />
+        </Routes>
+      );
+    }
+    return content;
+  }
   return (
     <div className="App">
       <BrowserRouter>
         <AppbarHandler />
-        <div className="bodyContent">
-          <Routes>
-            <Route path="/" element={<Sessions />} name="Sessions" />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<RegisterUser />} />
-            <Route path="/session/overview" element={<SessionOverview />} />
-            <Route path="/support" element={<Support />} />
-            <Route path="/support/category" element={<SupportCategory />} />
-          </Routes>
-        </div>
+
+        <div className="bodyContent">{makeContent()}</div>
       </BrowserRouter>
     </div>
   );

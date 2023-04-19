@@ -31,10 +31,21 @@ export default function Sessions() {
    * Gets the session form the server
    */
   async function getSessions() {
-    fetch("http://localhost:8080/session")
+    let token = "Bearer " + localStorage.getItem("token");
+    let requestOptions = {
+      Authorization: "Bearer " + token,
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+    fetch("http://localhost:8080/session", requestOptions)
       .then((res) => res.json())
       .then((result) => {
         setSessions(result);
+        console.log(result);
       });
   }
 

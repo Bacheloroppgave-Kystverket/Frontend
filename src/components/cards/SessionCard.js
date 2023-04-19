@@ -64,8 +64,15 @@ export default function SessionCard({ session, setFunction, sessions }) {
     );
   }
 
-  let dateArray = session.currentDate.split("T");
-  let nameOfCard = session.simulationSetup.nameOfSetup + " - " + dateArray[0];
+  let dateArray = session.currentDate;
+  let nameOfCard =
+    session.simulationSetup.nameOfSetup +
+    " - " +
+    dateArray[0] +
+    "-" +
+    dateArray[1] +
+    "-" +
+    dateArray[2];
 
   return (
     <div>
