@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import FloatingMenu from "./FloatingMenu";
 import Card from "../openBridge/Card";
 import NormalButton from "../openBridge/NormalButton";
 import Person from "@mui/icons-material/Person";
 import "../../css/profilemenu.css";
 import { useNavigate } from "react-router-dom";
+import useClikedOn from "../../useClikedOn";
 
 /**
  * Makes an instance of the profile menu.
@@ -13,14 +14,45 @@ import { useNavigate } from "react-router-dom";
  */
 export default function ProfileMenu({ onNavigate }) {
   const navigate = useNavigate();
+  let ref = useRef();
+  useClikedOn(ref, onNavigate);
 
+  useEffect(() => {
+    let user = localStorage.getItem("user");
+    console.log(user);
+    if (user == null || user == "") {
+      console.log("Gets user");
+      getUser();
+    }
+  }, []);
+
+  /**
+   * Gets the session form the server
+   */
+  async function getUser() {
+    let token = "Bearer " + localStorage.getItem("token");
+    let requestOptions = {
+      Authorization: "Bearer " + token,
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+    await fetch("http://localhost:8080/user/me", requestOptions)
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+      });
+  }
   /**
    * Makes the content of the profile menu.
    * @returns the profile menu content.
    */
   function makeContent() {
     return (
-      <div style={{ width: "100%" }}>
+      <div style={{ width: "100%" }} ref={ref}>
         <div className="profile-menu-header">USER</div>
         <div className="profile-content">
           <div>
@@ -31,8 +63,9 @@ export default function ProfileMenu({ onNavigate }) {
             <NormalButton
               text="Sign out"
               onClick={() => {
-                navigate("/login");
                 onNavigate();
+                localStorage.setItem("token", "");
+                navigate("/login");
               }}
             />
           </div>
@@ -43,7 +76,6 @@ export default function ProfileMenu({ onNavigate }) {
             extraClass="bold-profile-button go-to-profile-button"
             onClick={() => {
               navigate("/profile");
-              onNavigate();
             }}
           />
         </div>

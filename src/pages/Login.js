@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NormalButton from "../components/openBridge/NormalButton";
 import "./login.css";
 import Logo from "../boat_logo.png";
@@ -14,14 +14,22 @@ import LoginCard from "../components/cards/LoginCard";
  * @returns the loginpage
  */
 export default function Login() {
+  let [showLogin, setShowLogin] = useState(false);
   const naviate = useNavigate();
+  let token = localStorage.getItem("token");
+  useEffect(() => {
+    if (token !== null && token !== "") {
+      console.log("has token");
+      naviate("/");
+    }
+  }, []);
   return (
     <div className="login-container">
-      <LoginCard />
+      {showLogin ? <LoginCard onNavigate={() => setShowLogin(false)} /> : <></>}
       <img className="picture" src={Logo} />
       <div className="button-container">
         <h2>You need to login to use this webpage</h2>
-        <NormalButton text={"Login"} onClick={() => naviate("/")} />
+        <NormalButton text={"Login"} onClick={() => setShowLogin(true)} />
         <NormalButton
           text={"Register"}
           onClick={() => {

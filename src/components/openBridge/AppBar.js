@@ -3,7 +3,7 @@ import Profile from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/icons-material/Menu";
 import Close from "@mui/icons-material/Close";
 import DigitalClock from "../DigitalClock";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MainMenu from "../menus/MainMenu";
 import ProfileMenu from "../menus/ProfileMenu";
 
@@ -14,6 +14,7 @@ import ProfileMenu from "../menus/ProfileMenu";
 function AppBar() {
   const currentLocation = useLocation();
   const [title, setTitle] = useState();
+  let menuRef = useRef();
 
   useEffect(() => {
     let currentTitle = "No title";
@@ -43,41 +44,34 @@ function AppBar() {
    * Toggles the profile menu.
    */
   function toggleProfileMenu() {
-    setProfileMenu(!profileMenu);
+    let token = localStorage.getItem("token");
+    if (token != null && token != "") {
+      setProfileMenu(!profileMenu);
+    }
   }
 
-  /**
-   * Opens the menu.
-   */
-  function openMenu() {
-    setMenu(true);
-  }
-
-  /**
-   * Hides the menu.
-   */
-  function closeMenu() {
-    setMenu(false);
+  function toggleMenu() {
+    setMenu(!menu);
   }
   return (
     <div className="ob-nav-top-bar">
       <div className="ob-menu-container">
-        <div className="ob-button ob-button--supressed ob-button--icon">
+        <div
+          className="ob-button ob-button--supressed ob-button--icon"
+          ref={menuRef}
+          onClick={() => toggleMenu()}
+        >
           {menu ? (
-            <Close
-              className={"ob-icon mdi mdi-menu "}
-              onClick={() => closeMenu()}
-              fontSize="30px"
-            />
+            <Close className={"ob-icon mdi mdi-menu "} fontSize="30px" />
           ) : (
-            <Menu
-              className={"ob-icon mdi mdi-menu "}
-              onClick={() => openMenu()}
-              fontSize="30px"
-            />
+            <Menu className={"ob-icon mdi mdi-menu "} fontSize="30px" />
           )}
           {menu ? (
-            <MainMenu extraClass="main-menu" onNavigate={closeMenu} />
+            <MainMenu
+              extraClass="main-menu"
+              onNavigate={toggleMenu}
+              parentRef={menuRef}
+            />
           ) : (
             <></>
           )}
@@ -91,12 +85,11 @@ function AppBar() {
           <DigitalClock />
         </div>
         <div className="ob-divider"> </div>
-        <div className="ob-button ob-button--supressed ob-button--icon">
-          <Profile
-            className="ob-icon mdi mdi-account-circle"
-            fontSize="30px"
-            onClick={() => toggleProfileMenu()}
-          />
+        <div
+          className="ob-button ob-button--supressed ob-button--icon"
+          onClick={() => toggleProfileMenu()}
+        >
+          <Profile className="ob-icon mdi mdi-account-circle" fontSize="30px" />
           {profileMenu ? <ProfileMenu onNavigate={toggleProfileMenu} /> : <></>}
         </div>
       </div>

@@ -5,13 +5,24 @@ import NormalButton from "../components/openBridge/NormalButton";
 import "../css/sessions.css";
 import SessionOverview from "./SessionOverview";
 import Tune from "@mui/icons-material/Tune";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import useClikedOn from "../useClikedOn";
 
 /**
  * Makes a page with all the sessions.
  * @returns the sessions page.
  */
 export default function Sessions() {
+  /**
+   * Put on top of each page. Stops the user if the token is empty.
+   */
+  let token = localStorage.getItem("token");
+  let navigate = useNavigate();
+  if (token == null || token == "") {
+    navigate("/login");
+  }
+  //Stops here
+
   const [sessions, setSessions] = useState([]);
 
   let location = useLocation();
@@ -31,19 +42,25 @@ export default function Sessions() {
    * Gets the session form the server
    */
   async function getSessions() {
-    let token = "Bearer " + localStorage.getItem("token");
+    let rawToken = localStorage.getItem("token");
+    let token = "Bearer " + rawToken;
     let requestOptions = {
-      Authorization: "Bearer " + token,
       method: "GET",
       headers: {
+        Authorization: token,
         Accept: "application/json",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
       },
     };
-    fetch("http://localhost:8080/session", requestOptions)
-      .then((res) => res.json())
+    console.log(token);
+    console.log(rawToken);
+    await fetch("http://localhost:8080/session", requestOptions)
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
       .then((result) => {
+        console.log();
         setSessions(result);
       });
   }
