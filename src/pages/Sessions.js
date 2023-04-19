@@ -52,15 +52,11 @@ export default function Sessions() {
         "Content-Type": "application/json",
       },
     };
-    console.log(token);
-    console.log(rawToken);
     await fetch("http://localhost:8080/session", requestOptions)
       .then((res) => {
-        console.log(res);
         return res.json();
       })
       .then((result) => {
-        console.log();
         setSessions(result);
       });
   }
@@ -72,13 +68,13 @@ export default function Sessions() {
       let sessionCard = (
         <SessionCard
           session={session}
-          key={session.sessionId}
+          key={session.sessionID}
           sessions={currentSessions}
         />
       );
       let match = false;
       currentSessions.forEach((element) => {
-        if (session.sessionId === element.sessionId) {
+        if (session.sessionID === element.sessionID) {
           match = true;
         }
       });

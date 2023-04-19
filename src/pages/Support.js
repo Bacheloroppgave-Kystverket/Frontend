@@ -37,8 +37,20 @@ export default function Support() {
    * Gets the session form the server
    */
   async function getSupportCategories() {
-    fetch("http://localhost:8080/support-category")
-      .then((res) => res.json())
+    let rawToken = localStorage.getItem("token");
+    let token = "Bearer " + rawToken;
+    let requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+    await fetch("http://localhost:8080/supportCategory", requestOptions)
+      .then((res) => {
+        return res.json();
+      })
       .then((result) => {
         setSupportCategories(result);
       });
@@ -54,6 +66,7 @@ export default function Support() {
         <SupportButton
           supportCategory={category}
           onClick={navigateToSupportCategory}
+          key={category.supportCategoryId}
         />
       );
     });
@@ -64,7 +77,7 @@ export default function Support() {
       <NormalTextField
         id="search-bar"
         placeholder={"search"}
-        style={{ display: "flex", justifyContent: "center"}}
+        style={{ display: "flex", justifyContent: "center" }}
       />
       <div className="support-page-buttons">{makeSupportButtons()}</div>
     </div>

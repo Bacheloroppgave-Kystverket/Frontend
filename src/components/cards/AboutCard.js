@@ -30,12 +30,7 @@ export default function AboutCard({ session, onClick }) {
       positionRecords
     );
 
-    date =
-      session.currentDate[0] +
-      "-" +
-      session.currentDate[1] +
-      "-" +
-      session.currentDate[2];
+    date = session.currentDate.split("T")[0];
   } else {
     title = "no session";
   }
@@ -70,7 +65,7 @@ export default function AboutCard({ session, onClick }) {
         <div className="trainee-name-">
           <div className="ob-sub-title">Session ID: </div>
           <div className="ob-title" style={{ fontWeight: "600" }}>
-            {session.sessionId}
+            {session.sessionID}
           </div>
         </div>
         <div className="trainee-name-">

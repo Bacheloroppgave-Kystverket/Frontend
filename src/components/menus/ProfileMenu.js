@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FloatingMenu from "./FloatingMenu";
 import Card from "../openBridge/Card";
 import NormalButton from "../openBridge/NormalButton";
@@ -17,33 +17,32 @@ export default function ProfileMenu({ onNavigate }) {
   let ref = useRef();
   useClikedOn(ref, onNavigate);
 
+  let [user, setUser] = useState(null);
+
   useEffect(() => {
-    let user = localStorage.getItem("user");
-    console.log(user);
-    if (user == null || user == "") {
-      console.log("Gets user");
-      getUser();
-    }
+    getUser();
   }, []);
 
   /**
    * Gets the session form the server
    */
   async function getUser() {
-    let token = "Bearer " + localStorage.getItem("token");
+    let rawToken = localStorage.getItem("token");
+    let token = "Bearer " + rawToken;
     let requestOptions = {
-      Authorization: "Bearer " + token,
       method: "GET",
       headers: {
+        Authorization: token,
         Accept: "application/json",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
       },
     };
     await fetch("http://localhost:8080/user/me", requestOptions)
-      .then((res) => res.json())
+      .then((res) => {
+        return res.json();
+      })
       .then((result) => {
-        console.log(result);
+        setUser(result);
       });
   }
   /**
@@ -52,12 +51,14 @@ export default function ProfileMenu({ onNavigate }) {
    */
   function makeContent() {
     return (
-      <div style={{ width: "100%" }} ref={ref}>
+      <div style={{ width: "100%" }}>
         <div className="profile-menu-header">USER</div>
         <div className="profile-content">
           <div>
             <Person style={{ fontSize: "72px" }} />
-            <div className="profile-name">Arnhild</div>
+            <div className="profile-name">
+              {user == null ? "" : user.userName}
+            </div>
           </div>
           <div className="sign-out-button bold-profile-button">
             <NormalButton
@@ -88,6 +89,7 @@ export default function ProfileMenu({ onNavigate }) {
       content={makeContent()}
       width={480}
       extraClass="profile-menu"
+      ref={ref}
     />
   );
 }

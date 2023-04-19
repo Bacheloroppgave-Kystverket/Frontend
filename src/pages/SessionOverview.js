@@ -87,7 +87,7 @@ export default function SessionOverview() {
   function removeSession(sessionToRemove) {
     let data = [];
     sessions.forEach((session) => {
-      if (session.sessionId != sessionToRemove.sessionId) {
+      if (session.sessionID != sessionToRemove.sessionID) {
         data.push(session);
       }
     });
@@ -108,7 +108,7 @@ export default function SessionOverview() {
       <AboutCard
         className="session-info"
         session={session}
-        key={session.sessionId}
+        key={session.sessionID}
         onClick={removeSession}
       />
     );

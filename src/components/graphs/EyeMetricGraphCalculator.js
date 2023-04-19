@@ -91,7 +91,7 @@ export default function EyeMetricGraphCalculator({
       averageFixationMap.set(trackableType, timeForType / fixationsForType);
     }
     let sessionMap = new Map();
-    sessionMap.set(session.sessionId + " by " + session.user.userName, [
+    sessionMap.set(session.sessionID + " by " + session.user.userName, [
       fixationsMap,
       fixationDurationMap,
       averageFixationMap,
