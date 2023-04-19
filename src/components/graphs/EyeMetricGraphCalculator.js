@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
-import SingleGraph from "./SingleGraph";
-import DoubleBarGraph, { DoubleGraph } from "./DoubleBarGraph";
+import GraphHandler from "./GraphHandler";
 
-export default function EyeMetricGraphHandler({
+/**
+ * Handles the eye metrics and has the posibility to change graphs.
+ * @param {session[]} sessions the sessions as an array.
+ * @param {currentMetric} currentMetric the current metric to show data for.
+ * @param {referencePositionId} referencePositionId the reference position id to show data for.
+ * @returns the eye metric graph handler.
+ */
+export default function EyeMetricGraphCalculator({
   sessions,
   currentMetric,
   referencePositionId,
@@ -15,6 +21,10 @@ export default function EyeMetricGraphHandler({
 
   useEffect(() => {}, [referencePositionId]);
 
+  /**
+   * Calculates the data for the sessions.
+   * @param {session[]} sessions the sessions.
+   */
   function calculateData(sessions) {
     let map = new Map();
     if (sessions.length > 0) {
@@ -32,12 +42,6 @@ export default function EyeMetricGraphHandler({
 
     SetDataAsArray(map);
   }
-
-  function findTotalTime() {}
-
-  /*
-  
-    */
 
   /**
    * Finds the metrics of this session. If set to negative numbers it will find the metrics for all positions.
@@ -87,7 +91,7 @@ export default function EyeMetricGraphHandler({
       averageFixationMap.set(trackableType, timeForType / fixationsForType);
     }
     let sessionMap = new Map();
-    sessionMap.set(session.sessionID + " by " + session.user.userName, [
+    sessionMap.set(session.sessionId + " by " + session.user.userName, [
       fixationsMap,
       fixationDurationMap,
       averageFixationMap,
@@ -123,31 +127,23 @@ export default function EyeMetricGraphHandler({
     let content = <p>Loading</p>;
 
     if (dataAsArray.size > 0) {
-      if (dataAsArray.get(referencePositionId).length == 1) {
-        console.log(
-          dataAsArray.get(referencePositionId)[0].keys().next().value
-        );
-        let key = dataAsArray.get(referencePositionId)[0].keys().next().value;
-        content = (
-          <SingleGraph
-            map={
-              dataAsArray.get(referencePositionId)[0].get(key)[currentMetric]
-            }
-          />
-        );
-      } else if (dataAsArray.get(referencePositionId).length > 1) {
-        let dataToPass = dataAsArray.get(referencePositionId);
-        content = (
-          <DoubleBarGraph
-            dataAsArray={dataToPass}
-            currentMetric={currentMetric}
-          />
-        );
-      }
+      let dataToPass = dataAsArray.get(referencePositionId);
+      content = (
+        <GraphHandler dataAsArray={dataToPass} currentMetric={currentMetric} />
+      );
     }
 
     return content;
   }
 
+  /**
+   * content = (
+          <SingleGraphHandler
+            map={
+              dataAsArray.get(referencePositionId)[0].get(key)[currentMetric]
+            }
+          />
+        );
+   */
   return makeContent();
 }

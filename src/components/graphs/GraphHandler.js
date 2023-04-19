@@ -1,7 +1,24 @@
-import React, { useEffect } from "react";
-import { Bar, Chart } from "react-chartjs-2";
+import React, { useState } from "react";
+import BarGraph from "./BarGraph";
+import DoughnutGraph from "./DoughnutGraph";
+import PieGraph from "./PieGraph";
+import DropdownMenu from "../menus/DropdownMenu";
+import ButtonBar from "../openBridge/ButtonBar";
+import BarGrap from "./BarGraph";
+import PloarGraph from "./PloarGraph";
+import RadarGraph from "./RadarGraph";
+import AreaGraph from "./AreaGraph";
 
-export default function DoubleBarGraph({ dataAsArray, currentMetric }) {
+export default function GraphHandler({ dataAsArray, currentMetric }) {
+  let [graphChoise, setGraphChoise] = useState(0);
+
+  let graphMap = new Map();
+  graphMap.set(0, "Bar");
+  graphMap.set(1, "Pie");
+  graphMap.set(2, "Donught");
+  graphMap.set(3, "Polar");
+  graphMap.set(4, "Radar");
+  graphMap.set(5, "Area");
   /**
    * Makes the datasets from input.
    * @param {array} dataAsArray the data as array.
@@ -30,10 +47,9 @@ export default function DoubleBarGraph({ dataAsArray, currentMetric }) {
    * Makes a dataset from the input data.
    * @param {array} data the array of data.
    * @param {string} labelName the name of the label or dataset.
-   * @param {int} count the count so that the color can be changed.
    * @returns the dataset.
    */
-  function makeDataset(data, labelName, count) {
+  function makeDataset(data, labelName) {
     return {
       label: labelName,
       data: data,
@@ -75,59 +91,52 @@ export default function DoubleBarGraph({ dataAsArray, currentMetric }) {
     }
     return array;
   }
-  let labels = getLabels(dataAsArray);
+
+  function findGraph() {
+    let labels = getLabels(dataAsArray);
+    let data = makeDataSets(dataAsArray, labels);
+    let graph = null;
+    switch (graphChoise) {
+      case 1:
+        graph = <PieGraph data={data} labels={labels} />;
+        break;
+      case 2:
+        graph = <DoughnutGraph data={data} labels={labels} />;
+        break;
+      case 3:
+        graph = <PloarGraph data={data} labels={labels} />;
+        break;
+      case 4:
+        graph = <RadarGraph data={data} labels={labels} />;
+        break;
+      case 5:
+        graph = <AreaGraph data={data} labels={labels} />;
+        break;
+      default:
+        graph = <BarGraph data={data} labels={labels} />;
+        break;
+    }
+    return graph;
+  }
+
+  function changeGraph(value) {
+    setGraphChoise(value);
+  }
 
   return (
-    <div style={{ width: "100%" }}>
-      <Bar
-        style={{ display: "flex", flexflow: "column" }}
-        data={{
-          labels: labels,
-          datasets: makeDataSets(dataAsArray, labels),
-        }}
-        height={450}
-        width={408}
-        options={{
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: {
-              grid: {
-                offset: true,
-              },
-              border: {
-                dash: [2, 4],
-              },
-            },
-            y: {
-              grid: {
-                offset: true,
-              },
-              ticks: {
-                maxTicksLimit: 7,
-              },
-              border: {
-                dash: [2, 4],
-              },
-            },
-          },
-
-          plugins: {
-            datalabels: {
-              anchor: "end",
-              align: "top",
-              formatter: function (value, context) {
-                return value.toFixed(2);
-              },
-            },
-            legend: {
-              position: "bottom",
-              labels: {
-                usePointStyle: true,
-              },
-            },
-          },
-        }}
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexFlow: "column",
+      }}
+    >
+      {findGraph()}
+      <ButtonBar
+        namesOfButtons={graphMap}
+        activePosition={graphChoise}
+        buttonFunction={changeGraph}
       />
     </div>
   );

@@ -1,12 +1,17 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import Card from "../openBridge/Card";
 import NormalCard from "../openBridge/NormalCard";
 import TimeText from "../TimeText";
 import Close from "@mui/icons-material/Close";
 
 import "../../css/aboutcard.css";
 
+/**
+ * Makes an about card that is shown in the sessions overview.
+ * @param {session} session the session of the card.
+ * @param {function} onClick the function to happen when the cross is clicked on.
+ * @returns a about card.
+ */
 export default function AboutCard({ session, onClick }) {
   let username = "";
   let date = "";
@@ -52,13 +57,20 @@ export default function AboutCard({ session, onClick }) {
     return totalTime;
   }
 
+  /**
+   * Makes the content of the about card.
+   * @param {*} username the username.
+   * @param {*} date the date.
+   * @param {*} time the time.
+   * @returns the content of the about card.
+   */
   function makeContent(username, date, time) {
     return (
       <div className="card-content">
         <div className="trainee-name-">
           <div className="ob-sub-title">Session ID: </div>
           <div className="ob-title" style={{ fontWeight: "600" }}>
-            {session.sessionID}
+            {session.sessionId}
           </div>
         </div>
         <div className="trainee-name-">
@@ -85,6 +97,10 @@ export default function AboutCard({ session, onClick }) {
     );
   }
 
+  /**
+   * Makes the title content.
+   * @returns  the title content with the cross.
+   */
   function makeTitleContent() {
     return (
       <div className="about-header-content">

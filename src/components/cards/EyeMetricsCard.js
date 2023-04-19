@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import DropdownMenu from "../menus/DropdownMenu";
-import EyeMetricBarGraph from "../graphs/EyeMetricBarGraph";
-import ButtonBar from "../openBridge/ButtonBar";
 import NormalCard from "../openBridge/NormalCard";
-import EyeMetricGraphHandler from "../graphs/EyeMetricGraphHandler";
+import EyeMetricGraphCalculator from "../graphs/EyeMetricGraphCalculator";
 /**
  * Makes an instance of the metrics card.
  * @param {session} session the current session to show.
@@ -27,7 +25,7 @@ export default function EyeMetricsCard({ sessions, referencePositionId }) {
    */
   function makeBarGraph() {
     return (
-      <EyeMetricGraphHandler
+      <EyeMetricGraphCalculator
         sessions={sessions}
         referencePositionId={referencePositionId}
         currentMetric={currentMetric}

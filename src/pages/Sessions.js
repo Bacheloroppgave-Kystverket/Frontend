@@ -45,7 +45,6 @@ export default function Sessions() {
       .then((res) => res.json())
       .then((result) => {
         setSessions(result);
-        console.log(result);
       });
   }
 
@@ -56,13 +55,13 @@ export default function Sessions() {
       let sessionCard = (
         <SessionCard
           session={session}
-          key={session.sessionID}
+          key={session.sessionId}
           sessions={currentSessions}
         />
       );
       let match = false;
       currentSessions.forEach((element) => {
-        if (session.sessionID === element.sessionID) {
+        if (session.sessionId === element.sessionId) {
           match = true;
         }
       });
