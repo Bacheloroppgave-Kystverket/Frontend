@@ -7,6 +7,8 @@ import ButtonBar from "../components/openBridge/ButtonBar";
 import NormalButton from "../components/openBridge/NormalButton";
 import "../css/sessionOverview.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import CheckBox from "../components/openBridge/CheckBox";
+import FilterCard from "../components/FilterCard";
 
 /**
  * Makes an instansce of the sessions overview.
@@ -140,6 +142,7 @@ export default function SessionOverview() {
       {makeButtonBar()}
       {makeAboutContent()}
       <EyeMetricsCard sessions={sessions} referencePositionId={locationId} />
+      <FilterCard/>
     </section>
   );
 }
