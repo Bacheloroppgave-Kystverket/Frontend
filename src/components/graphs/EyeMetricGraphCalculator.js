@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import GraphHandler from "./GraphHandler";
+import { func } from "prop-types";
 
 /**
  * Handles the eye metrics and has the posibility to change graphs.
@@ -96,7 +97,37 @@ export default function EyeMetricGraphCalculator({
       fixationDurationMap,
       averageFixationMap,
     ]);
+    sessionMap.set(session.sessionID + " by " + session.user.userName + " ", [
+      calculateProsentage(fixationsMap),
+      calculateProsentage(fixationDurationMap),
+      calculateProsentage(averageFixationMap),
+    ]);
+
     return sessionMap;
+  }
+
+  function calculateProsentage(map) {
+    let it = map.keys();
+    let key = it.next().value;
+    let keys = [];
+    let values = [];
+    let total = 0;
+    while (key != null) {
+      keys.push(key);
+      let value = map.get(key);
+      values.push(value);
+      total += value;
+      key = it.next().value;
+    }
+    let prosentageMap = new Map();
+    for (let i = 0; i < keys.length; i++) {
+      if (total > 0) {
+        prosentageMap.set(keys[i], (values[i] / total) * 100);
+      } else {
+        prosentageMap.set(keys[i], 0);
+      }
+    }
+    return prosentageMap;
   }
 
   /**
@@ -129,7 +160,11 @@ export default function EyeMetricGraphCalculator({
     if (dataAsArray.size > 0) {
       let dataToPass = dataAsArray.get(referencePositionId);
       content = (
-        <GraphHandler dataAsArray={dataToPass} currentMetric={currentMetric} />
+        <GraphHandler
+          dataAsArray={dataToPass}
+          currentMetric={currentMetric}
+          prosentage={true}
+        />
       );
     }
 

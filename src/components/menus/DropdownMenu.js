@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import ButtonBar from "../openBridge/ButtonBar";
+import React, { useEffect, useRef, useState } from "react";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import NormalButton from "../openBridge/NormalButton";
 import "../../css/dropdownbutton.css";
 import RotateIcon from "../RotateIcon";
+import FloatingButtonMenu from "../buttons/FloatingButtonMenu";
 
 /**
  * Makes an instance of the DropDown menu.
@@ -14,10 +14,7 @@ import RotateIcon from "../RotateIcon";
  */
 export default function DropdownMenu({ map, currentChoise, buttonFunction }) {
   const [showMenu, setShowMenu] = useState(false);
-  useEffect(() => {
-  }, [currentChoise]);
-
-  
+  useEffect(() => {}, [currentChoise]);
 
   /**
    * Makes the button bar.
@@ -25,14 +22,11 @@ export default function DropdownMenu({ map, currentChoise, buttonFunction }) {
    */
   function makeButtonBar() {
     return (
-      <div className="floating-buttton-menu">
-        <ButtonBar
-          namesOfButtons={map}
-          activePosition={currentChoise}
-          buttonFunction={toggleFunction}
-          isVertical={true}
-        />
-      </div>
+      <FloatingButtonMenu
+        map={map}
+        currentChoise={currentChoise}
+        toggleFunction={toggleFunction}
+      />
     );
   }
 
@@ -59,7 +53,13 @@ export default function DropdownMenu({ map, currentChoise, buttonFunction }) {
         className="dropdown-button"
         extraClass="ob-button--supressed"
         onClick={toggleShowMenu}
-        icon={<RotateIcon icon={<ExpandMore style={{width: "20px", height:"20px"}}/>} updateState = {showMenu} degrees = {180}/>}
+        icon={
+          <RotateIcon
+            icon={<ExpandMore style={{ width: "20px", height: "20px" }} />}
+            updateState={showMenu}
+            degrees={180}
+          />
+        }
         isRightIcon={true}
       />
       {showMenu ? makeButtonBar() : <></>}

@@ -7,6 +7,7 @@ import SessionOverview from "./SessionOverview";
 import Tune from "@mui/icons-material/Tune";
 import { useLocation, useNavigate } from "react-router-dom";
 import useClikedOn from "../useClikedOn";
+import FilterCard from "../components/FilterCard";
 
 /**
  * Makes a page with all the sessions.
@@ -24,6 +25,8 @@ export default function Sessions() {
   //Stops here
 
   const [sessions, setSessions] = useState([]);
+
+  const [showFilter, setShowFilter] = useState(false);
 
   let location = useLocation();
 
@@ -101,9 +104,20 @@ export default function Sessions() {
     return (
       <div className="sessions-page">
         <div id="filter-button-container">
-          <NormalButton text="Filter" icon={<Tune fontSize="30px" />} />
+          <NormalButton
+            text="Filter"
+            icon={<Tune fontSize="30px" />}
+            onClick={() => {
+              setShowFilter(!showFilter);
+            }}
+          />
         </div>
         <div className="sessions-container">{makeSessionCards()}</div>
+        {showFilter ? (
+          <FilterCard onExit={() => setShowFilter(!showFilter)} />
+        ) : (
+          <></>
+        )}
       </div>
     );
   }

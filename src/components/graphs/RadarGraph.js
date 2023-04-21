@@ -1,7 +1,7 @@
 import React from "react";
 import { Radar } from "react-chartjs-2";
 
-export default function RadarGraph({ data, labels }) {
+export default function RadarGraph({ data, labels, prosentage }) {
   return (
     <Radar
       style={{ display: "flex", flexflow: "column" }}
@@ -18,7 +18,11 @@ export default function RadarGraph({ data, labels }) {
             anchor: "center",
             align: "right",
             formatter: function (value, context) {
-              return value.toFixed(2);
+              if (prosentage) {
+                return value.toFixed(0) + " %";
+              } else {
+                return value.toFixed(2);
+              }
             },
           },
           legend: {

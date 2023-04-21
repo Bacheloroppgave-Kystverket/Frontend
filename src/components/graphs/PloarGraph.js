@@ -1,7 +1,7 @@
 import React from "react";
 import { PolarArea } from "react-chartjs-2";
 
-export default function PloarGraph({ data, labels }) {
+export default function PloarGraph({ data, labels, prosentage }) {
   let colors = [
     "rgba(255, 99, 132, 0.2)",
     "rgba(54, 162, 235, 0.2)",
@@ -36,7 +36,11 @@ export default function PloarGraph({ data, labels }) {
             anchor: "end",
             align: "start",
             formatter: function (value, context) {
-              return value.toFixed(2);
+              if (prosentage) {
+                return value.toFixed(0) + " %";
+              } else {
+                return value.toFixed(2);
+              }
             },
           },
           legend: {

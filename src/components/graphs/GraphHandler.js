@@ -9,7 +9,11 @@ import PloarGraph from "./PloarGraph";
 import RadarGraph from "./RadarGraph";
 import AreaGraph from "./AreaGraph";
 
-export default function GraphHandler({ dataAsArray, currentMetric }) {
+export default function GraphHandler({
+  dataAsArray,
+  currentMetric,
+  prosentage,
+}) {
   let [graphChoise, setGraphChoise] = useState(0);
 
   let graphMap = new Map();
@@ -28,8 +32,13 @@ export default function GraphHandler({ dataAsArray, currentMetric }) {
   function makeDataSets(dataAsArray, labels) {
     let datasets = [];
     if (dataAsArray != null && labels != null) {
+      console.log("pog");
       for (let i = 0; i < dataAsArray.length; i++) {
-        let name = dataAsArray[i].keys().next().value;
+        let it = dataAsArray[i].keys();
+        let name = it.next().value;
+        if (prosentage) {
+          name = it.next().value;
+        }
         let map = dataAsArray[i].get(name)[currentMetric];
         let data = [];
         for (let j = 0; j < labels.length; j++) {
@@ -98,22 +107,34 @@ export default function GraphHandler({ dataAsArray, currentMetric }) {
     let graph = null;
     switch (graphChoise) {
       case 1:
-        graph = <PieGraph data={data} labels={labels} />;
+        graph = (
+          <PieGraph data={data} labels={labels} prosentage={prosentage} />
+        );
         break;
       case 2:
-        graph = <DoughnutGraph data={data} labels={labels} />;
+        graph = (
+          <DoughnutGraph data={data} labels={labels} prosentage={prosentage} />
+        );
         break;
       case 3:
-        graph = <PloarGraph data={data} labels={labels} />;
+        graph = (
+          <PloarGraph data={data} labels={labels} prosentage={prosentage} />
+        );
         break;
       case 4:
-        graph = <RadarGraph data={data} labels={labels} />;
+        graph = (
+          <RadarGraph data={data} labels={labels} prosentage={prosentage} />
+        );
         break;
       case 5:
-        graph = <AreaGraph data={data} labels={labels} />;
+        graph = (
+          <AreaGraph data={data} labels={labels} prosentage={prosentage} />
+        );
         break;
       default:
-        graph = <BarGraph data={data} labels={labels} />;
+        graph = (
+          <BarGraph data={data} labels={labels} prosentage={prosentage} />
+        );
         break;
     }
     return graph;

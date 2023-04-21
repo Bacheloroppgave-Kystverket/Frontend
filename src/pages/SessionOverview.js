@@ -16,8 +16,6 @@ import FilterCard from "../components/FilterCard";
  * @returns the sessions overview.
  */
 export default function SessionOverview() {
-  var positionRecords = null;
-
   var navigate = useNavigate();
 
   const [locationId, setLocationId] = useState(-1);
@@ -78,6 +76,7 @@ export default function SessionOverview() {
         className="compare-button"
         text="Compare"
         onClick={compareCurrentSession}
+        key={-1}
       />
     );
   }
@@ -142,7 +141,6 @@ export default function SessionOverview() {
       {makeButtonBar()}
       {makeAboutContent()}
       <EyeMetricsCard sessions={sessions} referencePositionId={locationId} />
-      <FilterCard/>
     </section>
   );
 }

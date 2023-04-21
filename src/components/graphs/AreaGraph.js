@@ -1,7 +1,7 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 
-export default function AreaGraph({ data, labels }) {
+export default function AreaGraph({ data, labels, prosentage }) {
   function addConfiguration() {
     for (let i = 0; i < labels.length; i++) {
       for (let j = 0; j < data.length; j++) {
@@ -32,7 +32,11 @@ export default function AreaGraph({ data, labels }) {
             anchor: "top",
             align: "top",
             formatter: function (value, context) {
-              return value.toFixed(2);
+              if (prosentage) {
+                return value.toFixed(0) + " %";
+              } else {
+                return value.toFixed(2);
+              }
             },
           },
           legend: {

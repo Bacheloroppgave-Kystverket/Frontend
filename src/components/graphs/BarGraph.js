@@ -3,7 +3,7 @@ import { Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import Chart from "chart.js/auto";
 
-export default function BarGrap({ data, labels }) {
+export default function BarGrap({ data, labels, prosentage }) {
   Chart.register(ChartDataLabels);
   return (
     <div style={{ width: "100%" }}>
@@ -45,7 +45,7 @@ export default function BarGrap({ data, labels }) {
               anchor: "end",
               align: "top",
               formatter: function (value, context) {
-                return value.toFixed(2);
+                return value.toFixed(0) + " %";
               },
             },
             legend: {
