@@ -21,4 +21,12 @@
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 1em 0;
+}
+
+.filter-body {
+  position: absolute;
+  max-width: 800px;
+  padding: 0 4em;
 }

@@ -26,9 +26,15 @@ export default function Sessions() {
 
   const [sessions, setSessions] = useState([]);
 
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(true);
+
+  const [parameterString, setParameterString] = useState("");
 
   let location = useLocation();
+
+  useEffect(() => {
+    getSessions();
+  }, [parameterString]);
 
   let currentSessions =
     location.state == null
@@ -41,6 +47,10 @@ export default function Sessions() {
     getSessions();
   }, []);
 
+  function onSubmitFilter(newParameterString) {
+    setParameterString(newParameterString);
+    setShowFilter(false);
+  }
   /**
    * Gets the session form the server
    */
@@ -55,7 +65,11 @@ export default function Sessions() {
         "Content-Type": "application/json",
       },
     };
-    await fetch("http://localhost:8080/session", requestOptions)
+    let path =
+      parameterString === ""
+        ? "http://localhost:8080/session"
+        : "http://localhost:8080/session" + "?" + parameterString;
+    await fetch(path, requestOptions)
       .then((res) => {
         return res.json();
       })
@@ -114,7 +128,10 @@ export default function Sessions() {
         </div>
         <div className="sessions-container">{makeSessionCards()}</div>
         {showFilter ? (
-          <FilterCard onExit={() => setShowFilter(!showFilter)} />
+          <FilterCard
+            onExit={() => setShowFilter(!showFilter)}
+            setParameter={onSubmitFilter}
+          />
         ) : (
           <></>
         )}

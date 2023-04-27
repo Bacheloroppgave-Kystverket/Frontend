@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Close from "@mui/icons-material/Close";
 import NormalCard from "./openBridge/NormalCard";
 import CheckBox from "./openBridge/CheckBox";
@@ -6,10 +6,20 @@ import { DatePicker, Form } from "antd";
 import "./../css/filtercard.css";
 import NormalButton from "./openBridge/NormalButton";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
-export default function FilterCard({ onExit }) {
-  const [startDate, setStartDate] = useState(new Date("2023/04/20"));
-  const [endDate, setEndDate] = useState(new Date("2023/04/20"));
+export default function FilterCard({ onExit, setParameter }) {
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const { register, handleSubmit } = useForm();
+  const [simulationSetups, setSimulationSetups] = useState([]);
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    getSimulationSetups();
+    getUsers();
+  }, []);
 
   var navigate = useNavigate();
 
@@ -17,13 +27,125 @@ export default function FilterCard({ onExit }) {
     onExit();
   }
 
-  function doneButton() {
-    navigate("/");
+  function doneButton() {}
+
+  function makeUserCheckBoxes() {
+    let checkBoxes = [];
+    let i = 0;
+    for (let user of users) {
+      checkBoxes.push(
+        <CheckBox
+          id={i}
+          title={user}
+          key={i}
+          className="checkbox"
+          register={register}
+          registerValue={"U " + user}
+        />
+      );
+      i++;
+    }
+    return checkBoxes;
+  }
+
+  if (startDate != null) {
+    //console.log(startDate.$D);
+  }
+  if (endDate != null) {
+    //console.log(endDate);
+  }
+  /**
+   * Gets the simulation setup from the server
+   */
+  async function getSimulationSetups() {
+    let rawToken = localStorage.getItem("token");
+    let token = "Bearer " + rawToken;
+    let requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+    await fetch("http://localhost:8080/simulationSetup", requestOptions)
+      .then((res) => {
+        return res.json();
+      })
+      .then((result) => {
+        setSimulationSetups(result);
+      });
+  }
+
+  /**
+   * Gets the simulation setup from the server
+   */
+  async function getUsers() {
+    let rawToken = localStorage.getItem("token");
+    let token = "Bearer " + rawToken;
+    let requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+    await fetch("http://localhost:8080/user", requestOptions)
+      .then((res) => {
+        return res.json();
+      })
+      .then((result) => {
+        setUsers(result);
+      });
+  }
+
+  function sendForm(data) {
+    let parameterString = "";
+    let mapData = new Map(Object.entries(data));
+    for (let key of mapData.keys()) {
+      console.log(mapData.get(key));
+      console.log(key);
+      let shouldBeSent = mapData.get(key);
+      if (shouldBeSent) {
+        let array = key.split(" ");
+        console.log(array);
+        let parameter = "";
+        if (array[0] === "S") {
+          parameter = "simulationSetupName";
+        } else {
+          parameter = "username";
+        }
+        let seperator = parameterString === "" ? "" : "&";
+        parameterString =
+          parameterString + seperator + parameter + "=" + array[1];
+        console.log(parameterString);
+      }
+    }
+    setParameter(parameterString);
+  }
+
+  function makeSimulationCheckBoxes() {
+    let checkBoxes = [];
+    for (let i = 0; i < simulationSetups.length; i++) {
+      let simulationSetup = simulationSetups[i];
+      checkBoxes.push(
+        <CheckBox
+          id={simulationSetup.simulationSetupId}
+          title={simulationSetup.nameOfSetup}
+          key={simulationSetup.simulationSetupId}
+          className="checkbox"
+          register={register}
+          registerValue={"S " + simulationSetup.nameOfSetup}
+        />
+      );
+    }
+    return checkBoxes;
   }
 
   function makeContent(date, sessionType, users) {
     return (
-      <div className="card-content">
+      <form className="card-content">
         <div className="date-section">
           <div className="ob-title" style={{ fontWeight: "600", fontSize: 20 }}>
             Date
@@ -46,9 +168,7 @@ export default function FilterCard({ onExit }) {
           <div className="ob-title" style={{ fontWeight: "600", fontSize: 20 }}>
             Session type
           </div>
-          <CheckBox id="1" title="Tugboat" className="checkbox" />
-          <CheckBox id="2" title="Hurtigruta" className="checkbox" />
-          <CheckBox id="3" title="Tanker" className="checkbox" />
+          {makeSimulationCheckBoxes()}
         </div>
         <div className="users-section">
           <div
@@ -57,9 +177,7 @@ export default function FilterCard({ onExit }) {
           >
             Users
           </div>
-          <CheckBox id="1" title="Arnhild (You)" className="checkbox" />
-          <CheckBox id="2" title="Bjarne" className="checkbox" />
-          <CheckBox id="3" title="Jan" className="checkbox" />
+          {makeUserCheckBoxes()}
         </div>
         <div className="button-section">
           <NormalButton
@@ -70,10 +188,10 @@ export default function FilterCard({ onExit }) {
           <NormalButton
             className="done-button"
             text="Done"
-            onClick={doneButton}
+            onClick={handleSubmit(sendForm)}
           />
         </div>
-      </div>
+      </form>
     );
   }
 
@@ -91,10 +209,12 @@ export default function FilterCard({ onExit }) {
   }
 
   return (
-    <NormalCard
-      style={{ maxWidth: "300px" }}
-      content={makeContent()}
-      headerContent={makeTitleContent()}
-    />
+    <div className="filter-body">
+      <NormalCard
+        style={{ maxWidth: "300px" }}
+        content={makeContent()}
+        headerContent={makeTitleContent()}
+      />
+    </div>
   );
 }
