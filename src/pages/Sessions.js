@@ -27,7 +27,7 @@ export default function Sessions() {
 
   const [sessions, setSessions] = useState([]);
 
-  const [showFilter, setShowFilter] = useState(true);
+  const [showFilter, setShowFilter] = useState(false);
 
   const [parameterString, setParameterString] = useState({
     parameters: "",
@@ -62,26 +62,32 @@ export default function Sessions() {
   async function getSessions() {
     let rawToken = localStorage.getItem("token");
     let token = "Bearer " + rawToken;
-    let requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: token,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Acess-Control-Allow-Origin": "*",
-      },
-    };
-    let path =
-      parameterString.isFilter == false
-        ? "http://localhost:8080/session"
-        : "http://localhost:8080/session" + "?" + parameterString.parameters;
-    await fetch(path, requestOptions)
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        setSessions(result);
-      });
+    if (rawToken != null && rawToken != "") {
+      let requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Acess-Control-Allow-Origin": "*",
+        },
+      };
+      let path =
+        parameterString.isFilter == false
+          ? "http://localhost:8080/session"
+          : "http://localhost:8080/session" + "?" + parameterString.parameters;
+      console.log(parameterString.parameters + " pog");
+      await fetch(path, requestOptions)
+        .then((res) => {
+          if (res.status === 403) {
+            localStorage.setItem("token", null);
+          }
+          return res.json();
+        })
+        .then((result) => {
+          setSessions(result);
+        });
+    }
   }
 
   function makeSessionCards() {
@@ -150,4 +156,3 @@ export default function Sessions() {
 
   return makeNormalContent();
 }
-

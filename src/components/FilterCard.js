@@ -2,23 +2,28 @@ import React, { useEffect, useState } from "react";
 import Close from "@mui/icons-material/Close";
 import NormalCard from "./openBridge/NormalCard";
 import CheckBox from "./openBridge/CheckBox";
-import { DatePicker, Form } from "antd";
 import "./../css/filtercard.css";
 import "./../css/floatingMenu.css";
 import NormalButton from "./openBridge/NormalButton";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { faL } from "@fortawesome/free-solid-svg-icons";
+import { DatePicker } from "antd";
+const { RangePicker } = DatePicker;
 
 export default function FilterCard({ onExit, setParameter, parameterString }) {
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState(new Date());
+  const [dates, setCurrentDates] = useState({
+    startDate: null,
+    endDate: null,
+  });
   const { register, handleSubmit } = useForm();
+
   const [simulationSetups, setSimulationSetups] = useState([]);
 
   const [users, setUsers] = useState([]);
 
   let parameters = getParameters(parameterString);
+
+  const dayjs = require("dayjs");
 
   useEffect(() => {
     getSimulationSetups();
@@ -45,7 +50,6 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
   function cancelButton(data) {
     let pog = makeParameters(data);
     setParameter(pog, false);
-    console.log(pog);
     onExit();
   }
 
@@ -160,27 +164,25 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
           parameterString + seperator + parameter + "=" + array[1];
       }
     }
-    if (startDate != null) {
+    if (dates.startDate != null) {
       parameterString = bakeDateIntoString(
         parameterString,
         "startDate",
-        startDate
+        dates.startDate
       );
     }
-    if (endDate != null) {
-      parameterString = bakeDateIntoString(parameterString, "endDate", endDate);
+    if (dates.endDate != null) {
+      parameterString = bakeDateIntoString(
+        parameterString,
+        "endDate",
+        dates.endDate
+      );
     }
     return parameterString;
   }
 
   function bakeDateIntoString(parameters, datePrefix, date) {
-    let string = "";
-    if (parameters === "") {
-      string = parameters + "?" + datePrefix + "=" + makeDateString(date);
-    } else {
-      string = parameters + "&" + datePrefix + "=" + makeDateString(date);
-    }
-    return string;
+    return parameters + "&" + datePrefix + "=" + makeDateString(date);
   }
 
   /**
@@ -208,8 +210,10 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
     return checkBoxes;
   }
 
-  function setBeginningDate(date) {
-    console.log(date.toDate().getTime() < endDate.toDate().getTime());
+  function setDates(dates) {
+    if (dates != null) {
+      setCurrentDates({ startDate: dates[0], endDate: dates[1] });
+    }
   }
 
   /**
@@ -223,19 +227,13 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
           <div className="ob-title" style={{ fontWeight: "600", fontSize: 20 }}>
             Date
           </div>
-          <DatePicker
-            onChange={(date) => setBeginningDate(date)}
-            selectsStart
-            startDate={startDate}
-            endDate={endDate}
-            format={"DD/MM/YYYY"}
-          />
-          <DatePicker
-            onChange={(date) => setEndDate(date)}
-            selectsEnd
-            startDate={startDate}
-            endDate={endDate}
-            minDate={startDate}
+          <RangePicker
+            onChange={(date) => setDates(date)}
+            showNow
+            defaultValue={[
+              dates.startDate,
+              dates.endDate == null ? dayjs(new Date()) : dates.endDate,
+            ]}
             format={"DD/MM/YYYY"}
           />
         </div>
