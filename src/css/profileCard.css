@@ -1,0 +1,11 @@
+.profile-content {
+  display: flex;
+  flex-flow: column;
+  padding: 1em;
+  gap: 1em;
+}
+
+.profile-content > * {
+  width: 100%;
+  text-align: left;
+}
