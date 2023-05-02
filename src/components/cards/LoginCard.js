@@ -17,39 +17,55 @@ export default function LoginCard({ onNavigate }) {
 
   let ref = useRef();
   useClikedOn(ref, onNavigate);
-  if (loginSuccessful) {
-    navigate("/");
-  } else if (loginSuccessful == null) {
-  } else {
-  }
 
   function login(data) {
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify(data),
-    };
-    fetch("http://localhost:8080/authenticate", requestOptions)
-      .then((response) => {
-        if (response.status == 200) {
-          setLoginSucessufl(true);
-          return response.json();
-        } else {
-          setLoginSucessufl(false);
-        }
-      })
-      .then((data) => {
-        localStorage.setItem("token", data.token);
-      });
+    let validUsername = checkUsername(data.username);
+    let validPassword = checkPassword(data.password);
+    console.log("Username " + validUsername);
+    console.log("Password " + validPassword);
+    if (validPassword && validUsername) {
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify(data),
+      };
+      fetch("http://localhost:8080/authenticate", requestOptions)
+        .then((response) => {
+          if (response.status == 200) {
+            setLoginSucessufl(true);
+            return response.json();
+          } else {
+            setLoginSucessufl(false);
+          }
+        })
+        .then((data) => {
+          localStorage.setItem("token", data.token);
+        });
+    }
+  }
+
+  function checkUsername(username) {
+    let regrex = new RegExp(
+      "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$"
+    );
+    return regrex.test(username);
+  }
+
+  function checkPassword(password) {
+    let regrex = new RegExp(
+      "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+    );
+    console.log(password);
+    return regrex.test(password);
   }
 
   function makeContent() {
     return (
-      <form className="text-fields" ref={ref}>
+      <form className="text-fields" onSubmit={handleSubmit(login)}>
         <NormalTextField
           placeholder={"User Name"}
           setRegister={register}
@@ -59,6 +75,7 @@ export default function LoginCard({ onNavigate }) {
           placeholder={"Password"}
           setRegister={register}
           setValue={"password"}
+          isPassword={true}
         />
         <NormalButton
           text={"Sign in"}
@@ -71,7 +88,12 @@ export default function LoginCard({ onNavigate }) {
 
   return (
     <div className="login-card-container">
-      <Card title={"USER"} content={makeContent()} className="login-card" />
+      <Card
+        ref={ref}
+        title={"LOGIN"}
+        content={makeContent()}
+        className="login-card"
+      />
     </div>
   );
 }

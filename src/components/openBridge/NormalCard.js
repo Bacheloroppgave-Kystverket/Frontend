@@ -18,7 +18,7 @@ function NormalCard({ content, headerContent }) {
   let styleBody = {};
 
   return (
-    <div style={stylesCard}>
+    <div style={stylesCard} className="login-container">
       <div className="ob-card card">
         <div className="ob-card-header">
           <div className="ob-card-header-title-icon">
