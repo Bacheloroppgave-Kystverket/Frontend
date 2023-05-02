@@ -1,10 +1,18 @@
-.text-fields {
+.text-fields-and-button {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 1em 3em;
-  gap: 3em;
+  width: 100%;
+}
+
+.text-fields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
   width: 100%;
 }
 
@@ -13,6 +21,10 @@
   position: absolute;
   top: 7em;
   z-index: 1;
+}
+
+.text-fields-and-button>.ob-button {
+  margin-top: 2em;
 }
 
 .login-container>.ob-card {

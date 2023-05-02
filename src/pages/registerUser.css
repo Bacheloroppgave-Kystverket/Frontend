@@ -18,12 +18,13 @@
   width: 30em;
 }
 
-.register-fields > h2 {
+.register-fields>h2 {
   font-size: 3em;
+  text-align: center;
   margin: 0;
 }
 
-.register-fields > a {
+.register-fields>a {
   font-size: 2em;
 }
 

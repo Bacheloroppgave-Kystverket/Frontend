@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../../css/NormalTextField.css";
 
 export default function NormalTextField({
@@ -8,17 +8,20 @@ export default function NormalTextField({
   setValue,
   setOptions,
   errorText,
-  defaultText,
+  checkFunction,
   isPassword,
+  defaultText,
 }) {
+  const ref = useRef();
   function makeContent() {
     let content = (
       <input placeholder={placeholder} id={id} className="input-field" />
     );
+
     let type = isPassword != null && isPassword ? "password" : "text";
     if (setRegister != null && setValue != null) {
       content = (
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "100%" }} ref={ref}>
           <input
             type={type}
             placeholder={placeholder}
@@ -26,7 +29,7 @@ export default function NormalTextField({
             className="input-field"
             {...setRegister(setValue, setOptions)}
           />
-          <span style={{ color: "red" }}>{defaultText}</span>
+          <span style={{ color: "red", fontSize: "0.8em" }}>{errorText}</span>
         </div>
       );
     }
