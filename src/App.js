@@ -13,6 +13,7 @@ import Support from "./pages/Support";
 import AppbarHandler from "./components/AppbarHandler";
 import SupportCategory from "./pages/SupportCategory";
 import useClikedOn from "./useClikedOn";
+import UserProfile from "./pages/UserProfile.js";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/session/overview" element={<SessionOverview />} />
             <Route path="/support" element={<Support />} />
             <Route path="/support/category" element={<SupportCategory />} />
+            <Route path="/profile" element={<UserProfile />} />
           </Routes>
         </div>
       </BrowserRouter>
