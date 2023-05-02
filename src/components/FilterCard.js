@@ -12,7 +12,7 @@ import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export default function FilterCard({ onExit, setParameter, parameterString }) {
   const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [endDate, setEndDate] = useState(new Date());
   const { register, handleSubmit } = useForm();
   const [simulationSetups, setSimulationSetups] = useState([]);
 
@@ -45,6 +45,7 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
   function cancelButton(data) {
     let pog = makeParameters(data);
     setParameter(pog, false);
+    console.log(pog);
     onExit();
   }
 
@@ -207,6 +208,10 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
     return checkBoxes;
   }
 
+  function setBeginningDate(date) {
+    console.log(date.toDate().getTime() < endDate.toDate().getTime());
+  }
+
   /**
    * Makes the content of the filter card.
    * @returns the filter card.
@@ -219,7 +224,7 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
             Date
           </div>
           <DatePicker
-            onChange={(date) => setStartDate(date)}
+            onChange={(date) => setBeginningDate(date)}
             selectsStart
             startDate={startDate}
             endDate={endDate}
