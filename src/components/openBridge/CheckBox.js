@@ -11,6 +11,12 @@ export default function CheckBox({
 }) {
   let styles = {};
 
+  const [checked, setChecked] = useState(isChecked == null ? false : isChecked);
+
+  function toggleChecked() {
+    setChecked(!checked);
+  }
+
   return (
     <div style={styles}>
       <input
@@ -18,8 +24,10 @@ export default function CheckBox({
         type="checkbox"
         name={name}
         onChange={handleChange}
+        onClick={toggleChecked}
         style={{ padding: "10px", fontWeight: "600" }}
         {...register(registerValue)}
+        checked={checked}
       />
       <label htmlFor={id}>{title}</label>
     </div>

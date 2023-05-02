@@ -8,6 +8,7 @@ import Tune from "@mui/icons-material/Tune";
 import { useLocation, useNavigate } from "react-router-dom";
 import useClikedOn from "../useClikedOn";
 import FilterCard from "../components/FilterCard";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * Makes a page with all the sessions.
@@ -28,7 +29,10 @@ export default function Sessions() {
 
   const [showFilter, setShowFilter] = useState(true);
 
-  const [parameterString, setParameterString] = useState("");
+  const [parameterString, setParameterString] = useState({
+    parameters: "",
+    isFilter: false,
+  });
 
   let location = useLocation();
 
@@ -47,9 +51,10 @@ export default function Sessions() {
     getSessions();
   }, []);
 
-  function onSubmitFilter(newParameterString) {
-    setParameterString(newParameterString);
+  function onSubmitFilter(newParameterString, isSubmit) {
+    setParameterString({ parameters: newParameterString, isFilter: isSubmit });
     setShowFilter(false);
+    console.log(newParameterString);
   }
   /**
    * Gets the session form the server
@@ -63,12 +68,13 @@ export default function Sessions() {
         Authorization: token,
         Accept: "application/json",
         "Content-Type": "application/json",
+        "Acess-Control-Allow-Origin": "*",
       },
     };
     let path =
-      parameterString === ""
+      parameterString.isFilter == false
         ? "http://localhost:8080/session"
-        : "http://localhost:8080/session" + "?" + parameterString;
+        : "http://localhost:8080/session" + "?" + parameterString.parameters;
     await fetch(path, requestOptions)
       .then((res) => {
         return res.json();
@@ -80,36 +86,38 @@ export default function Sessions() {
 
   function makeSessionCards() {
     let cards = [];
-    for (let i = 0; i < sessions.length; i++) {
-      let session = sessions[i];
-      let sessionCard = (
-        <SessionCard
-          session={session}
-          key={session.sessionID}
-          sessions={currentSessions}
-        />
-      );
-      let match = false;
-      currentSessions.forEach((element) => {
-        if (session.sessionID === element.sessionID) {
-          match = true;
+    if (currentSessions != null) {
+      for (let i = 0; i < sessions.length; i++) {
+        let session = sessions[i];
+        let sessionCard = (
+          <SessionCard
+            session={session}
+            key={session.sessionID}
+            sessions={currentSessions}
+          />
+        );
+        let match = false;
+        currentSessions.forEach((element) => {
+          if (session.sessionID === element.sessionID) {
+            match = true;
+          }
+        });
+        if (currentSessions.length > 0 && match) {
+          sessionCard = null;
         }
-      });
-      if (currentSessions.length > 0 && match) {
-        sessionCard = null;
+        if (sessionCard != null) {
+          cards.push(sessionCard);
+        }
       }
-      if (sessionCard != null) {
-        cards.push(sessionCard);
+      if (cards.length === 0) {
+        let itemToadd;
+        if (currentSessions.length > 1) {
+          itemToadd = <p key={"error"}>No sessions left to compare against</p>;
+        } else {
+          itemToadd = <p key={"error"}>No sessions matched your search</p>;
+        }
+        cards.push(itemToadd);
       }
-    }
-    if (cards.length === 0) {
-      let itemToadd;
-      if (currentSessions.length > 1) {
-        itemToadd = <p key={"error"}>No sessions left to compare against</p>;
-      } else {
-        itemToadd = <p key={"error"}>No sessions matched your search</p>;
-      }
-      cards.push(itemToadd);
     }
     return cards;
   }
@@ -131,6 +139,7 @@ export default function Sessions() {
           <FilterCard
             onExit={() => setShowFilter(!showFilter)}
             setParameter={onSubmitFilter}
+            parameterString={parameterString.parameters}
           />
         ) : (
           <></>

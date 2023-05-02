@@ -4,17 +4,21 @@ import NormalCard from "./openBridge/NormalCard";
 import CheckBox from "./openBridge/CheckBox";
 import { DatePicker, Form } from "antd";
 import "./../css/filtercard.css";
+import "./../css/floatingMenu.css";
 import NormalButton from "./openBridge/NormalButton";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
-export default function FilterCard({ onExit, setParameter }) {
+export default function FilterCard({ onExit, setParameter, parameterString }) {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const { register, handleSubmit } = useForm();
   const [simulationSetups, setSimulationSetups] = useState([]);
 
   const [users, setUsers] = useState([]);
+
+  let parameters = getParameters(parameterString);
 
   useEffect(() => {
     getSimulationSetups();
@@ -23,12 +27,40 @@ export default function FilterCard({ onExit, setParameter }) {
 
   var navigate = useNavigate();
 
-  function cancelButton() {
+  /**
+   * Gets the parameters from a string.
+   * @param {*} string the string.
+   * @returns the parameters.
+   */
+  function getParameters(string) {
+    return string != null && string.length > 0
+      ? string.split("&").map((word) => word.split("=")[1])
+      : [];
+  }
+
+  /**
+   * Cancels the filter card and sets the parameters to remember.
+   * @param {*} data the form data.
+   */
+  function cancelButton(data) {
+    let pog = makeParameters(data);
+    setParameter(pog, false);
     onExit();
   }
 
-  function doneButton() {}
+  /**
+   * Makes a date from the datepicker object.
+   * @param {*} date the date object.
+   * @returns the date as dd-mm-yyy
+   */
+  function makeDateString(date) {
+    return date.$D + "-" + (date.$M + 1) + "-" + date.$y;
+  }
 
+  /**
+   * Makes the user checkboxes.
+   * @returns the user checkboxes.
+   */
   function makeUserCheckBoxes() {
     let checkBoxes = [];
     let i = 0;
@@ -40,19 +72,13 @@ export default function FilterCard({ onExit, setParameter }) {
           key={i}
           className="checkbox"
           register={register}
+          isChecked={parameters.some((param) => param == user)}
           registerValue={"U " + user}
         />
       );
       i++;
     }
     return checkBoxes;
-  }
-
-  if (startDate != null) {
-    //console.log(startDate.$D);
-  }
-  if (endDate != null) {
-    //console.log(endDate);
   }
   /**
    * Gets the simulation setup from the server
@@ -66,6 +92,7 @@ export default function FilterCard({ onExit, setParameter }) {
         Authorization: token,
         Accept: "application/json",
         "Content-Type": "application/json",
+        "Acess-Control-Allow-Origin": "*",
       },
     };
     await fetch("http://localhost:8080/simulationSetup", requestOptions)
@@ -89,6 +116,7 @@ export default function FilterCard({ onExit, setParameter }) {
         Authorization: token,
         Accept: "application/json",
         "Content-Type": "application/json",
+        "Acess-Control-Allow-Origin": "*",
       },
     };
     await fetch("http://localhost:8080/user", requestOptions)
@@ -100,16 +128,26 @@ export default function FilterCard({ onExit, setParameter }) {
       });
   }
 
+  /**
+   * Sends the form to the backend.
+   * @param {*} data the form data.
+   */
   function sendForm(data) {
+    setParameter(makeParameters(data), true);
+  }
+
+  /**
+   * Makes the parameters of this form.
+   * @param {*} data the form data.
+   * @returns the parameters as string
+   */
+  function makeParameters(data) {
     let parameterString = "";
     let mapData = new Map(Object.entries(data));
     for (let key of mapData.keys()) {
-      console.log(mapData.get(key));
-      console.log(key);
       let shouldBeSent = mapData.get(key);
       if (shouldBeSent) {
         let array = key.split(" ");
-        console.log(array);
         let parameter = "";
         if (array[0] === "S") {
           parameter = "simulationSetupName";
@@ -119,12 +157,35 @@ export default function FilterCard({ onExit, setParameter }) {
         let seperator = parameterString === "" ? "" : "&";
         parameterString =
           parameterString + seperator + parameter + "=" + array[1];
-        console.log(parameterString);
       }
     }
-    setParameter(parameterString);
+    if (startDate != null) {
+      parameterString = bakeDateIntoString(
+        parameterString,
+        "startDate",
+        startDate
+      );
+    }
+    if (endDate != null) {
+      parameterString = bakeDateIntoString(parameterString, "endDate", endDate);
+    }
+    return parameterString;
   }
 
+  function bakeDateIntoString(parameters, datePrefix, date) {
+    let string = "";
+    if (parameters === "") {
+      string = parameters + "?" + datePrefix + "=" + makeDateString(date);
+    } else {
+      string = parameters + "&" + datePrefix + "=" + makeDateString(date);
+    }
+    return string;
+  }
+
+  /**
+   * Makes the simulation checkboxes.
+   * @returns the simulation checkboxes.
+   */
   function makeSimulationCheckBoxes() {
     let checkBoxes = [];
     for (let i = 0; i < simulationSetups.length; i++) {
@@ -136,6 +197,9 @@ export default function FilterCard({ onExit, setParameter }) {
           key={simulationSetup.simulationSetupId}
           className="checkbox"
           register={register}
+          isChecked={parameters.some(
+            (param) => param == simulationSetup.nameOfSetup
+          )}
           registerValue={"S " + simulationSetup.nameOfSetup}
         />
       );
@@ -143,7 +207,11 @@ export default function FilterCard({ onExit, setParameter }) {
     return checkBoxes;
   }
 
-  function makeContent(date, sessionType, users) {
+  /**
+   * Makes the content of the filter card.
+   * @returns the filter card.
+   */
+  function makeContent() {
     return (
       <form className="card-content">
         <div className="date-section">
@@ -155,6 +223,7 @@ export default function FilterCard({ onExit, setParameter }) {
             selectsStart
             startDate={startDate}
             endDate={endDate}
+            format={"DD/MM/YYYY"}
           />
           <DatePicker
             onChange={(date) => setEndDate(date)}
@@ -162,6 +231,7 @@ export default function FilterCard({ onExit, setParameter }) {
             startDate={startDate}
             endDate={endDate}
             minDate={startDate}
+            format={"DD/MM/YYYY"}
           />
         </div>
         <div className="session-type-section">
@@ -183,7 +253,7 @@ export default function FilterCard({ onExit, setParameter }) {
           <NormalButton
             className="cancel-button"
             text="Cancel"
-            onClick={cancelButton}
+            onClick={handleSubmit(cancelButton)}
           />
           <NormalButton
             className="done-button"

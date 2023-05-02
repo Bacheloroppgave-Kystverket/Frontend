@@ -25,8 +25,17 @@
   padding: 1em 0;
 }
 
+.users-section {
+  padding: 0 0 1em;
+}
+
 .filter-body {
   position: absolute;
   max-width: 800px;
   padding: 0 4em;
+  z-index: 1;
+}
+
+.filter-body>*>* {
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
 }
