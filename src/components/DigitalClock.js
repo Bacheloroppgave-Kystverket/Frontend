@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
  */
 export default function DigitalClock() {
   const [time, setTime] = useState();
+  const [refresh, setRefresh] = useState();
   useEffect(() => {
     let localDate = new Date();
     let hour = localDate.getHours().toString();
@@ -17,7 +18,11 @@ export default function DigitalClock() {
       minutes = "0" + minutes;
     }
     setTime(hour + ":" + minutes);
-    setInterval(() => {}, 1000);
+    if (refresh == null) {
+      setInterval(() => {
+        setRefresh("p");
+      }, 20000);
+    }
   }, []);
   return <div>{time}</div>;
 }

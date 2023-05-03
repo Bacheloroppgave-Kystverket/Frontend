@@ -6,15 +6,19 @@ import "../../css/loginCard.css";
 import { useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import useClikedOn from "../../useClikedOn";
+import jwt_decode from "jwt-decode";
+import { useCookies } from "react-cookie";
 
 export default function LoginCard({ onNavigate }) {
   let { register, handleSubmit } = useForm();
-  let [loginSuccessful, setLoginSucessufl] = useState({
+  let [loginObject, setLoginSucessufl] = useState({
     firstTime: true,
     loginSucess: false,
   });
   let [validPassword, setValidPassword] = useState(true);
   let [validUsername, setValidUsername] = useState(true);
+
+  const [cookies, setCookie] = useCookies(["token"]);
 
   let ref = useRef();
   useClikedOn(ref, onNavigate);
@@ -52,7 +56,7 @@ export default function LoginCard({ onNavigate }) {
           }
         })
         .then((data) => {
-          localStorage.setItem("token", data.token);
+          setCookie("token", data.token, new Date(jwt_decode(data.token).exp));
         });
       setValidPassword(validPassword);
       setValidUsername(validUsername);
@@ -95,9 +99,10 @@ export default function LoginCard({ onNavigate }) {
       <form className="text-fields-and-button" onSubmit={handleSubmit(login)}>
         <div className="text-fields">
           <NormalTextField
-            placeholder={"User Name"}
+            placeholder={"Username"}
             setRegister={register}
             setValue={"username"}
+            errorTextClass={"login-error"}
             errorText={
               validUsername
                 ? ""
@@ -108,6 +113,7 @@ export default function LoginCard({ onNavigate }) {
             placeholder={"Password"}
             setRegister={register}
             setValue={"password"}
+            errorTextClass={"login-error"}
             isPassword={true}
             errorText={
               validPassword
@@ -115,7 +121,7 @@ export default function LoginCard({ onNavigate }) {
                 : "Password must be 8 characters long, contain one letter, one cased letter and one number"
             }
           />
-          {!loginSuccessful.firstTime ? (
+          {!loginObject.firstTime ? (
             <span
               style={{
                 color: "red",
@@ -125,7 +131,7 @@ export default function LoginCard({ onNavigate }) {
                 margin: "0",
               }}
             >
-              {"No user matches those credentials. Please try again moron"}
+              {"No user matches those credentials. Please try again"}
             </span>
           ) : null}
         </div>
@@ -137,7 +143,8 @@ export default function LoginCard({ onNavigate }) {
       </form>
     );
   }
-  return !loginSuccessful.firstTime && loginSuccessful.loginSucess ? (
+
+  return !loginObject.firstTime && loginObject.loginSucess ? (
     <Navigate replace to={"/"} />
   ) : (
     <div className="login-card-container" ref={ref}>

@@ -50,7 +50,7 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
    * Cancels the filter card and sets the parameters to remember.
    * @param {*} data the form data.
    */
-  function cancelButton(data) {
+  function cancelForm(data) {
     let pog = makeParameters(data);
     setParameter(pog, false);
     onExit();
@@ -243,7 +243,6 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
           </div>
           <RangePicker
             onChange={(date) => setDates(date)}
-            showNow
             defaultValue={[
               dates.startDate,
               dates.endDate == null ? dayjs(new Date()) : dates.endDate,
@@ -270,7 +269,7 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
           <NormalButton
             className="cancel-button"
             text="Cancel"
-            onClick={handleSubmit(cancelButton)}
+            onClick={handleSubmit(cancelForm)}
           />
           <NormalButton
             className="done-button"
@@ -293,7 +292,7 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
         <Close
           className={"ob-icon mdi mdi-menu"}
           fontSize="30px"
-          onClick={handleSubmit(cancelButton)}
+          onClick={handleSubmit(cancelForm)}
         />
       </div>
     );

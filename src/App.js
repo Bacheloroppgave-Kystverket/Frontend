@@ -15,28 +15,32 @@ import SupportCategory from "./pages/SupportCategory";
 import useClikedOn from "./useClikedOn";
 import UserProfile from "./pages/UserProfile.js";
 import SupportItemPage from "./pages/SupportItemPage";
+import { CookiesProvider } from 'react-cookie';
 
 function App() {
+
   return (
     <div className="App">
-      <BrowserRouter>
-        <AppbarHandler />
-        <div className="bodyContent">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<RegisterUser />} />
-            <Route path="/" element={<Sessions />} />
-            <Route path="/session/overview" element={<SessionOverview />} />
-            <Route path="/support" element={<Support />} />
-            <Route path="/support/category" element={<SupportCategory />} />
-            <Route path="/profile" element={<UserProfile />} />
-            <Route
-              path="/support/category/supportItem"
-              element={<SupportItemPage />}
-            />
-          </Routes>
-        </div>
-      </BrowserRouter>
+      <CookiesProvider>
+        <BrowserRouter>
+          <AppbarHandler />
+          <div className="bodyContent">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<RegisterUser />} />
+              <Route path="/" element={<Sessions />} />
+              <Route path="/session/overview" element={<SessionOverview />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/support/category" element={<SupportCategory />} />
+              <Route path="/profile" element={<UserProfile />} />
+              <Route
+                path="/support/category/supportItem"
+                element={<SupportItemPage />}
+              />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </CookiesProvider>
     </div>
   );
 }

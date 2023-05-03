@@ -23,20 +23,23 @@
   z-index: 1;
 }
 
-.text-fields-and-button>.ob-button {
+.text-fields-and-button > .ob-button {
   margin-top: 2em;
 }
 
-.login-container>.ob-card {
+.login-container > .ob-card {
   border-radius: 8px !important;
   box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+}
+.login-error {
+  font-size: 0.8em;
 }
 
 .card-content {
   border-radius: 8px;
 }
 
-.text-fields>.ob-button>.ob-label {
+.text-fields > .ob-button > .ob-label {
   margin: 0;
   display: block;
   justify-content: center;

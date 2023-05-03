@@ -13,6 +13,9 @@ export default function CheckBox({
 
   const [checked, setChecked] = useState(isChecked == null ? false : isChecked);
 
+  /**
+   * Toggles if the checkbox is checked.
+   */
   function toggleChecked() {
     setChecked(!checked);
   }

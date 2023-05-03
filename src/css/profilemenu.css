@@ -19,7 +19,7 @@
   /* identical to box height, or 133% */
 
   text-align: center;
-  font-feature-settings: "ss02"on;
+  font-feature-settings: "ss02" on;
   color: #1a1a1a;
 }
 
@@ -48,7 +48,7 @@
 
 .profile-menu {
   position: absolute;
-  right: 0;
-  top: 40px;
+  right: 0.5em;
+  top: 49px;
   z-index: 1;
 }

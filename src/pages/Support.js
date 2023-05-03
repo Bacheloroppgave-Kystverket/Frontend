@@ -4,12 +4,14 @@ import NormalButton from "../components/openBridge/NormalButton";
 import SupportButton from "../components/openBridge/SupportButton";
 import "./support.css";
 import { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import Search from "@mui/icons-material/Search";
+import { useCookies } from "react-cookie";
 
 export default function Support() {
   const [supportCategories, setSupportCategories] = useState([]);
   const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies(["token"]);
 
   //Does this once when the page is refreshed.
   useEffect(() => {
@@ -25,10 +27,7 @@ export default function Support() {
     supportCategoryArray.push(supportCategory.categoryName);
     navigate("/support/category", {
       state: {
-        //Transfers the support category to the next page.
         supportCategory: supportCategory,
-        //Is the text that comes up on the appbar.
-        //Must be done in order to update it. EACH NEW ">" should BE ITS OWN ITEM.
         supportArray: supportCategoryArray,
       },
     });
@@ -38,23 +37,25 @@ export default function Support() {
    * Gets the session form the server
    */
   async function getSupportCategories() {
-    let rawToken = localStorage.getItem("token");
+    let rawToken = cookies.token;
     let token = "Bearer " + rawToken;
-    let requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: token,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    };
-    await fetch("http://localhost:8080/supportCategory", requestOptions)
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        setSupportCategories(result);
-      });
+    if (rawToken !== null && rawToken !== "") {
+      let requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      };
+      await fetch("http://localhost:8080/supportCategory", requestOptions)
+        .then((res) => {
+          return res.json();
+        })
+        .then((result) => {
+          setSupportCategories(result);
+        });
+    }
   }
 
   /**
@@ -73,18 +74,34 @@ export default function Support() {
     });
   }
 
-  return (
-    <div className="support-page">
-      <div id="search-field-container">
-        <NormalTextField
-          id="search-bar"
-          placeholder={"Search"}
-          style={{ display: "flex", justifyContent: "center" }}
-        />
-        <Search fontSize="30px" id="search-icon" />
-      </div>
+  function handleChange(pepe) {
+    console.log("pog");
+  }
 
-      <div className="support-page-buttons">{makeSupportButtons()}</div>
-    </div>
+  /**
+   * Makes the content of the support page.
+   * @returns the content.
+   */
+  function makeSupportContent() {
+    return (
+      <div className="support-page">
+        <div id="search-field-container">
+          <NormalTextField
+            id="search-bar"
+            placeholder={"Search"}
+            handleChange={handleChange}
+            style={{ display: "flex", justifyContent: "center" }}
+          />
+          <Search fontSize="30px" id="search-icon" />
+        </div>
+        <div className="support-page-buttons">{makeSupportButtons()}</div>
+      </div>
+    );
+  }
+
+  return cookies.token !== null && cookies.token !== "" ? (
+    makeSupportContent()
+  ) : (
+    <Navigate to={"/login"} />
   );
 }

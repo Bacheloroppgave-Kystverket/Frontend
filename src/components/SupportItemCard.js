@@ -7,7 +7,9 @@ export default function SupportitemCard({
   supportCategoryArray,
 }) {
   let navigate = useNavigate();
-
+  /**
+   * Goes to the support item of this card.
+   */
   function goToSupportItem() {
     console.log(supportCategoryArray);
     supportCategoryArray.push(supportItem.supportItemName);

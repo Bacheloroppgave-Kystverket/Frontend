@@ -5,6 +5,8 @@ import Person from "@mui/icons-material/Person";
 import "../../css/profilemenu.css";
 import { useNavigate } from "react-router-dom";
 import useClikedOn from "../../useClikedOn";
+import { useCookies } from "react-cookie";
+import jwt_decode from "jwt-decode";
 
 /**
  * Makes an instance of the profile menu.
@@ -16,34 +18,8 @@ export default function ProfileMenu({ onNavigate }) {
   let ref = useRef();
   useClikedOn(ref, onNavigate);
 
-  let [user, setUser] = useState(null);
+  const [cookies, setCookie] = useCookies(["token"]);
 
-  useEffect(() => {
-    getUser();
-  }, []);
-
-  /**
-   * Gets the session form the server
-   */
-  async function getUser() {
-    let rawToken = localStorage.getItem("token");
-    let token = "Bearer " + rawToken;
-    let requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: token,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    };
-    await fetch("http://localhost:8080/user/me", requestOptions)
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        setUser(result);
-      });
-  }
   /**
    * Makes the content of the profile menu.
    * @returns the profile menu content.
@@ -56,15 +32,17 @@ export default function ProfileMenu({ onNavigate }) {
           <div>
             <Person style={{ fontSize: "72px" }} />
             <div className="profile-menu-name">
-              {user == null ? "" : user.userName}
+              {cookies.token !== null && cookies.token !== ""
+                ? jwt_decode(cookies.token).sub
+                : ""}
             </div>
           </div>
           <div className="sign-out-button bold-profile-button">
             <NormalButton
               text="Sign out"
               onClick={() => {
+                setCookie("token", "");
                 onNavigate();
-                localStorage.setItem("token", "");
                 navigate("/login");
               }}
             />
@@ -88,7 +66,7 @@ export default function ProfileMenu({ onNavigate }) {
       content={makeContent()}
       width={480}
       extraClass="profile-menu"
-      ref={ref}
+      reference={ref}
     />
   );
 }

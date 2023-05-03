@@ -29,6 +29,10 @@ function SupportAppBar() {
     setSupportTextArray(newSupportArray);
   }, [currentLocation]);
 
+  /**
+   * Makes the header content.
+   * @returns the header content.
+   */
   function makeHeaderContent() {
     let items = [];
     let fontWeight = "normal";
@@ -52,6 +56,9 @@ function SupportAppBar() {
     return items;
   }
 
+  /**
+   * Finds the new path and manages the new titles for the topbar.
+   */
   function goBack() {
     let newPath = "";
     let pathArray = currentLocation.pathname.split("/");
@@ -59,13 +66,16 @@ function SupportAppBar() {
       let part = pathArray[i];
       newPath = newPath == "" ? newPath + part : newPath + "/" + part;
     }
-    let oldArray = currentLocation.state.supportArray;
-    oldArray.pop();
+    let oldArray = newPath === "" ? null : currentLocation.state.supportArray;
+    if (oldArray !== null) {
+      oldArray.pop();
+    }
 
     nagivate(newPath, {
       state: {
-        supportCategory: currentLocation.state.supportCategory,
-        supportItem: currentLocation.state.supportItem,
+        supportCategory:
+          newPath === "" ? null : currentLocation.state.supportCategory,
+        supportItem: newPath === "" ? null : currentLocation.state.supportItem,
         supportArray: oldArray,
       },
     });

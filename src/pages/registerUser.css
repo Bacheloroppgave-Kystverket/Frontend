@@ -15,21 +15,24 @@
   flex-direction: column;
   align-items: center;
   gap: 2em;
-  width: 30em;
+  width: 40%;
 }
 
-.register-fields>h2 {
+.register-fields > h2 {
   font-size: 3em;
   text-align: center;
   margin: 0;
 }
 
-.register-fields>a {
-  font-size: 2em;
+.register-error {
+  font-size: 1.5em;
 }
-
 @media only screen and (min-width: 500px) {
   .picture {
     width: 40%;
+  }
+
+  .register-fields {
+    width: 30%;
   }
 }

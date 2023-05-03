@@ -8,9 +8,10 @@ export default function NormalTextField({
   setValue,
   setOptions,
   errorText,
-  checkFunction,
   isPassword,
-  defaultText,
+  onEnter,
+  errorTextClass,
+  handleChange,
 }) {
   const ref = useRef();
   function makeContent() {
@@ -26,10 +27,16 @@ export default function NormalTextField({
             type={type}
             placeholder={placeholder}
             id={id}
+            onChange={() => console.log("LLL")}
             className="input-field"
             {...setRegister(setValue, setOptions)}
           />
-          <span style={{ color: "red", fontSize: "0.8em" }}>{errorText}</span>
+          <span
+            className={errorTextClass === null ? "" : errorTextClass}
+            style={{ color: "red" }}
+          >
+            {errorText}
+          </span>
         </div>
       );
     }

@@ -6,6 +6,7 @@ import DigitalClock from "../DigitalClock";
 import { useEffect, useRef, useState } from "react";
 import MainMenu from "../menus/MainMenu";
 import ProfileMenu from "../menus/ProfileMenu";
+import { useCookies } from "react-cookie";
 
 /**
  * Makes an appbar
@@ -15,6 +16,7 @@ function AppBar() {
   const currentLocation = useLocation();
   const [title, setTitle] = useState();
   let menuRef = useRef();
+  const [cookies, setCookie] = useCookies(["token"]);
 
   useEffect(() => {
     let currentTitle = "No title";
@@ -44,7 +46,7 @@ function AppBar() {
    * Toggles the profile menu.
    */
   function toggleProfileMenu() {
-    let token = localStorage.getItem("token");
+    let token = cookies.token;
     if (token != null && token != "") {
       setProfileMenu(!profileMenu);
     }
@@ -66,16 +68,16 @@ function AppBar() {
           ) : (
             <Menu className={"ob-icon mdi mdi-menu "} fontSize="30px" />
           )}
-          {menu ? (
-            <MainMenu
-              extraClass="main-menu"
-              onNavigate={toggleMenu}
-              parentRef={menuRef}
-            />
-          ) : (
-            <></>
-          )}
         </div>
+        {menu ? (
+          <MainMenu
+            extraClass="main-menu"
+            onNavigate={toggleMenu}
+            parentRef={menuRef}
+          />
+        ) : (
+          <></>
+        )}
         <div className="ob-divider"> </div>
         <div className="ob-title">ETIVR</div>
         <div className="ob-sub-title">{title}</div>
@@ -90,8 +92,8 @@ function AppBar() {
           onClick={() => toggleProfileMenu()}
         >
           <Profile className="ob-icon mdi mdi-account-circle" fontSize="30px" />
-          {profileMenu ? <ProfileMenu onNavigate={toggleProfileMenu} /> : <></>}
         </div>
+        {profileMenu ? <ProfileMenu onNavigate={toggleProfileMenu} /> : <></>}
       </div>
     </div>
   );

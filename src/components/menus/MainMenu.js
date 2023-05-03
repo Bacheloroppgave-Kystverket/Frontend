@@ -23,7 +23,7 @@ export default function MainMenu({ onNavigate, parentRef }) {
    */
   function makeContent() {
     return (
-      <div style={{ width: "100%" }} ref={ref}>
+      <div style={{ width: "100%" }}>
         <MenuButton
           text="Sessions"
           className="floating-menu-button"
@@ -40,7 +40,7 @@ export default function MainMenu({ onNavigate, parentRef }) {
           height={48}
           paddingLeft={1}
           onInteract={() => {
-            navigate("/login");
+            navigate("/profile");
             onNavigate();
           }}
         />
@@ -60,7 +60,12 @@ export default function MainMenu({ onNavigate, parentRef }) {
     );
   }
   let content = (
-    <FloatingMenu content={makeContent()} width={320} extraClass="main-menu" />
+    <FloatingMenu
+      content={makeContent()}
+      width={320}
+      extraClass="main-menu"
+      reference={ref}
+    />
   );
 
   return content;

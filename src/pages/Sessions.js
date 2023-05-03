@@ -5,35 +5,33 @@ import NormalButton from "../components/openBridge/NormalButton";
 import "../css/sessions.css";
 import SessionOverview from "./SessionOverview";
 import Tune from "@mui/icons-material/Tune";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import useClikedOn from "../useClikedOn";
 import FilterCard from "../components/cards/FilterCard";
 import { faL } from "@fortawesome/free-solid-svg-icons";
+import { useCookies } from "react-cookie";
 
 /**
  * Makes a page with all the sessions.
  * @returns the sessions page.
  */
 export default function Sessions() {
-  /**
-   * Put on top of each page. Stops the user if the token is empty.
-   */
-  let token = localStorage.getItem("token");
-
   const [sessions, setSessions] = useState([]);
 
   const [showFilter, setShowFilter] = useState(false);
 
-  const [parameterString, setParameterString] = useState({
+  const [parameterObject, setParameterObject] = useState({
     parameters: "",
     isFilter: false,
   });
+
+  const [cookies, setCookie] = useCookies(["token"]);
 
   let location = useLocation();
 
   useEffect(() => {
     getSessions();
-  }, [parameterString]);
+  }, [parameterObject]);
 
   let currentSessions =
     location.state == null
@@ -47,7 +45,7 @@ export default function Sessions() {
   }, []);
 
   function onSubmitFilter(newParameterString, isSubmit) {
-    setParameterString({ parameters: newParameterString, isFilter: isSubmit });
+    setParameterObject({ parameters: newParameterString, isFilter: isSubmit });
     setShowFilter(false);
     console.log(newParameterString);
   }
@@ -56,7 +54,7 @@ export default function Sessions() {
    * Gets the session form the server
    */
   async function getSessions() {
-    let rawToken = localStorage.getItem("token");
+    let rawToken = cookies.token;
     let token = "Bearer " + rawToken;
     if (rawToken != null && rawToken != "") {
       let requestOptions = {
@@ -69,14 +67,11 @@ export default function Sessions() {
         },
       };
       let path =
-        parameterString.isFilter == false
+        parameterObject.isFilter == false
           ? "http://localhost:8080/session"
-          : "http://localhost:8080/session" + "?" + parameterString.parameters;
+          : "http://localhost:8080/session" + "?" + parameterObject.parameters;
       await fetch(path, requestOptions)
         .then((res) => {
-          if (res.status === 403) {
-            localStorage.setItem("token", null);
-          }
           return res.json();
         })
         .then((result) => {
@@ -140,7 +135,7 @@ export default function Sessions() {
           <FilterCard
             onExit={() => setShowFilter(!showFilter)}
             setParameter={onSubmitFilter}
-            parameterString={parameterString.parameters}
+            parameterString={parameterObject.parameters}
           />
         ) : (
           <></>
@@ -148,6 +143,9 @@ export default function Sessions() {
       </div>
     );
   }
-
-  return makeNormalContent();
+  return cookies.token == null || cookies.token == "" ? (
+    <Navigate replace to={"/login"} />
+  ) : (
+    makeNormalContent()
+  );
 }
