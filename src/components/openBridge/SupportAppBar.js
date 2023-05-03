@@ -27,21 +27,28 @@ function SupportAppBar() {
       newSupportArray = [];
     }
     setSupportTextArray(newSupportArray);
-    console.log(newSupportArray);
   }, [currentLocation]);
 
   function makeHeaderContent() {
     let items = [];
-    supportTextArray.forEach((text) => {
+    let fontWeight = "normal";
+    for (let i = 0; i < supportTextArray.length; i++) {
+      let text = supportTextArray[i];
+      if (i == supportTextArray.length - 1) {
+        fontWeight = "";
+      }
       items.push(
         <RightArrow fontSize="30px" className="ob-icon mdi mdi-menu" />
       );
       items.push(
-        <div className="ob-sub-title" style={{ margin: "0" }}>
+        <div
+          className="ob-sub-title"
+          style={{ margin: "0", fontWeight: fontWeight }}
+        >
           {text}
         </div>
       );
-    });
+    }
     return items;
   }
 
@@ -49,13 +56,24 @@ function SupportAppBar() {
     let newPath = "";
     let pathArray = currentLocation.pathname.split("/");
     for (let i = 0; i < pathArray.length - 1; i++) {
-      newPath = newPath + pathArray[i];
+      let part = pathArray[i];
+      newPath = newPath == "" ? newPath + part : newPath + "/" + part;
     }
-    nagivate(newPath);
+    let oldArray = currentLocation.state.supportArray;
+    oldArray.pop();
+
+    nagivate(newPath, {
+      state: {
+        supportCategory: currentLocation.state.supportCategory,
+        supportItem: currentLocation.state.supportItem,
+        supportArray: oldArray,
+      },
+    });
   }
 
   let headerContent = makeHeaderContent();
 
+  let fontWeight = supportTextArray.length > 0 ? "normal" : "600";
   return (
     <div className="ob-nav-top-bar">
       <div className="ob-menu-container">
@@ -75,7 +93,7 @@ function SupportAppBar() {
           )}
         </div>
         {headerContent.length > 0 ? (
-          <div className="ob-sub-title" style={{ fontWeight: "600" }}>
+          <div className="ob-sub-title" style={{ fontWeight: fontWeight }}>
             Support
           </div>
         ) : (

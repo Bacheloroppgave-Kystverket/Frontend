@@ -1,15 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Close from "@mui/icons-material/Close";
-import NormalCard from "./openBridge/NormalCard";
-import CheckBox from "./openBridge/CheckBox";
-import "./../css/filtercard.css";
-import "./../css/floatingMenu.css";
-import NormalButton from "./openBridge/NormalButton";
-import { useNavigate } from "react-router-dom";
+import NormalCard from "../openBridge/NormalCard";
+import CheckBox from "../openBridge/CheckBox";
+import "./../../css/filtercard.css";
+import "./../../css/floatingMenu.css";
+import NormalButton from "../openBridge/NormalButton";
 import { useForm } from "react-hook-form";
 import { DatePicker } from "antd";
+import useClikedOn from "../../useClikedOn";
 const { RangePicker } = DatePicker;
+const dayjs = require("dayjs");
 
+/**
+ * Makes the filter card.
+ * @param {func} onExit called when the card is exited.
+ * @param {func} setParameter a function that sets the parameters outside this card.
+ * @param {string} parameterString the parameters as string.
+ * @returns the filtercard.
+ */
 export default function FilterCard({ onExit, setParameter, parameterString }) {
   const [dates, setCurrentDates] = useState({
     startDate: null,
@@ -23,15 +31,10 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
 
   let parameters = getParameters(parameterString);
 
-  const dayjs = require("dayjs");
-
   useEffect(() => {
     getSimulationSetups();
     getUsers();
   }, []);
-
-  var navigate = useNavigate();
-
   /**
    * Gets the parameters from a string.
    * @param {*} string the string.
@@ -181,6 +184,13 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
     return parameterString;
   }
 
+  /**
+   * Bakes the date of choice into the parameters string.
+   * @param {*} parameters the parameter string.
+   * @param {*} datePrefix the date prefix like 'endDate'
+   * @param {*} date the date object itself.
+   * @returns the new parameter string.
+   */
   function bakeDateIntoString(parameters, datePrefix, date) {
     return parameters + "&" + datePrefix + "=" + makeDateString(date);
   }
@@ -210,6 +220,10 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
     return checkBoxes;
   }
 
+  /**
+   * Sets the dates of the filter card.
+   * @param {[]} dates the dates as array.
+   */
   function setDates(dates) {
     if (dates != null) {
       setCurrentDates({ startDate: dates[0], endDate: dates[1] });
@@ -268,6 +282,10 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
     );
   }
 
+  /**
+   * Makes the title content of the filter card.
+   * @returns the title content.
+   */
   function makeTitleContent() {
     return (
       <div className="filter-header-content">
@@ -275,7 +293,7 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
         <Close
           className={"ob-icon mdi mdi-menu"}
           fontSize="30px"
-          onClick={() => onExit()}
+          onClick={handleSubmit(cancelButton)}
         />
       </div>
     );
@@ -284,9 +302,9 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
   return (
     <div className="filter-body">
       <NormalCard
-        style={{ maxWidth: "300px" }}
         content={makeContent()}
         headerContent={makeTitleContent()}
+        extraClass="filter-card"
       />
     </div>
   );

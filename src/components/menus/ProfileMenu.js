@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import FloatingMenu from "./FloatingMenu";
-import Card from "../openBridge/Card";
 import NormalButton from "../openBridge/NormalButton";
 import Person from "@mui/icons-material/Person";
 import "../../css/profilemenu.css";
@@ -53,10 +52,10 @@ export default function ProfileMenu({ onNavigate }) {
     return (
       <div style={{ width: "100%" }}>
         <div className="profile-menu-header">USER</div>
-        <div className="profile-content">
+        <div className="profile-menu-content">
           <div>
             <Person style={{ fontSize: "72px" }} />
-            <div className="profile-name">
+            <div className="profile-menu-name">
               {user == null ? "" : user.userName}
             </div>
           </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Card from "../openBridge/Card";
 import "../../css/card.css";
+import "../../css/sessionCard.css";
 import NormalButton from "../openBridge/NormalButton";
 import TimeText from "../TimeText";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -70,8 +71,10 @@ export default function SessionCard({ session, setFunction, sessions }) {
     session.currentDate.split("T")[0];
 
   return (
-    <div>
-      <Card title={nameOfCard} content={makeContent()} />
-    </div>
+    <Card
+      title={nameOfCard}
+      content={makeContent()}
+      extraClass="session-card"
+    />
   );
 }

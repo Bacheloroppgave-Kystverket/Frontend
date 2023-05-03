@@ -18,12 +18,12 @@
   gap: 2em;
 }
 
-.button-container > h2 {
+.button-container>h2 {
   font-size: 3em;
   margin: 0;
 }
 
-.button-container > .ob-button {
+.button-container>.ob-button {
   max-width: 7em;
   width: 100%;
 }

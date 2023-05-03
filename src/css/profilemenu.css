@@ -10,7 +10,7 @@
   padding: 1em 2em;
 }
 
-.profile-name {
+.profile-menu-name {
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 400;
@@ -38,7 +38,7 @@
   margin: 0 0.5em;
 }
 
-.profile-content {
+.profile-menu-content {
   display: flex;
   flex-flow: column;
   justify-content: center;

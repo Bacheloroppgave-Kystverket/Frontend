@@ -4,7 +4,7 @@ import Card from "../openBridge/Card";
 import NormalButton from "../openBridge/NormalButton";
 import "../../css/loginCard.css";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import useClikedOn from "../../useClikedOn";
 
 export default function LoginCard({ onNavigate }) {
@@ -16,8 +16,6 @@ export default function LoginCard({ onNavigate }) {
   let [validPassword, setValidPassword] = useState(true);
   let [validUsername, setValidUsername] = useState(true);
 
-  let navigate = useNavigate();
-
   let ref = useRef();
   useClikedOn(ref, onNavigate);
 
@@ -28,8 +26,6 @@ export default function LoginCard({ onNavigate }) {
   function login(data) {
     let validUsername = checkUsername(data.username);
     let validPassword = checkPassword(data.password);
-    setValidPassword(validPassword);
-    setValidUsername(validUsername);
     if (validPassword && validUsername) {
       const requestOptions = {
         method: "POST",
@@ -58,6 +54,11 @@ export default function LoginCard({ onNavigate }) {
         .then((data) => {
           localStorage.setItem("token", data.token);
         });
+      setValidPassword(validPassword);
+      setValidUsername(validUsername);
+    } else {
+      setValidPassword(validPassword);
+      setValidUsername(validUsername);
     }
   }
 
@@ -89,7 +90,7 @@ export default function LoginCard({ onNavigate }) {
    * Makes the content of the login page.
    * @returns the content.
    */
-  function makeContent() {
+  function makeLoginContent() {
     return (
       <form className="text-fields-and-button" onSubmit={handleSubmit(login)}>
         <div className="text-fields">
@@ -136,9 +137,16 @@ export default function LoginCard({ onNavigate }) {
       </form>
     );
   }
-  return (
+  return !loginSuccessful.firstTime && loginSuccessful.loginSucess ? (
+    <Navigate replace to={"/"} />
+  ) : (
     <div className="login-card-container" ref={ref}>
-      <Card title={"LOGIN"} content={makeContent()} className="login-card" />
+      <Card
+        title={"LOGIN"}
+        content={makeLoginContent()}
+        className="login-card"
+        extraClass={"login-container"}
+      />
     </div>
   );
 }

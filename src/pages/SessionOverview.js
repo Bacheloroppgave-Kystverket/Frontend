@@ -8,7 +8,7 @@ import NormalButton from "../components/openBridge/NormalButton";
 import "../css/sessionOverview.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CheckBox from "../components/openBridge/CheckBox";
-import FilterCard from "../components/FilterCard";
+import FilterCard from "../components/cards/FilterCard";
 
 /**
  * Makes an instansce of the sessions overview.

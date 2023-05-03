@@ -1,19 +1,24 @@
 .sessions-page {
   padding: 1em 2em;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   align-items: center;
   width: max-content;
   width: 100%;
+
 }
+
 
 .sessions-page>* {
   width: 100%;
 }
 
-.sessions-page>*,
-.sessions-container>* {
-  margin: 1em 0;
+.sessions-container {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  padding: 3em 0;
+  gap: 2em;
 }
 
 .sessions-page>*:first-child,

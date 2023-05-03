@@ -7,7 +7,7 @@ import SessionOverview from "./SessionOverview";
 import Tune from "@mui/icons-material/Tune";
 import { useLocation, useNavigate } from "react-router-dom";
 import useClikedOn from "../useClikedOn";
-import FilterCard from "../components/FilterCard";
+import FilterCard from "../components/cards/FilterCard";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 
 /**
@@ -19,11 +19,6 @@ export default function Sessions() {
    * Put on top of each page. Stops the user if the token is empty.
    */
   let token = localStorage.getItem("token");
-  let navigate = useNavigate();
-  if (token == null || token == "") {
-    navigate("/login");
-  }
-  //Stops here
 
   const [sessions, setSessions] = useState([]);
 
@@ -56,6 +51,7 @@ export default function Sessions() {
     setShowFilter(false);
     console.log(newParameterString);
   }
+
   /**
    * Gets the session form the server
    */
@@ -76,7 +72,6 @@ export default function Sessions() {
         parameterString.isFilter == false
           ? "http://localhost:8080/session"
           : "http://localhost:8080/session" + "?" + parameterString.parameters;
-      console.log(parameterString.parameters + " pog");
       await fetch(path, requestOptions)
         .then((res) => {
           if (res.status === 403) {

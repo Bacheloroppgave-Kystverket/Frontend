@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "../openBridge/Card";
 
 import "../../css/profileCard.css";
@@ -8,7 +8,9 @@ import "../../css/profileCard.css";
  * @param {*} profile
  * @returns
  */
-export default function ProfileCard(profile) {
+export default function ProfileCard({ profile }) {
+  useEffect(() => {}, []);
+
   /**
    *
    * @param {*} username
