@@ -37,6 +37,7 @@ export default function BarGrap({ data, labels, prosentage }) {
               border: {
                 dash: [2, 4],
               },
+              max: prosentage ? 100 : null,
             },
           },
 

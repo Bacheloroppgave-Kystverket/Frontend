@@ -2,7 +2,7 @@
   display: flex;
   flex-flow: column wrap;
   align-items: center;
-  gap: 2em;
+  gap: 3em;
 }
 
 .sessions-page > * {

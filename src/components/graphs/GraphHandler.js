@@ -23,6 +23,7 @@ export default function GraphHandler({
   graphMap.set(3, "Polar");
   graphMap.set(4, "Radar");
   graphMap.set(5, "Area");
+
   /**
    * Makes the datasets from input.
    * @param {array} dataAsArray the data as array.
@@ -32,11 +33,10 @@ export default function GraphHandler({
   function makeDataSets(dataAsArray, labels) {
     let datasets = [];
     if (dataAsArray != null && labels != null) {
-      console.log("pog");
       for (let i = 0; i < dataAsArray.length; i++) {
         let it = dataAsArray[i].keys();
         let name = it.next().value;
-        if (prosentage) {
+        if (prosentage && dataAsArray[0].size > 1) {
           name = it.next().value;
         }
         let map = dataAsArray[i].get(name)[currentMetric];

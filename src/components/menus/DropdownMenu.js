@@ -12,7 +12,12 @@ import FloatingButtonMenu from "../buttons/FloatingButtonMenu";
  * @param {function} buttonFunction the function to change something.
  * @returns the dropdown menu.
  */
-export default function DropdownMenu({ map, currentChoise, buttonFunction }) {
+export default function DropdownMenu({
+  map,
+  currentChoise,
+  buttonFunction,
+  menuClass,
+}) {
   const [showMenu, setShowMenu] = useState(false);
   useEffect(() => {}, [currentChoise]);
 
@@ -47,7 +52,7 @@ export default function DropdownMenu({ map, currentChoise, buttonFunction }) {
   }
 
   return (
-    <div className="dropdown-button-container">
+    <div className="dropdown-button-container" style={{ position: "relative" }}>
       <NormalButton
         text={map.get(currentChoise)}
         className="dropdown-button"

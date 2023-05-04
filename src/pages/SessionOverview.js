@@ -9,6 +9,7 @@ import "../css/sessionOverview.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CheckBox from "../components/openBridge/CheckBox";
 import FilterCard from "../components/cards/FilterCard";
+import FeedbackCard from "../components/cards/FeedbackCard";
 
 /**
  * Makes an instansce of the sessions overview.
@@ -76,7 +77,7 @@ export default function SessionOverview() {
         className="compare-button"
         text="Compare"
         onClick={compareCurrentSession}
-        key={-1}
+        key={-2}
       />
     );
   }
@@ -135,12 +136,12 @@ export default function SessionOverview() {
     }
     return <div className="compare-about-section">{aboutcards}</div>;
   }
-
   return (
     <section className="session-overview-page">
       {makeButtonBar()}
       {makeAboutContent()}
       <EyeMetricsCard sessions={sessions} referencePositionId={locationId} />
+      <FeedbackCard sessions={sessions} referencePositionId={locationId} />
     </section>
   );
 }

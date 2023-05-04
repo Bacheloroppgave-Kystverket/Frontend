@@ -10,6 +10,7 @@ export default function PieGraph({ data, labels, prosentage }) {
     "rgba(153, 102, 255, 0.2)",
     "rgba(255, 159, 64, 0.2)",
   ];
+
   function addColor() {
     for (let i = 0; i < labels.length; i++) {
       for (let j = 0; j < data.length; j++) {

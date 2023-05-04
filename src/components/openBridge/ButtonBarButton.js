@@ -34,11 +34,7 @@ export default function ButtonBarButton({
   function makeButton(extraClass) {
     let classNames = "ob-toggle-button-icon__item " + extraClass;
     return (
-      <div
-        className={classNames}
-        onClick={() => buttonFunction(id)}
-        style={isVertical ? { borderRadius: "0px" } : {}}
-      >
+      <div className={classNames} onClick={() => buttonFunction(id)}>
         <div className="button-text">{nameOfbutton}</div>
       </div>
     );

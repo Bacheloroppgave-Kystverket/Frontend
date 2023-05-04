@@ -42,15 +42,15 @@ export default function ButtonBar({
     );
   }
 
-  let style = {};
-  if (isVertical) {
-    style = { display: "flex", flexFlow: "column", borderRadius: "0" };
-  }
-
   return (
     <div className="button-bar">
       <div className="ob-toggle-button-icon">
-        <div className="ob-toggle-button-icon__container" style={style}>
+        <div
+          className={
+            "ob-toggle-button-icon__container" +
+            (isVertical ? " vertical-button-bar" : "")
+          }
+        >
           {buttons}
         </div>
       </div>

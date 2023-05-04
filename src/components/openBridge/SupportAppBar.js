@@ -48,6 +48,7 @@ function SupportAppBar() {
         <div
           className="ob-sub-title"
           style={{ margin: "0", fontWeight: fontWeight }}
+          key={text}
         >
           {text}
         </div>
@@ -93,12 +94,14 @@ function SupportAppBar() {
               className={"ob-icon mdi mdi-menu"}
               onClick={() => goBack()}
               fontSize="30px"
+              key={-6}
             />
           ) : (
             <Close
               className={"ob-icon mdi mdi-menu"}
               onClick={() => goBack()}
               fontSize="30px"
+              key={-5}
             />
           )}
         </div>

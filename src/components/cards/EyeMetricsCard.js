@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import DropdownMenu from "../menus/DropdownMenu";
 import NormalCard from "../openBridge/NormalCard";
 import EyeMetricGraphCalculator from "../graphs/EyeMetricGraphCalculator";
+import Card from "../openBridge/Card";
 /**
  * Makes an instance of the metrics card.
  * @param {session} session the current session to show.
@@ -25,11 +26,14 @@ export default function EyeMetricsCard({ sessions, referencePositionId }) {
    */
   function makeBarGraph() {
     return (
-      <EyeMetricGraphCalculator
-        sessions={sessions}
-        referencePositionId={referencePositionId}
-        currentMetric={currentMetric}
-      />
+      <div className="eye-metrics-card-container">
+        {makeDropdown()}
+        <EyeMetricGraphCalculator
+          sessions={sessions}
+          referencePositionId={referencePositionId}
+          currentMetric={currentMetric}
+        />
+      </div>
     );
   }
 
@@ -56,5 +60,5 @@ export default function EyeMetricsCard({ sessions, referencePositionId }) {
     );
   }
 
-  return <NormalCard content={makeBarGraph()} headerContent={makeDropdown()} />;
+  return <Card content={makeBarGraph()} title={"current stats"} />;
 }

@@ -20,8 +20,10 @@ export default function Sessions() {
 
   const [showFilter, setShowFilter] = useState(false);
 
+  const [refreshParameter, setRefreshParameter] = useState(null);
+
   const [parameterObject, setParameterObject] = useState({
-    parameters: "",
+    parameters: refreshParameter == null ? "" : refreshParameter,
     isFilter: false,
   });
 
@@ -40,14 +42,9 @@ export default function Sessions() {
       ? []
       : location.state.sessions;
 
-  useEffect(() => {
-    getSessions();
-  }, []);
-
   function onSubmitFilter(newParameterString, isSubmit) {
     setParameterObject({ parameters: newParameterString, isFilter: isSubmit });
     setShowFilter(false);
-    console.log(newParameterString);
   }
 
   /**
@@ -76,6 +73,7 @@ export default function Sessions() {
         })
         .then((result) => {
           setSessions(result);
+          setRefreshParameter(parameterObject.parameters);
         });
     }
   }
@@ -143,6 +141,7 @@ export default function Sessions() {
       </div>
     );
   }
+
   return cookies.token == null || cookies.token == "" ? (
     <Navigate replace to={"/login"} />
   ) : (

@@ -1,32 +1,37 @@
 .floating-buttton-menu {
-    border-radius: 6px;
-    position: absolute;
-    height: fit-content;
-    width: 20em;
-    top: 5em;
-    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  height: fit-content;
+  width: 20em;
+  position: absolute;
+  top: 2em;
+  background-color: none;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.button-bar {
+  background-color: none;
 }
 
 .dropdown-button-container {
-    height: 100%;
-    display: flex;
-    position: relative
+  height: 100%;
+  display: flex;
 }
 
-
-
-
 .dropdown-button,
-.dropdown-button>* {
-    height: 100% !important;
+.dropdown-button > * {
+  height: 100% !important;
 }
 
 .button-text {
-    width: 100%;
+  width: 100%;
 }
 
-.floating-buttton-menu>.button-bar>* {
-    background-color: #FCFCFC !important;
+.floating-buttton-menu > .button-bar {
+  background-color: #fcfcfc;
+  border-radius: 6px !important;
+}
+.floating-buttton-menu > .button-bar {
+  border-radius: 6px;
 }
 
 .dropdown-button {

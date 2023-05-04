@@ -54,6 +54,7 @@ export default function ProfileMenu({ onNavigate }) {
             extraClass="bold-profile-button go-to-profile-button"
             onClick={() => {
               navigate("/profile");
+              onNavigate();
             }}
           />
         </div>

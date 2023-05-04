@@ -171,14 +171,5 @@ export default function EyeMetricGraphCalculator({
     return content;
   }
 
-  /**
-   * content = (
-          <SingleGraphHandler
-            map={
-              dataAsArray.get(referencePositionId)[0].get(key)[currentMetric]
-            }
-          />
-        );
-   */
   return makeContent();
 }

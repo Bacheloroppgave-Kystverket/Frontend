@@ -8,8 +8,10 @@ import NormalButton from "../openBridge/NormalButton";
 import { useForm } from "react-hook-form";
 import { DatePicker } from "antd";
 import useClikedOn from "../../useClikedOn";
+import { useCookies } from "react-cookie";
 const { RangePicker } = DatePicker;
 const dayjs = require("dayjs");
+const customParseFormat = require("dayjs/plugin/customParseFormat");
 
 /**
  * Makes the filter card.
@@ -19,19 +21,24 @@ const dayjs = require("dayjs");
  * @returns the filtercard.
  */
 export default function FilterCard({ onExit, setParameter, parameterString }) {
-  const [dates, setCurrentDates] = useState({
-    startDate: null,
-    endDate: null,
-  });
   const { register, handleSubmit } = useForm();
 
   const [simulationSetups, setSimulationSetups] = useState([]);
 
   const [users, setUsers] = useState([]);
 
-  let parameters = getParameters(parameterString);
+  const [parameters, setParameters] = useState(new Map());
 
+  const [dates, setCurrentDates] = useState({
+    startDate: null,
+    endDate: new Date(),
+  });
+
+  const [cookies, setCookie] = useCookies(["token"]);
+
+  dayjs.extend(customParseFormat);
   useEffect(() => {
+    getParameters(parameterString);
     getSimulationSetups();
     getUsers();
   }, []);
@@ -41,9 +48,16 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
    * @returns the parameters.
    */
   function getParameters(string) {
-    return string != null && string.length > 0
-      ? string.split("&").map((word) => word.split("=")[1])
-      : [];
+    let map = new Map();
+    if (string != null && string.length > 0) {
+      let array = string.split("&");
+      for (let i = 0; i < array.length; i++) {
+        let word = array[i];
+        let splitArray = word.split("=");
+        map.set(splitArray[0], splitArray[1]);
+      }
+    }
+    setParameters(map);
   }
 
   /**
@@ -80,7 +94,7 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
           key={i}
           className="checkbox"
           register={register}
-          isChecked={parameters.some((param) => param == user)}
+          isChecked={parameters.get(user) != null}
           registerValue={"U " + user}
         />
       );
@@ -92,48 +106,52 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
    * Gets the simulation setup from the server
    */
   async function getSimulationSetups() {
-    let rawToken = localStorage.getItem("token");
+    let rawToken = cookies.token;
     let token = "Bearer " + rawToken;
-    let requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: token,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Acess-Control-Allow-Origin": "*",
-      },
-    };
-    await fetch("http://localhost:8080/simulationSetup", requestOptions)
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        setSimulationSetups(result);
-      });
+    if (rawToken != null && rawToken != "") {
+      let requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Acess-Control-Allow-Origin": "*",
+        },
+      };
+      await fetch("http://localhost:8080/simulationSetup", requestOptions)
+        .then((res) => {
+          return res.json();
+        })
+        .then((result) => {
+          setSimulationSetups(result);
+        });
+    }
   }
 
   /**
    * Gets the simulation setup from the server
    */
   async function getUsers() {
-    let rawToken = localStorage.getItem("token");
+    let rawToken = cookies.token;
     let token = "Bearer " + rawToken;
-    let requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: token,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Acess-Control-Allow-Origin": "*",
-      },
-    };
-    await fetch("http://localhost:8080/user", requestOptions)
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        setUsers(result);
-      });
+    if (rawToken != null && rawToken != "") {
+      let requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Acess-Control-Allow-Origin": "*",
+        },
+      };
+      await fetch("http://localhost:8080/user", requestOptions)
+        .then((res) => {
+          return res.json();
+        })
+        .then((result) => {
+          setUsers(result);
+        });
+    }
   }
 
   /**
@@ -210,9 +228,7 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
           key={simulationSetup.simulationSetupId}
           className="checkbox"
           register={register}
-          isChecked={parameters.some(
-            (param) => param == simulationSetup.nameOfSetup
-          )}
+          isChecked={parameters.get(simulationSetup.nameOfSetup) != null}
           registerValue={"S " + simulationSetup.nameOfSetup}
         />
       );
@@ -230,6 +246,15 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
     }
   }
 
+  function changeFormat(string) {
+    let date = "";
+    if (string != null) {
+      let array = string.split("-");
+      date = array[1] + "/" + array[0] + "/" + array[2];
+    }
+    return date;
+  }
+
   /**
    * Makes the content of the filter card.
    * @returns the filter card.
@@ -244,8 +269,8 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
           <RangePicker
             onChange={(date) => setDates(date)}
             defaultValue={[
-              dates.startDate,
-              dates.endDate == null ? dayjs(new Date()) : dates.endDate,
+              dates.startDate == null ? null : dayjs(dates.startDate),
+              dates.endDate == null ? null : dayjs(dates.endDate),
             ]}
             format={"DD/MM/YYYY"}
           />
