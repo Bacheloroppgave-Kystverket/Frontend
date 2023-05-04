@@ -3,6 +3,7 @@ import DropdownMenu from "../menus/DropdownMenu";
 import NormalCard from "../openBridge/NormalCard";
 import EyeMetricGraphCalculator from "../graphs/EyeMetricGraphCalculator";
 import Card from "../openBridge/Card";
+import CollapseCard from "./CollapseCard";
 /**
  * Makes an instance of the metrics card.
  * @param {session} session the current session to show.
@@ -60,5 +61,5 @@ export default function EyeMetricsCard({ sessions, referencePositionId }) {
     );
   }
 
-  return <Card content={makeBarGraph()} title={"current stats"} />;
+  return <CollapseCard content={makeBarGraph()} title={"current stats"} />;
 }

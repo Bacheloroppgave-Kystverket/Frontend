@@ -6,11 +6,13 @@ import { Dropdown } from "antd";
 import DropdownButton from "antd/es/dropdown/dropdown-button";
 import DropdownMenu from "../menus/DropdownMenu";
 import "../../css/feedbackCard.css";
+import CollapseCard from "./CollapseCard";
 
 export default function FeedbackCard({ sessions, referencePositionId }) {
   const [feedback, setFeedback] = useState({
     map: new Map(),
     amountMap: new Map(),
+    firstKey: 0,
   });
 
   const [currentFeedback, setCurrentFeedback] = useState(0);
@@ -40,9 +42,10 @@ export default function FeedbackCard({ sessions, referencePositionId }) {
             currentChoise={currentFeedback}
             buttonFunction={setCurrent}
           />
+
           <GraphHandler
             dataAsArray={makeSessionUserArray(
-              feedback.map.get(currentFeedback)
+              feedback.map.get(currentFeedback).get(referencePositionId)
             )}
             currentMetric={0}
             prosentage={true}
@@ -73,47 +76,74 @@ export default function FeedbackCard({ sessions, referencePositionId }) {
    * Sorts the feedback into a datastructure that might make sense.
    */
   function sortFeedback() {
-    let lastFeedback = new Map();
+    let newFeedbackMap = new Map();
 
+    let firstPositionId = 0;
     for (let i = 0; i < sessions.length; i++) {
       let session = sessions[i];
       let key = session.sessionID + " " + session.user.userName;
       for (let x = 0; x < session.positionRecords.length; x++) {
         let record = session.positionRecords[x];
-
         for (let j = 0; j < record.adaptiveFeedbacks.length; j++) {
           let adaptiveFeedback = record.adaptiveFeedbacks[j];
 
+          if (firstPositionId == 0) {
+            firstPositionId = record.locationId;
+          }
           let positionTime = adaptiveFeedback.positionTime;
           let feedbackList = adaptiveFeedback.feedbackList;
           let feedbackMap = new Map();
           for (let f = 0; f < feedbackList.length; f++) {
+            let currentAdaptiveFeedbackMap = newFeedbackMap.get(j);
             let feedbackItem = feedbackList[f];
-            feedbackMap.set(
-              feedbackItem.trackableType,
+            let timeForFeedback = (feedbackItem.time / positionTime) * 100;
 
-              (feedbackItem.time / positionTime) * 100
-            );
-            let feed = lastFeedback.get(j);
-            if (feed == null) {
-              feed = new Map();
-              lastFeedback.set(f, feed);
+            if (currentAdaptiveFeedbackMap == null) {
+              currentAdaptiveFeedbackMap = new Map();
+              newFeedbackMap.set(f, currentAdaptiveFeedbackMap);
             }
-            feed.set(key, [feedbackMap]);
+            let positionMap = currentAdaptiveFeedbackMap.get(record.locationId);
+            if (positionMap == null) {
+              positionMap = new Map();
+              currentAdaptiveFeedbackMap.set(record.locationId, positionMap);
+            }
+            let totalPostionMap = currentAdaptiveFeedbackMap.get(-1);
+            if (totalPostionMap == null) {
+              totalPostionMap = new Map();
+              currentAdaptiveFeedbackMap.set(-1, totalPostionMap);
+            }
+            let totalDataMap = totalPostionMap.get(key);
+            if (totalDataMap == null) {
+              totalDataMap = new Map();
+              totalPostionMap.set(key, [totalDataMap]);
+            } else {
+              totalDataMap = totalDataMap[0];
+            }
+            let value =
+              totalDataMap.get(feedbackItem.trackableType) == null
+                ? timeForFeedback
+                : (totalDataMap.get(feedbackItem.trackableType) +
+                    timeForFeedback) /
+                  2;
+            totalDataMap.set(feedbackItem.trackableType, value);
+            feedbackMap.set(feedbackItem.trackableType, timeForFeedback);
+
+            positionMap.set(key, [feedbackMap]);
           }
         }
       }
     }
 
     let amountMap = new Map();
-    for (let i = 0; i < lastFeedback.size; i++) {
+    for (let i = 0; i < newFeedbackMap.size; i++) {
       amountMap.set(i, i + 1);
     }
     setFeedback({
-      map: lastFeedback,
+      map: newFeedbackMap,
+      firstKey: firstPositionId,
       amountMap: amountMap,
     });
   }
 
-  return <Card title="Feedback timeframes" content={makeContent()} />;
+  return <CollapseCard title="Feedback timeframes" content={makeContent()} />;
 }
