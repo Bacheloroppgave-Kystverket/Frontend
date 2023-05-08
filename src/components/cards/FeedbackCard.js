@@ -128,7 +128,7 @@ export default function FeedbackCard({ sessions, referencePositionId }) {
               totalMap = new Map();
               totalPostionMap.set(key, [totalMap]);
             } else {
-              totalMap = totalDataArray[0];
+              totalMap = new Map(totalDataArray[0]);
             }
 
             let value =
