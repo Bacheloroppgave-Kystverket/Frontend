@@ -31,7 +31,7 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
 
   const [dates, setCurrentDates] = useState({
     startDate: null,
-    endDate: new Date(),
+    endDate: null,
   });
 
   const [cookies, setCookie] = useCookies(["token"]);
@@ -175,7 +175,7 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
       if (shouldBeSent) {
         let array = key.split(" ");
         let parameter = "";
-        if (array[0] === "S") {
+        if (array[0] == "S") {
           parameter = "simulationSetupName";
         } else {
           parameter = "username";
@@ -242,7 +242,10 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
    */
   function setDates(dates) {
     if (dates != null) {
-      setCurrentDates({ startDate: dates[0], endDate: dates[1] });
+      setCurrentDates({
+        startDate: dates[0],
+        endDate: dates[1],
+      });
     }
   }
 
@@ -268,10 +271,6 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
           </div>
           <RangePicker
             onChange={(date) => setDates(date)}
-            defaultValue={[
-              dates.startDate == null ? null : dayjs(dates.startDate),
-              dates.endDate == null ? null : dayjs(dates.endDate),
-            ]}
             format={"DD/MM/YYYY"}
           />
         </div>

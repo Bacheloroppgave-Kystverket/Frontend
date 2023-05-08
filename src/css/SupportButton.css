@@ -3,7 +3,7 @@
   grid-template-rows: 0.8fr 1fr;
 }
 
-.support-text-holder>.ob-font-ui-subtitle {
+.support-text-holder > .ob-font-ui-subtitle {
   font-size: 12px;
   white-space: nowrap;
   text-align: center;
@@ -11,11 +11,10 @@
   height: fit-content;
 }
 
-.support-text-holder>.ob-font-ui-label {
+.support-text-holder > .ob-font-ui-label {
   text-align: center;
   line-height: initial;
 }
-
 
 .support-text-holder {
   display: grid;
@@ -33,5 +32,4 @@
 .support-logo {
   font-size: 40px;
   width: 100%;
-
 }

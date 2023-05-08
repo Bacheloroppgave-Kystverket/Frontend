@@ -21,6 +21,10 @@ export default function FeedbackCard({ sessions, referencePositionId }) {
     sortFeedback();
   }, [sessions]);
 
+  console.log(sessions[0]);
+
+  console.log(feedback.map);
+
   function setCurrent(number) {
     if (number != null) {
       setCurrentFeedback(number);
@@ -84,19 +88,25 @@ export default function FeedbackCard({ sessions, referencePositionId }) {
       let key = session.sessionID + " " + session.user.userName;
       for (let x = 0; x < session.positionRecords.length; x++) {
         let record = session.positionRecords[x];
+
         for (let j = 0; j < record.adaptiveFeedbacks.length; j++) {
           let adaptiveFeedback = record.adaptiveFeedbacks[j];
-
+          console.log(newFeedbackMap);
           if (firstPositionId == 0) {
             firstPositionId = record.locationId;
           }
           let positionTime = adaptiveFeedback.positionTime;
           let feedbackList = adaptiveFeedback.feedbackList;
+
           let feedbackMap = new Map();
           for (let f = 0; f < feedbackList.length; f++) {
-            let currentAdaptiveFeedbackMap = newFeedbackMap.get(j);
+            let currentAdaptiveFeedbackMap = newFeedbackMap.get(f);
+
             let feedbackItem = feedbackList[f];
-            let timeForFeedback = (feedbackItem.time / positionTime) * 100;
+            let timeForFeedback =
+              positionTime == 0 || feedbackItem.time == 0
+                ? 0
+                : (feedbackItem.time / positionTime) * 100;
 
             if (currentAdaptiveFeedbackMap == null) {
               currentAdaptiveFeedbackMap = new Map();
@@ -112,22 +122,26 @@ export default function FeedbackCard({ sessions, referencePositionId }) {
               totalPostionMap = new Map();
               currentAdaptiveFeedbackMap.set(-1, totalPostionMap);
             }
-            let totalDataMap = totalPostionMap.get(key);
-            if (totalDataMap == null) {
-              totalDataMap = new Map();
-              totalPostionMap.set(key, [totalDataMap]);
+            let totalDataArray = totalPostionMap.get(key);
+            let totalMap = null;
+            if (totalDataArray == null) {
+              totalMap = new Map();
+              totalPostionMap.set(key, [totalMap]);
             } else {
-              totalDataMap = totalDataMap[0];
+              totalMap = totalDataArray[0];
             }
+
             let value =
-              totalDataMap.get(feedbackItem.trackableType) == null
+              totalMap.get(feedbackItem.trackableType) == null
                 ? timeForFeedback
-                : (totalDataMap.get(feedbackItem.trackableType) +
-                    timeForFeedback) /
+                : (totalMap.get(feedbackItem.trackableType) + timeForFeedback) /
                   2;
-            totalDataMap.set(feedbackItem.trackableType, value);
+            totalMap.set(feedbackItem.trackableType, timeForFeedback);
+            console.log(totalMap);
+
             feedbackMap.set(feedbackItem.trackableType, timeForFeedback);
 
+            totalPostionMap.set(key, [totalMap]);
             positionMap.set(key, [feedbackMap]);
           }
         }

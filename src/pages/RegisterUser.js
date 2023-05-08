@@ -33,7 +33,7 @@ export default function RegisterUser() {
     if (validPassword && validUsername && validSecondPassword) {
       data["userId"] = 0;
       let user = {
-        username: data.username,
+        userName: data.username,
         userId: 0,
         password: data.password,
       };
