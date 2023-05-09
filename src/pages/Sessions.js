@@ -10,6 +10,7 @@ import useClikedOn from "../useClikedOn";
 import FilterCard from "../components/cards/FilterCard";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 import { useCookies } from "react-cookie";
+import { Button } from "antd";
 
 /**
  * Makes a page with all the sessions.
@@ -27,6 +28,8 @@ export default function Sessions() {
     isFilter: false,
   });
 
+  const navigate = useNavigate();
+
   const [cookies, setCookie] = useCookies(["token"]);
 
   let location = useLocation();
@@ -41,6 +44,7 @@ export default function Sessions() {
       : location.state.sessions == null
       ? []
       : location.state.sessions;
+  let compareMode = currentSessions != null && currentSessions.length > 0;
 
   function onSubmitFilter(newParameterString, isSubmit) {
     setParameterObject({ parameters: newParameterString, isFilter: isSubmit });
@@ -63,10 +67,22 @@ export default function Sessions() {
           "Acess-Control-Allow-Origin": "*",
         },
       };
-      let path =
-        parameterObject.isFilter == false
-          ? "http://localhost:8080/session"
-          : "http://localhost:8080/session" + "?" + parameterObject.parameters;
+      let path = "";
+
+      if (!compareMode) {
+        path =
+          parameterObject.isFilter == false
+            ? "http://localhost:8080/session"
+            : "http://localhost:8080/session" +
+              "?" +
+              parameterObject.parameters;
+      } else {
+        path =
+          "http://localhost:8080/session" +
+          "?simulationSetupName=" +
+          currentSessions[0].simulationSetup.nameOfSetup;
+      }
+
       await fetch(path, requestOptions)
         .then((res) => {
           return res.json();
@@ -105,10 +121,31 @@ export default function Sessions() {
       }
       if (cards.length === 0) {
         let itemToadd;
-        if (currentSessions.length > 1) {
-          itemToadd = <p key={"error"}>No sessions left to compare against</p>;
+        if (currentSessions.length > 0 && compareMode) {
+          itemToadd = (
+            <div>
+              <p key={"error"} className="sessions-error-text">
+                No sessions left to compare against
+              </p>
+              <NormalButton
+                text={"Back to session overview"}
+                className="back-to-session-overview"
+                onClick={() => {
+                  navigate("/session/overview", {
+                    state: {
+                      sessions: currentSessions,
+                    },
+                  });
+                }}
+              />
+            </div>
+          );
         } else {
-          itemToadd = <p key={"error"}>No sessions matched your search</p>;
+          itemToadd = (
+            <p key={"error"} className="sessions-error-text">
+              No sessions matched your search
+            </p>
+          );
         }
         cards.push(itemToadd);
       }
@@ -134,6 +171,7 @@ export default function Sessions() {
             onExit={() => setShowFilter(!showFilter)}
             setParameter={onSubmitFilter}
             parameterString={parameterObject.parameters}
+            isCompare={compareMode}
           />
         ) : (
           <></>

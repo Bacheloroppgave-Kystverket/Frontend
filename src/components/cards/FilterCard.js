@@ -20,7 +20,12 @@ const customParseFormat = require("dayjs/plugin/customParseFormat");
  * @param {string} parameterString the parameters as string.
  * @returns the filtercard.
  */
-export default function FilterCard({ onExit, setParameter, parameterString }) {
+export default function FilterCard({
+  onExit,
+  setParameter,
+  parameterString,
+  isCompare,
+}) {
   const { register, handleSubmit } = useForm();
 
   const [simulationSetups, setSimulationSetups] = useState([]);
@@ -230,6 +235,7 @@ export default function FilterCard({ onExit, setParameter, parameterString }) {
           register={register}
           isChecked={parameters.get(simulationSetup.nameOfSetup) != null}
           registerValue={"S " + simulationSetup.nameOfSetup}
+          disabled={isCompare}
         />
       );
     }

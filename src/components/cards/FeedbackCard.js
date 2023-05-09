@@ -21,10 +21,6 @@ export default function FeedbackCard({ sessions, referencePositionId }) {
     sortFeedback();
   }, [sessions]);
 
-  console.log(sessions[0]);
-
-  console.log(feedback.map);
-
   function setCurrent(number) {
     if (number != null) {
       setCurrentFeedback(number);
@@ -57,6 +53,11 @@ export default function FeedbackCard({ sessions, referencePositionId }) {
         </div>
       );
     }
+    /*
+    makeSessionUserArray(
+              feedback.map.get(currentFeedback).get(referencePositionId)
+            )
+    */
     return loading;
   }
 
@@ -80,83 +81,122 @@ export default function FeedbackCard({ sessions, referencePositionId }) {
    * Sorts the feedback into a datastructure that might make sense.
    */
   function sortFeedback() {
-    let newFeedbackMap = new Map();
-
-    let firstPositionId = 0;
+    let map = new Map();
+    let firstPositionId = -2;
     for (let i = 0; i < sessions.length; i++) {
       let session = sessions[i];
       let key = session.sessionID + " " + session.user.userName;
-      for (let x = 0; x < session.positionRecords.length; x++) {
-        let record = session.positionRecords[x];
 
-        for (let j = 0; j < record.adaptiveFeedbacks.length; j++) {
-          let adaptiveFeedback = record.adaptiveFeedbacks[j];
-          console.log(newFeedbackMap);
-          if (firstPositionId == 0) {
-            firstPositionId = record.locationId;
-          }
-          let positionTime = adaptiveFeedback.positionTime;
-          let feedbackList = adaptiveFeedback.feedbackList;
+      let amountOfFeedbacks =
+        session.positionRecords[0].adaptiveFeedbacks.length;
+      let positionRecordsAmount = session.positionRecords.length;
 
-          let feedbackMap = new Map();
-          for (let f = 0; f < feedbackList.length; f++) {
-            let currentAdaptiveFeedbackMap = newFeedbackMap.get(f);
+      for (let x = 0; x < positionRecordsAmount; x++) {
+        let postionRecord = session.positionRecords[x];
+        let locationId = postionRecord.locationId;
+        if (firstPositionId == -2) {
+          firstPositionId = locationId;
+        }
+        for (let y = 0; y < amountOfFeedbacks; y++) {
+          let adaptiveFeedback = postionRecord.adaptiveFeedbacks[y];
+          let mapOfFeedback = convertToProsentage(
+            adaptiveFeedback.feedbackList,
+            adaptiveFeedback.positionTime
+          );
+          let currentFeedbackMap = getAndMakeMap(map, y);
 
-            let feedbackItem = feedbackList[f];
-            let timeForFeedback =
-              positionTime == 0 || feedbackItem.time == 0
-                ? 0
-                : (feedbackItem.time / positionTime) * 100;
-
-            if (currentAdaptiveFeedbackMap == null) {
-              currentAdaptiveFeedbackMap = new Map();
-              newFeedbackMap.set(f, currentAdaptiveFeedbackMap);
-            }
-            let positionMap = currentAdaptiveFeedbackMap.get(record.locationId);
-            if (positionMap == null) {
-              positionMap = new Map();
-              currentAdaptiveFeedbackMap.set(record.locationId, positionMap);
-            }
-            let totalPostionMap = currentAdaptiveFeedbackMap.get(-1);
-            if (totalPostionMap == null) {
-              totalPostionMap = new Map();
-              currentAdaptiveFeedbackMap.set(-1, totalPostionMap);
-            }
-            let totalDataArray = totalPostionMap.get(key);
-            let totalMap = null;
-            if (totalDataArray == null) {
-              totalMap = new Map();
-              totalPostionMap.set(key, [totalMap]);
-            } else {
-              totalMap = new Map(totalDataArray[0]);
-            }
-
-            let value =
-              totalMap.get(feedbackItem.trackableType) == null
-                ? timeForFeedback
-                : (totalMap.get(feedbackItem.trackableType) + timeForFeedback) /
-                  2;
-            totalMap.set(feedbackItem.trackableType, timeForFeedback);
-            console.log(totalMap);
-
-            feedbackMap.set(feedbackItem.trackableType, timeForFeedback);
-
-            totalPostionMap.set(key, [totalMap]);
-            positionMap.set(key, [feedbackMap]);
-          }
+          let posMap = getAndMakeMap(currentFeedbackMap, locationId);
+          posMap.set(key, [mapOfFeedback]);
         }
       }
     }
-
+    findTotalPerPosition(map);
     let amountMap = new Map();
-    for (let i = 0; i < newFeedbackMap.size; i++) {
+    for (let i = 0; i < map.size; i++) {
       amountMap.set(i, i + 1);
     }
     setFeedback({
-      map: newFeedbackMap,
+      map: map,
       firstKey: firstPositionId,
       amountMap: amountMap,
     });
+  }
+
+  /**
+   * Finds the total for all the positons.
+   * @param {*} map the total for all the positons per person.
+   */
+  function findTotalPerPosition(map) {
+    let finalMap = [];
+    for (let posKey of map.keys()) {
+      let positionMap = map.get(posKey);
+      let totalMap = new Map();
+      for (let position of positionMap.keys()) {
+        let userData = positionMap.get(position);
+        for (let userKey of userData.keys()) {
+          totalMap.set(
+            userKey,
+            totalMap.get(userKey) == null
+              ? userData.get(userKey)
+              : addTwoMetricMaps(
+                  userData.get(userKey)[0],
+                  totalMap.get(userKey)[0]
+                )
+          );
+        }
+      }
+      positionMap.set(-1, totalMap);
+      finalMap.push(totalMap);
+    }
+  }
+
+  /**
+   * Adds two metrics maps and returns the array in a an array.
+   * @param {*} map1 the first map.
+   * @param {*} map2 the second map.
+   * @returns the new array with the map in it.
+   */
+  function addTwoMetricMaps(map1, map2) {
+    let newMap = new Map();
+    for (let key of map1.keys()) {
+      let map1Value = map1.get(key);
+      let map2Value = map2.get(key);
+      newMap.set(key, (map1Value + map2Value) / 2);
+    }
+    return [newMap];
+  }
+
+  /**
+   * Converts the arrat to a prosentage map.
+   * @param {*} array the array of objects.
+   * @param {*} totalTime the total time of the position.
+   * @returns the map that represents the feedback.
+   */
+  function convertToProsentage(array, totalTime) {
+    let newMap = new Map();
+    for (let i = 0; i < array.length; i++) {
+      let object = array[i];
+      newMap.set(
+        object.trackableType,
+        totalTime == 0 ? 0 : (object.time / totalTime) * 100
+      );
+    }
+    return newMap;
+  }
+
+  /**
+   * Gets a map from another map. If the map is not present a new map is made.
+   * @param {*} mapToGetValue the map to get the value from.
+   * @param {*} key the key.
+   * @returns the stored map or new map.
+   */
+  function getAndMakeMap(mapToGetValue, key) {
+    let map = mapToGetValue.get(key);
+    if (map == null) {
+      map = new Map();
+      mapToGetValue.set(key, map);
+    }
+    return map;
   }
 
   return <CollapseCard title="Feedback timeframes" content={makeContent()} />;

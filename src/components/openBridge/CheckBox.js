@@ -8,6 +8,7 @@ export default function CheckBox({
   isChecked,
   register,
   registerValue,
+  disabled,
 }) {
   let styles = {};
 
@@ -31,6 +32,7 @@ export default function CheckBox({
         style={{ padding: "10px", fontWeight: "600" }}
         {...register(registerValue)}
         checked={checked}
+        disabled={disabled}
       />
       <label htmlFor={id}>{title}</label>
     </div>

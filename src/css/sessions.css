@@ -5,11 +5,13 @@
   align-items: center;
   width: max-content;
   width: 100%;
-
 }
 
+.sessions-error-text {
+  font-size: 2em;
+}
 
-.sessions-page>* {
+.sessions-page > * {
   width: 100%;
 }
 
@@ -21,8 +23,8 @@
   gap: 2em;
 }
 
-.sessions-page>*:first-child,
-.sessions-page> :last-child {
+.sessions-page > *:first-child,
+.sessions-page > :last-child {
   margin-top: 0;
 }
 
