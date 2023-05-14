@@ -24,8 +24,7 @@
     "react-hook-form": "^7.43.9",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
-    "react-router-dom": "^6.10.0",
-    "source-map-loader": "^1.0.0"
+    "react-router-dom": "^6.10.0"
   },
   "scripts": {
     "start": "react-scripts start",
