@@ -5,7 +5,6 @@ import NormalTextField from "../components/input/NormalTextField";
 import { Navigate, useNavigate } from "react-router-dom";
 import NormalButton from "../components/openBridge/NormalButton";
 import { useForm } from "react-hook-form";
-import axios, { Axios } from "axios";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 
 /**
