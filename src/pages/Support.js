@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import Search from "@mui/icons-material/Search";
 import { useCookies } from "react-cookie";
+import { host } from "../App";
 
 export default function Support() {
   const [supportCategories, setSupportCategories] = useState([]);
@@ -48,7 +49,7 @@ export default function Support() {
           "Content-Type": "application/json",
         },
       };
-      await fetch("http://localhost:8080/supportCategory", requestOptions)
+      await fetch(host + "/supportCategory", requestOptions)
         .then((res) => {
           return res.json();
         })
