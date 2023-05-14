@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NormalButton from "../components/openBridge/NormalButton";
-import "./login.css";
+import "../css/login.css";
 import Logo from "../boat_logo.png";
 import NormalTextField from "../components/input/NormalTextField";
 import { Navigate, useNavigate } from "react-router-dom";

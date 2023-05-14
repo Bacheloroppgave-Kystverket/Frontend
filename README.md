@@ -1,3 +1,27 @@
+# Information
+
+This is part of a bachelor thesis done by the authors in 2023.
+
+# Setting up website
+
+The website can be run in two modes. Either development mode or production mode.
+
+## Common steps
+
+Before running the react application at all it needs to be installed
+
+### "npm install"
+
+## Production
+
+In order to run the production build a server must firstly be installed.
+
+### npm install -g serve
+
+After this is installed the server needs to be run.
+
+### serve -s build
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

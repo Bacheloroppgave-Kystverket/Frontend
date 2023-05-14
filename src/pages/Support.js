@@ -2,7 +2,7 @@ import React from "react";
 import NormalTextField from "../components/input/NormalTextField";
 import NormalButton from "../components/openBridge/NormalButton";
 import SupportButton from "../components/openBridge/SupportButton";
-import "./support.css";
+import "../css/support.css";
 import { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import Search from "@mui/icons-material/Search";

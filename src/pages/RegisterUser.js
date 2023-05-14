@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Logo from "../boat_logo.png";
-import "./registerUser.css";
+import "../css/registerUser.css";
 import NormalTextField from "../components/input/NormalTextField";
 import { Navigate, useNavigate } from "react-router-dom";
 import NormalButton from "../components/openBridge/NormalButton";
