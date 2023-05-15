@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProfileCard from "../components/cards/ProfileCard";
 import { useCookies } from "react-cookie";
 import { Navigate } from "react-router-dom";
+import { host } from "../App";
 
 export default function UserProfile() {
   const [cookies, setCookie] = useCookies(["token"]);
@@ -58,7 +59,7 @@ export default function UserProfile() {
           "Content-Type": "application/json",
         },
       };
-      await fetch("http://localhost:8080/user/me", requestOptions)
+      await fetch(host + "/user/me", requestOptions)
         .then((res) => {
           return res.json();
         })

@@ -8,6 +8,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import useClikedOn from "../../useClikedOn";
 import jwt_decode from "jwt-decode";
 import { useCookies } from "react-cookie";
+import { host } from "../../App";
 
 /**
  * Makes a login card that navigates to home page
@@ -45,7 +46,7 @@ export default function LoginCard({ onNavigate }) {
         },
         body: JSON.stringify(data),
       };
-      fetch("http://localhost:8080/authenticate", requestOptions)
+      fetch(host + "/authenticate", requestOptions)
         .then((response) => {
           if (response.status == 200) {
             setLoginSucessufl({

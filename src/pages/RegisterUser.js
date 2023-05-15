@@ -6,6 +6,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import NormalButton from "../components/openBridge/NormalButton";
 import { useForm } from "react-hook-form";
 import { faL } from "@fortawesome/free-solid-svg-icons";
+import { host } from "../App";
 
 /**
  *
@@ -45,22 +46,20 @@ export default function RegisterUser() {
         },
         body: JSON.stringify(user),
       };
-      await fetch("http://localhost:8080/user/register", requestOptions).then(
-        (resp) => {
-          if (resp.status == 200) {
-            console.log("ok");
-            setRegisterUser({
-              firstTime: false,
-              registerSuccess: true,
-            });
-          } else {
-            setRegisterUser({
-              firstTime: false,
-              registerSuccess: false,
-            });
-          }
+      await fetch(host + "/user/register", requestOptions).then((resp) => {
+        if (resp.status == 200) {
+          console.log("ok");
+          setRegisterUser({
+            firstTime: false,
+            registerSuccess: true,
+          });
+        } else {
+          setRegisterUser({
+            firstTime: false,
+            registerSuccess: false,
+          });
         }
-      );
+      });
       setValidPassword(validPassword);
       setValidUsername(validName);
       setValidSecondPassword(validSecondPassword);

@@ -14,6 +14,10 @@ Before running the react application at all it needs to be installed
 
 ## Production
 
+In order to build the production build this command has to be run.
+
+### npm run build
+
 In order to run the production build a server must firstly be installed.
 
 ### npm install -g serve

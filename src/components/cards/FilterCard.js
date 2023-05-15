@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { DatePicker } from "antd";
 import useClikedOn from "../../useClikedOn";
 import { useCookies } from "react-cookie";
+import { host } from "../../App";
 const { RangePicker } = DatePicker;
 const dayjs = require("dayjs");
 const customParseFormat = require("dayjs/plugin/customParseFormat");
@@ -123,7 +124,7 @@ export default function FilterCard({
           "Acess-Control-Allow-Origin": "*",
         },
       };
-      await fetch("http://localhost:8080/simulationSetup", requestOptions)
+      await fetch(host + "/simulationSetup", requestOptions)
         .then((res) => {
           return res.json();
         })
@@ -149,7 +150,7 @@ export default function FilterCard({
           "Acess-Control-Allow-Origin": "*",
         },
       };
-      await fetch("http://localhost:8080/user", requestOptions)
+      await fetch(host + "/user", requestOptions)
         .then((res) => {
           return res.json();
         })

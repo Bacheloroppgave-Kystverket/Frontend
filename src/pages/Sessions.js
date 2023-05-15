@@ -11,6 +11,7 @@ import FilterCard from "../components/cards/FilterCard";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 import { useCookies } from "react-cookie";
 import { Button } from "antd";
+import { host } from "../App";
 
 /**
  * Makes a page with all the sessions.
@@ -72,10 +73,8 @@ export default function Sessions() {
       if (!compareMode) {
         path =
           parameterObject.isFilter == false
-            ? "http://localhost:8080/session"
-            : "http://localhost:8080/session" +
-              "?" +
-              parameterObject.parameters;
+            ? host + "/session"
+            : host + "/session" + "?" + parameterObject.parameters;
       } else {
         path =
           "http://localhost:8080/session" +
