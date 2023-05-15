@@ -9,6 +9,11 @@ import useClikedOn from "../../useClikedOn";
 import jwt_decode from "jwt-decode";
 import { useCookies } from "react-cookie";
 
+/**
+ * Makes a login card that navigates to home page
+ * @param {onNavigate} onNavigate navigate to 
+ * @returns a login card
+ */
 export default function LoginCard({ onNavigate }) {
   let { register, handleSubmit } = useForm();
   let [loginObject, setLoginSucessufl] = useState({

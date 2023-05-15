@@ -1,6 +1,13 @@
 import React from "react";
 import { Radar } from "react-chartjs-2";
 
+/**
+ * Makes radar graph
+ * @param {data} data data to be shown on graph
+ * @param {labels} labels labels to see on graph
+ * @param {int} prosentage the percentage of the graph values
+ * @returns radar graph
+ */
 export default function RadarGraph({ data, labels, prosentage }) {
   return (
     <Radar

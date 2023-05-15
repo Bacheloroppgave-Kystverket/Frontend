@@ -8,6 +8,12 @@ import DropdownMenu from "../menus/DropdownMenu";
 import "../../css/feedbackCard.css";
 import CollapseCard from "./CollapseCard";
 
+/**
+ * Makes a feedback card
+ * @param {sessions} sessions sessions to get feedback from 
+ * @param {Long} referencePositionId id of reference position
+ * @returns a feedback card
+ */
 export default function FeedbackCard({ sessions, referencePositionId }) {
   const [feedback, setFeedback] = useState({
     map: new Map(),
@@ -21,6 +27,10 @@ export default function FeedbackCard({ sessions, referencePositionId }) {
     sortFeedback();
   }, [sessions]);
 
+  /**
+   * Sets the current number
+   * @param {number} number 
+   */
   function setCurrent(number) {
     if (number != null) {
       setCurrentFeedback(number);

@@ -5,10 +5,17 @@ import PieGraph from "./PieGraph";
 import DropdownMenu from "../menus/DropdownMenu";
 import ButtonBar from "../openBridge/ButtonBar";
 import BarGrap from "./BarGraph";
-import PloarGraph from "./PloarGraph";
+import { PloarGraph } from "./PloarGraph";
 import RadarGraph from "./RadarGraph";
 import AreaGraph from "./AreaGraph";
 
+/**
+ * Makes a handler for the graph
+ * @param {data} data data to be shown on graph
+ * @param {labels} labels labels to see on graph
+ * @param {int} prosentage the percentage of the graph values
+ * @returns graph handler
+ */
 export default function GraphHandler({
   dataAsArray,
   currentMetric,
@@ -140,6 +147,10 @@ export default function GraphHandler({
     return graph;
   }
 
+  /**
+   * Changes graph value according to the choice user makes
+   * @param {value} value graph to be set
+   */
   function changeGraph(value) {
     setGraphChoise(value);
   }

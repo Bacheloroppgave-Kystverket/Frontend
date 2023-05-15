@@ -3,6 +3,13 @@ import { Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import Chart from "chart.js/auto";
 
+/**
+ * Makes a bar graph
+ * @param {data} data the data to be shown on graph
+ * @param {labels} labels the labels to see on graph
+ * @param {int} prosentage the percentage of the graph values
+ * @returns bar graph
+ */
 export default function BarGrap({ data, labels, prosentage }) {
   Chart.register(ChartDataLabels);
   return (

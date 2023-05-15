@@ -9,7 +9,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 /**
  * Makes a session card.
  * @param {session} session the session to make a card of.
- * @param {setFunction} setFunction the set session function.
+ * @param {function} setFunction the set session function.
  * @param {session} sessions the current sessions
  * @returns the session card.
  */
@@ -40,6 +40,9 @@ export default function SessionCard({ session, setFunction, sessions }) {
       });
     }
 
+    /**
+     * Opens compare session
+     */
     function onOpenComparesession() {
       sessions.push(session);
       navigate("/session/overview", {

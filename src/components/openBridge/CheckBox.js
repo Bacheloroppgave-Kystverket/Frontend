@@ -1,5 +1,17 @@
 import React, { useState } from "react";
 
+/**
+ * Makes a checkbox
+ * @param {float} id id of the checkbox
+ * @param {string} title a title for the checkbox
+ * @param {string} name name of checkbox
+ * @param {function} handleChange handles changes
+ * @param {boolean} isChecked true if it is checked
+ * @param {register} register 
+ * @param {registerValue} registerValue registers value
+ * @param {boolean} disabled checks if checkbox is disabled
+ * @returns checkbox
+ */
 export default function CheckBox({
   id,
   title,
