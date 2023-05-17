@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import SessionCard from "../components/cards/SessionCard";
 import { useEffect, useState } from "react";
 import NormalButton from "../components/openBridge/NormalButton";
@@ -23,6 +23,8 @@ export default function Sessions() {
   const [showFilter, setShowFilter] = useState(false);
 
   const [refreshParameter, setRefreshParameter] = useState(null);
+
+  const [loadingRef, setLoadingRef] = useState(false);
 
   const [parameterObject, setParameterObject] = useState({
     parameters: refreshParameter == null ? "" : refreshParameter,
@@ -77,11 +79,13 @@ export default function Sessions() {
             : host + "/session" + "?" + parameterObject.parameters;
       } else {
         path =
-          "http://localhost:8080/session" +
+          host +
+          "/session" +
           "?simulationSetupName=" +
           currentSessions[0].simulationSetup.nameOfSetup;
       }
 
+      setLoadingRef(true);
       await fetch(path, requestOptions)
         .then((res) => {
           return res.json();
@@ -89,6 +93,7 @@ export default function Sessions() {
         .then((result) => {
           setSessions(result);
           setRefreshParameter(parameterObject.parameters);
+          setLoadingRef(false);
         });
     }
   }
@@ -118,7 +123,7 @@ export default function Sessions() {
           cards.push(sessionCard);
         }
       }
-      if (cards.length === 0) {
+      if (cards.length === 0 && !loadingRef) {
         let itemToadd;
         if (currentSessions.length > 0 && compareMode) {
           itemToadd = (
@@ -147,6 +152,13 @@ export default function Sessions() {
           );
         }
         cards.push(itemToadd);
+      } else if (loadingRef) {
+        let loading = (
+          <p key={"error"} className="sessions-error-text">
+            Loading sessions
+          </p>
+        );
+        cards.push(loading);
       }
     }
     return cards;
