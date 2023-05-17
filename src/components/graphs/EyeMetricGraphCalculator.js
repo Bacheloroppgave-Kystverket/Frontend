@@ -106,6 +106,11 @@ export default function EyeMetricGraphCalculator({
     return sessionMap;
   }
 
+  /**
+   * Calculates the prosentage of the diffrent categories for each person.
+   * @param {*} map the map.
+   * @returns the new map with prosentages.
+   */
   function calculateProsentage(map) {
     let it = map.keys();
     let key = it.next().value;

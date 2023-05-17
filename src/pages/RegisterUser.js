@@ -9,8 +9,8 @@ import { faL } from "@fortawesome/free-solid-svg-icons";
 import { host } from "../App";
 
 /**
- *
- * @returns
+ * Makes a register user page.
+ * @returns register user page.
  */
 export default function RegisterUser() {
   let navigate = useNavigate();
@@ -24,6 +24,10 @@ export default function RegisterUser() {
   let [validSecondPassword, setValidSecondPassword] = useState(true);
   let [validUsername, setValidUsername] = useState(true);
 
+  /**
+   * Makes a user if the input form data is valid.
+   * @param {*} data the form data.
+   */
   async function makeUser(data) {
     let validName = checkUsername(data.username);
     let validPassword = checkPassword(data.password);
@@ -94,6 +98,10 @@ export default function RegisterUser() {
     return regrex.test(password);
   }
 
+  /**
+   * Makes the register user page.
+   * @returns the content.
+   */
   function makeRegisterUserPage() {
     return (
       <form className="register-container" onSubmit={handleSubmit(makeUser)}>

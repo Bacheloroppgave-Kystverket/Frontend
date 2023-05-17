@@ -98,6 +98,10 @@ export default function Sessions() {
     }
   }
 
+  /**
+   * Makes the session cards.
+   * @returns the session cards.
+   */
   function makeSessionCards() {
     let cards = [];
     if (currentSessions != null) {
@@ -164,6 +168,10 @@ export default function Sessions() {
     return cards;
   }
 
+  /**
+   * Makes the normal content of the page if there is session cards.
+   * @returns the nomral content.
+   */
   function makeNormalContent() {
     return (
       <div className="sessions-page">

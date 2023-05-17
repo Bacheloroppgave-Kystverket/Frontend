@@ -5,6 +5,12 @@ import Expand from "@mui/icons-material/ExpandLess";
 import { useState } from "react";
 import RotateIcon from "../RotateIcon";
 
+/**
+ * Makes a collapsable card.
+ * @param {html} content the content of the collapseable card.
+ * @param {string} title the title.
+ * @returns the collapse card.
+ */
 export default function CollapseCard({ content, title }) {
   const [open, setOpen] = useState(true);
 

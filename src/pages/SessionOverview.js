@@ -29,6 +29,10 @@ export default function SessionOverview() {
     setSessions(newSessions);
   }, []);
 
+  /**
+   * Switches the location id.
+   * @param {*} id the id.
+   */
   function switchLocationId(id) {
     setLocationId(id);
   }

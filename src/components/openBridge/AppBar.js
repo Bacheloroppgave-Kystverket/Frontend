@@ -52,6 +52,9 @@ function AppBar() {
     }
   }
 
+  /**
+   * Toggles the menu.
+   */
   function toggleMenu() {
     setMenu(!menu);
   }

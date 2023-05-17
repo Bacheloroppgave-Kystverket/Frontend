@@ -8,7 +8,7 @@ import NormalButton from "../openBridge/NormalButton";
  * @param {*} content content that should be inside the floating menu
  * @param {*} extraClass the extra class in the floating menu
  * @param {*} reference reference to a floating menu
- * @returns 
+ * @returns the floating menu.
  */
 export default function FloatingMenu({
   width,

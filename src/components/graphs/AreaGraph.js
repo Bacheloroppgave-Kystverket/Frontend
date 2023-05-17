@@ -6,7 +6,7 @@ import { Line } from "react-chartjs-2";
  * @param {data} data data to be shown on graph
  * @param {labels} labels labels to see on graph
  * @param {int} prosentage the percentage of the graph values
- * @returns 
+ * @returns the area graph
  */
 export default function AreaGraph({ data, labels, prosentage }) {
   /**

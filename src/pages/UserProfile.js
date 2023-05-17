@@ -4,6 +4,10 @@ import { useCookies } from "react-cookie";
 import { Navigate } from "react-router-dom";
 import { host } from "../App";
 
+/**
+ * Makes the user profile page.
+ * @returns the user profile.
+ */
 export default function UserProfile() {
   const [cookies, setCookie] = useCookies(["token"]);
   useEffect(() => {

@@ -9,6 +9,10 @@ import Search from "@mui/icons-material/Search";
 import { useCookies } from "react-cookie";
 import { host } from "../App";
 
+/**
+ * Makes the support page.
+ * @returns the support page.
+ */
 export default function Support() {
   const [supportCategories, setSupportCategories] = useState([]);
   const navigate = useNavigate();
@@ -73,10 +77,6 @@ export default function Support() {
         />
       );
     });
-  }
-
-  function handleChange(pepe) {
-    console.log("pog");
   }
 
   /**
