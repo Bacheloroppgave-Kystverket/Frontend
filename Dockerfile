@@ -1,4 +1,4 @@
-FROM node:16-alpine                                       Dockerfile                                                    FROM node:16-alpine
+FROM node:16-alpine
 
 WORKDIR /Frontend
 
