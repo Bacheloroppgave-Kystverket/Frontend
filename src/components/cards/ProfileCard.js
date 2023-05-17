@@ -6,8 +6,8 @@ import TimeText from "../TimeText";
 
 /**
  * Makes an profile card that show the profile to an user.
- * @param {*} user the user
- * @param {*} sessions the sessions.
+ * @param {user} user the user
+ * @param {sessions} sessions array of the sessions
  * @returns the profile card
  */
 export default function ProfileCard({ user, sessions }) {

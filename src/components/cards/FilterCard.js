@@ -256,6 +256,11 @@ export default function FilterCard({
     }
   }
 
+  /**
+   * Changes the format from string to date
+   * @param {string} text  
+   * @returns a date
+   */
   function changeFormat(string) {
     let date = "";
     if (string != null) {

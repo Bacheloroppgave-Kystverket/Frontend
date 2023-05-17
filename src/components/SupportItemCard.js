@@ -1,6 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Makes support item card
+ * @param {supportItem} supportItem support item
+ * @param {supportCategory} supportCategory support category
+ * @param {Array} supportCategoryArray array of support categories
+ * @returns the support item card
+ */
 export default function SupportitemCard({
   supportItem,
   supportCategory,
