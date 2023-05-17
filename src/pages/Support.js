@@ -90,7 +90,6 @@ export default function Support() {
           <NormalTextField
             id="search-bar"
             placeholder={"Search"}
-            handleChange={handleChange}
             style={{ display: "flex", justifyContent: "center" }}
           />
           <Search fontSize="30px" id="search-icon" />

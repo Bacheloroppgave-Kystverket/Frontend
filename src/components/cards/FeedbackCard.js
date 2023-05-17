@@ -10,7 +10,7 @@ import CollapseCard from "./CollapseCard";
 
 /**
  * Makes a feedback card
- * @param {sessions} sessions sessions to get feedback from 
+ * @param {sessions} sessions sessions to get feedback from
  * @param {Long} referencePositionId id of reference position
  * @returns a feedback card
  */
@@ -29,7 +29,7 @@ export default function FeedbackCard({ sessions, referencePositionId }) {
 
   /**
    * Sets the current number
-   * @param {number} number 
+   * @param {number} number
    */
   function setCurrent(number) {
     if (number != null) {
@@ -63,11 +63,6 @@ export default function FeedbackCard({ sessions, referencePositionId }) {
         </div>
       );
     }
-    /*
-    makeSessionUserArray(
-              feedback.map.get(currentFeedback).get(referencePositionId)
-            )
-    */
     return loading;
   }
 

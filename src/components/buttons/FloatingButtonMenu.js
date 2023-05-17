@@ -4,10 +4,10 @@ import useClikedOn from "../../useClikedOn";
 
 /**
  * Makes a floatin button menu
- * @param {map} map 
+ * @param {map} map
  * @param {currentChoise} currentChoice
  * @param {toggleFunction} toggleFunction
- * @returns 
+ * @returns
  */
 export default function FloatingButtonMenu({
   map,
