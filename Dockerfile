@@ -1,14 +1,13 @@
-FROM node:16-alpine 
+FROM node:16-alpine                                       Dockerfile                                                    FROM node:16-alpine
 
-WORKDIR /app
+WORKDIR /Frontend
 
 COPY package.json
 
-COPY . ./
-
 RUN npm install
-RUN npm run build
 
-EXPOSE 3000
+COPY . /app
+
+RUN npm run build
 
 CMD ["serve", "-s", "build"]
