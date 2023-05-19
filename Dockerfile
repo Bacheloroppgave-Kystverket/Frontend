@@ -1,12 +1,13 @@
 FROM node:16-alpine
 
-WORKDIR /Frontend
+WORKDIR /build
 
-COPY package.json
+COPY package.json .
+COPY package-lock.json .
 
 RUN npm install
 
-COPY . /app
+COPY . .
 
 RUN npm run build
 
