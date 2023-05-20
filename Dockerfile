@@ -1,13 +1,16 @@
 FROM node:16-alpine
 
-WORKDIR /Frontend
+WORKDIR /build
 
-COPY package.json
+COPY package.json .
+COPY package-lock.json .
 
 RUN npm install
 
-COPY . /app
+COPY . .
 
 RUN npm run build
+
+RUN npm install -g serve
 
 CMD ["serve", "-s", "build"]
