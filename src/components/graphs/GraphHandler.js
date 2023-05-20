@@ -26,7 +26,7 @@ export default function GraphHandler({
   let graphMap = new Map();
   graphMap.set(0, "Bar");
   graphMap.set(1, "Pie");
-  graphMap.set(2, "Donught");
+  graphMap.set(2, "Donut");
   graphMap.set(3, "Polar");
   graphMap.set(4, "Radar");
   graphMap.set(5, "Area");
@@ -108,6 +108,10 @@ export default function GraphHandler({
     return array;
   }
 
+  /**
+   * Chooses the correct graph.
+   * @returns the graph.
+   */
   function findGraph() {
     let labels = getLabels(dataAsArray);
     let data = makeDataSets(dataAsArray, labels);

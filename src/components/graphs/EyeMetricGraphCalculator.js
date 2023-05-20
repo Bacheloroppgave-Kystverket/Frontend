@@ -55,6 +55,7 @@ export default function EyeMetricGraphCalculator({
     var fixationsMap = new Map();
     var fixationDurationMap = new Map();
     var averageFixationMap = new Map();
+    console.log(session);
     for (var trackableRecord of trackableRecords) {
       var trackableObjectId = trackableRecord.trackableObjectId;
       var trackableObject = findTrackableObjectWithId(
@@ -97,13 +98,50 @@ export default function EyeMetricGraphCalculator({
       fixationDurationMap,
       averageFixationMap,
     ]);
+    let positionTime = getReferencePositonRecordTime(
+      session,
+      referencePositionId
+    );
+    console.log(positionTime);
     sessionMap.set(session.sessionID + " by " + session.user.userName + " ", [
-      calculateProsentage(fixationsMap),
-      calculateProsentage(fixationDurationMap),
-      calculateProsentage(averageFixationMap),
+      calculateProsentage(fixationsMap, 0),
+      calculateProsentage(fixationDurationMap, positionTime),
+      calculateProsentage(averageFixationMap, 0),
     ]);
 
     return sessionMap;
+  }
+
+  /**
+   * Gets the reference position time.
+   * @param {*} session the session itself.
+   * @param {*} referencePositionId the id of the positon. If negative it gets the total time.
+   * @returns the time.
+   */
+  function getReferencePositonRecordTime(session, referencePositionId) {
+    let time = 0;
+
+    let list = session.positionRecords;
+    if (referencePositionId > 0) {
+      let i = 0;
+      let postion = null;
+      while (i < list.length && postion == null) {
+        let record = list[i];
+        if (record.locationId == referencePositionId) {
+          postion = record;
+          time = record.positionDuration;
+        }
+        i++;
+      }
+    } else {
+      let i = 0;
+      while (i < list.length) {
+        let record = list[i];
+        time += record.positionDuration;
+        i++;
+      }
+    }
+    return time;
   }
 
   /**
@@ -111,19 +149,23 @@ export default function EyeMetricGraphCalculator({
    * @param {*} map the map.
    * @returns the new map with prosentages.
    */
-  function calculateProsentage(map) {
+  function calculateProsentage(map, totalTime) {
     let it = map.keys();
     let key = it.next().value;
     let keys = [];
     let values = [];
-    let total = 0;
+    let total = totalTime == 0 ? 0 : totalTime;
+    let zeroTotal = totalTime == 0;
     while (key != null) {
       keys.push(key);
       let value = map.get(key);
       values.push(value);
-      total += value;
+      if (zeroTotal) {
+        total += value;
+      }
       key = it.next().value;
     }
+
     let prosentageMap = new Map();
     for (let i = 0; i < keys.length; i++) {
       if (total > 0) {
